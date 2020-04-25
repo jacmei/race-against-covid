@@ -1,14 +1,17 @@
-class ControlScene extends Phaser.Scene {
-    
+class AboutScene extends Phaser.Scene {
+   
     constructor() {
         super({
-            key : CONTROLS
+            key : ABOUT
         })
-        this.caller = null;
+    }
+
+    init(data) {
+        this.unlockedLevels = data.unlockedLevels;
     }
 
     create() {
-        this.add.image(0, 0, "controlsBG").setOrigin(0);
+        this.add.image(0, 0, "aboutBG").setOrigin(0);
         var backButton = this.add.image(50, 50, "backbutton").setScale(MINI_BUTTON_SCALE);
         
         backButton.setInteractive();
@@ -19,15 +22,13 @@ class ControlScene extends Phaser.Scene {
             backButton.setScale(MINI_BUTTON_SCALE);
         })
         backButton.on("pointerup", () => {
-            this.scene.stop();
-            this.scene.resume(this.sceneCalled);
+            this.scene.start(MENU);
         })
     }
 
     update() {
         if (this.input.keyboard.addKey("ESC").isDown) {
-            this.scene.stop();
-            this.scene.resume(this.sceneCalled);
+            this.scene.start(MENU);
         }
     }
 }
