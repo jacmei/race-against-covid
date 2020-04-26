@@ -1,5 +1,5 @@
-const WIDTH = 1000;
-const HEIGHT = 628;
+const WIDTH = 960;
+const HEIGHT = 640;
 
 const CONTROLS = "CONTROLS";
 const HELP = "HELP";
