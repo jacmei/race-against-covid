@@ -47,6 +47,12 @@ class SplashScene extends Phaser.Scene {
         this.load.image("levelfourbutton", "assets/levelfourbutton.png");
         this.load.image("levelfivebutton", "assets/levelfivebutton.png");
         this.load.image("levelsixbutton", "assets/levelsixbutton.png");
+
+        // tilemaps
+        this.load.image("mapTiles", "assets/tileset.png");
+        this.load.tilemapTiledJSON("levelOneRoomOne", "assets/tilemaps/intro1.json");
+        this.load.tilemapTiledJSON("levelOneRoomTwo", "assets/tilemaps/intro2.json");
+        this.load.tilemapTiledJSON("levelOneRoomThree", "assets/tilemaps/intro3.json");
         
         this.load.on("progress", (percentage) => {
             loadingBar.fillRect(WIDTH/2 - (WIDTH/4), HEIGHT - 100, WIDTH/2 * percentage, 30);

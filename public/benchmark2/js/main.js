@@ -8,7 +8,7 @@ var config = {
             debug: false
         }
     },
-    scene: [SplashScene, MenuScene, ControlScene, AboutScene, LevelScene, PauseScene]
+    scene: [SplashScene, MenuScene, ControlScene, AboutScene, LevelScene, PauseScene, LevelOneScene]
 };
 
 var game = new Phaser.Game(config);
