@@ -51,6 +51,9 @@ class SplashScene extends Phaser.Scene {
         // tilemaps
         this.load.image("tileset", "assets/tileset.png");
         this.load.tilemapTiledJSON("levelOne", "assets/tilemaps/intro1.json");
+
+        //player
+        this.load.spritesheet("pillboy", "assets/pill.png", {frameHeight: 32, frameWidth: 32});
         
         this.load.on("progress", (percentage) => {
             loadingBar.fillRect(WIDTH/2 - (WIDTH/4), HEIGHT - 100, WIDTH/2 * percentage, 30);
