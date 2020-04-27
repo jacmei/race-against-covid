@@ -25,7 +25,7 @@ class ControlScene extends Phaser.Scene {
     }
 
     update() {
-        if (this.input.keyboard.addKey("ESC").isDown) {
+        if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('ESC')))) {
             this.scene.stop();
             this.scene.resume(this.sceneCalled);
         }

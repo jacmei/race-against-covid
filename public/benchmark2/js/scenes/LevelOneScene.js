@@ -9,8 +9,8 @@ class LevelOneScene extends Phaser.Scene {
         this.floor = null;
         this.collisionLayer = null;
         this.doors = null;
+        this.tier = TIER_ONE;
     }
-    
 
     create() {
         var map = this.add.tilemap("levelOne");
@@ -36,31 +36,20 @@ class LevelOneScene extends Phaser.Scene {
             true
         );
 
-
-        this.player = this.physics.add.sprite(this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2, "pillboy", 26).setScale(2);
-        this.player.setCollideWorldBounds(false);
-        this.physics.add.collider(this.player,this.collisionLayer);
-        // suppose to scan for tiles with collides property set to true and actually make them collidable
-        this.collisionLayer.setCollisionByProperty({collides:true});
-        // this.collisionLayer.setCollision([71,80,82,91], true);
+        this.player = new PillBoy(this, this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2);
     }
 
     update(time, delta) {
-        if (this.input.keyboard.addKey("D").isDown === true) {
-            this.player.x = this.player.x + 200 * (delta / 1000);
+        if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('ESC')))) {
+            this.scene.launch(PAUSE);
+            var pauseScene = this.scene.get(PAUSE);
+            pauseScene.pausedScene = LEVEL_ONE;
+            this.scene.pause();
+            this.scene.bringToTop(PAUSE);
         }
 
-        if (this.input.keyboard.addKey("S").isDown === true) {
-            this.player.y = this.player.y + 200 * (delta / 1000);
-        }
+        this.player.update();
 
-        if (this.input.keyboard.addKey("A").isDown === true) {
-            this.player.x = this.player.x - 200 * (delta / 1000);
-        }
-
-        if (this.input.keyboard.addKey("W").isDown === true) {
-            this.player.y = this.player.y - 200 * (delta / 1000);
-        }
         if (this.input.keyboard.addKey('ONE').isDown === true) {
             this.cameras.main.setBounds(this.rooms[0].x,
             this.rooms[0].y,
