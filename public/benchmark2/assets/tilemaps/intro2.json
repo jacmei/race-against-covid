@@ -46,8 +46,17 @@
  "tileheight":64,
  "tilesets":[
         {
+         "columns":10,
          "firstgid":1,
-         "source":"yes.tsx"
+         "image":"tileset.png",
+         "imageheight":640,
+         "imagewidth":640,
+         "margin":0,
+         "name":"tileset",
+         "spacing":0,
+         "tilecount":100,
+         "tileheight":64,
+         "tilewidth":64
         }],
  "tilewidth":64,
  "type":"map",
