@@ -48,6 +48,12 @@ class LevelOneScene extends Phaser.Scene {
             this.scene.bringToTop(PAUSE);
         }
 
+        if (this.input.activePointer.isDown) {
+            // TODO
+            this.player.play("attack_left_tier_one", true);
+            console.log("Pointer X: " + this.input.activePointer.x + " | Pointer Y: " + this.input.activePointer.y);
+        }
+
         this.player.update();
 
         if (this.input.keyboard.addKey('ONE').isDown === true) {

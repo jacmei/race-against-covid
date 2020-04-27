@@ -7,9 +7,11 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         this.setImmovable(true);
         
+        this.keys = scene.input.keyboard.addKeys('W, A, S, D, Q, E');
         this.scene = scene;
         this.hp = 100; // TBD
         this.tier = TIER_ONE // DEFAULT
+        this.canMove = true;
 
         this.create();
     }
@@ -331,23 +333,32 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        if (this.active) {
-            if (this.scene.input.keyboard.addKey('W').isDown) {
+        if (this.hp == 0) {
+            // TODO
+            this.canMove = false;
+            this.play("dying", true);
+            this.on("animationcomplete", () => {
+                console.log("PillBoy Dead");
+            }, this.scene)
+        }
+
+        if (this.canMove) {
+            if (this.keys.W.isDown) {
                 this.setVelocityY(-128);
             }
-            if (this.scene.input.keyboard.addKey('A').isDown) {
+            if (this.keys.A.isDown) {
                 this.setVelocityX(-128);
             }
-            if (this.scene.input.keyboard.addKey('S').isDown) {
+            if (this.keys.S.isDown) {
                 this.setVelocityY(128);
             }
-            if (this.scene.input.keyboard.addKey('D').isDown) {
+            if (this.keys.D.isDown) {
                 this.setVelocityX(128);
             }
-            if (this.scene.input.keyboard.addKey("A").isUp && this.scene.input.keyboard.addKey("D").isUp) {
+            if (this.keys.A.isUp && this.keys.D.isUp) {
                 this.setVelocityX(0);
             }
-            if (this.scene.input.keyboard.addKey("W").isUp && this.scene.input.keyboard.addKey("S").isUp) {
+            if (this.keys.W.isUp && this.keys.S.isUp) {
                 this.setVelocityY(0);
             }
             if (this.body.velocity.x > 0) {
