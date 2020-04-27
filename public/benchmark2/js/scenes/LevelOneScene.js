@@ -36,10 +36,13 @@ class LevelOneScene extends Phaser.Scene {
             true
         );
 
+
         this.player = this.physics.add.sprite(this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2, "pillboy", 26).setScale(2);
-        this.physics.add.collider(this.player, this.collisionLayer);
-        this.player.setCollideWorldBounds(true);
-        this.collisionLayer.setCollisionByProperty({collides:true}); // suppose to scan for tiles with collides property set to true and actually make them collidable
+        this.player.setCollideWorldBounds(false);
+        this.physics.add.collider(this.player,this.collisionLayer);
+        // suppose to scan for tiles with collides property set to true and actually make them collidable
+        this.collisionLayer.setCollisionByProperty({collides:true});
+        // this.collisionLayer.setCollision([71,80,82,91], true);
     }
 
     update(time, delta) {
