@@ -330,7 +330,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         });
     }
 
-    preUpdate() {
+    update() {
         if (this.hp == 0) {
             // TODO
             this.canMove = false;

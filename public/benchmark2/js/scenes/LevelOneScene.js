@@ -8,7 +8,6 @@ class LevelOneScene extends Phaser.Scene {
         this.floor = null;
         this.collisionLayer = null;
         this.doors = null;
-        
     }
 
     create() {
@@ -36,16 +35,28 @@ class LevelOneScene extends Phaser.Scene {
         );
 
         this.player = new PillBoy(this, this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2);
-        this.physics.world.enableBody(this.player);
-        // this.physics.world.enableBody(this.collisionLayer);
+
         this.physics.add.collider(this.player, this.collisionLayer);
         this.collisionLayer.setCollisionByProperty({collides:true});
-        // this.physics.add.collider(this.player, this.doors);
-        // this.doors.setCollisionByProperty({collides:true});
     }
 
-    update(time, delta) {
-        this.physics.world.collide(this.player, this.collisionLayer);
+    update() {
+        if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('ESC')))) {
+            this.scene.launch(PAUSE);
+            var pauseScene = this.scene.get(PAUSE);
+            pauseScene.pausedScene = LEVEL_ONE;
+            this.scene.pause();
+            this.scene.bringToTop(PAUSE);
+        }
+
+        if (this.input.activePointer.isDown) {
+            // TODO
+            this.player.play("attack_left_tier_one", true);
+            console.log("Pointer X: " + this.input.activePointer.x + " | Pointer Y: " + this.input.activePointer.y);
+        }
+
+        this.player.update();
+
         if (this.input.keyboard.addKey('ONE').isDown === true) {
             this.cameras.main.setBounds(this.rooms[0].x,
             this.rooms[0].y,
