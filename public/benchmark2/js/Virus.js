@@ -79,6 +79,9 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
                 this.walkTimer = this.scene.time.now + 500;
             }
         }
+
+        
+        
     }
 
     checkHealth() {
@@ -88,11 +91,29 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
             this.play(this.type + "dying", true);
             this.on("animationcomplete", () => {
                 console.log("Virus Dead");
+                this.decrementMobCount();
                 this.destroy();
             }, this.scene)
             this.scene.viruses.forEach( (v, index) => {
                 if (v == this) this.scene.viruses.splice(index, 1);
             })
+        }
+    }
+
+    decrementMobCount(){
+        for(let room in this.scene.rooms){
+            let roomLeft   = this.scene.rooms[room].x;
+            let roomRight  = this.scene.rooms[room].x + this.scene.rooms[room].width;
+            let roomTop    = this.scene.rooms[room].y;
+            let roomBottom = this.scene.rooms[room].y + this.scene.rooms[room].height;
+            // Virus is within the boundaries of this room.
+            if (this.x > roomLeft && this.x < roomRight &&
+                this.y > roomTop  && this.y < roomBottom) {
+                let mobCount = this.scene.rooms[room].properties.find(function(property) {
+                    return property.name === 'monsters';
+                } );
+                mobCount.value = mobCount.value-1;
+            }
         }
     }
 }

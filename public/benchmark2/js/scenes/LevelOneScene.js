@@ -4,6 +4,7 @@ class LevelOneScene extends Phaser.Scene {
             key : LEVEL_ONE
         });
         this.player = null;
+        this.map = null;
         this.rooms = [];
         this.floor = null;
         this.collisionLayer = null;
@@ -14,18 +15,31 @@ class LevelOneScene extends Phaser.Scene {
     }
 
     create() {
-        var map = this.add.tilemap("levelOne");
+        this.map = this.add.tilemap("levelOne");
 
-        var tileset = map.addTilesetImage("tileset");
-        this.floor = map.createStaticLayer("floor", tileset, 0, 0);
-        this.collisionLayer = map.createStaticLayer("collidable", tileset, 0, 0);
-        this.doors = map.createStaticLayer("doors", tileset, 0, 0);
+        var tileset = this.map.addTilesetImage("tileset");
+        this.floor = this.map.createStaticLayer("floor", tileset, 0, 0);
+        this.collisionLayer = this.map.createStaticLayer("collidable", tileset, 0, 0);
+        this.doors = this.map.createStaticLayer("doors", tileset, 0, 0);
 
         //create list of rooms
-        map.findObject('Objects', function(object) {
+        this.map.findObject('Objects', function(object) {
             // rooms
             if (object.type === 'Room') {
                 this.rooms.push(object);
+            }
+            if (object.type === 'Spawn') {
+                if (object.name === 'Player') {
+                    this.player = new Pill(this, object.x+32, object.y+32);
+                }
+            }
+            if (object.type === 'Melee') {
+                let physical_virus = new Virus(this, object.x+32, object.y+32, PHYSICAL);
+                this.viruses.push(physical_virus);
+            }
+            if (object.type === 'Ranged'){
+                var ranged_virus = new Virus(this, object.x+32, object.y+32, RANGED);
+                this.viruses.push(ranged_virus);
             }
         }, this);
 
@@ -37,25 +51,7 @@ class LevelOneScene extends Phaser.Scene {
             true
         );
 
-        this.player = new Pill(this, this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2);
 
-        var min_room_width = this.rooms[0].x + 64; // 64 to avoid walls
-        var max_room_width = this.rooms[0].x + WIDTH - 64;
-        var min_room_height = this.rooms[0].y + 64;
-        var max_room_height = this.rooms[0].y + HEIGHT - 64;
-        for (let i = 0; i < 10; i++) {
-            // OK NOT SPAWNING IN ROOM FOR SOME REASON
-            let randomX_physical = Math.floor(Math.random() * max_room_width) + min_room_width;
-            let randomY_physical = Math.floor(Math.random() * max_room_height) + min_room_height;
-
-            let randomX_ranged = Math.floor(Math.random() * max_room_width) + min_room_width;
-            let randomY_ranged = Math.floor(Math.random() * max_room_height) + min_room_height;
-            var physical_virus = new Virus(this, randomX_physical, randomY_physical, PHYSICAL);
-            var ranged_virus = new Virus(this, randomX_ranged, randomY_ranged, RANGED);
-
-            this.viruses.push(physical_virus);
-            this.viruses.push(ranged_virus);
-        }
 
         //this.virusbullet = this.physics.add.sprite(this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2, "virusbullet")
 
@@ -64,13 +60,34 @@ class LevelOneScene extends Phaser.Scene {
                 // SOME ACTION THAT HAPPENS WHEN PLAYER COLLIDES WITH VIRUS
                 virus.health = 0; // FILLER
             });
+            this.physics.add.collider(virus, this.collisionLayer);
+            this.physics.add.collider(this.player, this.doors);
         })
 
         this.physics.add.collider(this.player, this.collisionLayer);
         this.collisionLayer.setCollisionByProperty({collides:true});
+        this.physics.add.collider(this.player, this.doors);
+        this.doors.setCollisionByProperty({collides:true});
     }
 
     update() {
+        
+        // On player room change, stop player movement, fade camera, and set boundaries.
+        this.cameras.main._ch = this.map.heightInPixels;
+        this.cameras.main._cw = this.map.widthInPixels;
+        if (this.player.roomChange) {
+            // Change camera boundaries when fade out complete.
+            this.cameras.main.setBounds(this.rooms[this.player.room].x,
+                                        this.rooms[this.player.room].y,
+                                        this.rooms[this.player.room].width,
+                                        this.rooms[this.player.room].height,
+                                        true);
+            // Fade back in with new boundaries.
+            this.player.canMove = true;
+        }
+
+
+
         if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('ESC')))) {
             this.scene.launch(PAUSE);
             var pauseScene = this.scene.get(PAUSE);

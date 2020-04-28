@@ -13,6 +13,9 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.points = 0;
         this.canMove = true;
 
+        this.room = 0;
+        this.roomChange = false;
+
         this.healthBox = scene.add.graphics();
         this.healthBox.fillStyle(0xff0000);
         this.healthBox.fillRect(0, 0, 100, 10);
@@ -339,7 +342,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         });
     }
 
-    update() {
+    preUpdate(time,delta) {
         this.checkHealth();
 
         if (this.canMove) {
@@ -371,6 +374,8 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 this.play("walk_down" + this.tier, true);
             }
         }
+
+        this.getRoom();
     }
 
     checkHealth() {
@@ -392,5 +397,51 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.healthBar.setY(this.body.y - 15);
         this.healthBox.setX(this.body.x - 15);
         this.healthBox.setY(this.body.y - 15);
+    }
+
+    
+    getRoom(){
+        let roomNumber;
+        for(let room in this.scene.rooms){
+            let roomLeft   = this.scene.rooms[room].x;
+            let roomRight  = this.scene.rooms[room].x + this.scene.rooms[room].width;
+            let roomTop    = this.scene.rooms[room].y;
+            let roomBottom = this.scene.rooms[room].y + this.scene.rooms[room].height;
+            // Player is within the boundaries of this room.
+            if (this.x > roomLeft && this.x < roomRight &&
+                this.y > roomTop  && this.y < roomBottom) {
+                roomNumber = room;
+            }
+            if(roomNumber != this.room && roomNumber != null){
+                this.room = roomNumber;
+                this.roomChange = true;
+                this.canMove = false;
+            }else if(this.canMove){
+                this.roomChange = false;
+            }
+            let visited = this.scene.rooms[this.room].properties.find(function(property) {
+                return property.name === 'visited';
+            } );
+            let mobCount = this.scene.rooms[this.room].properties.find(function(property) {
+                return property.name === 'monsters';
+            } );
+            if(!visited.value){
+                if(mobCount.value == 0){
+                    visited.value = true;
+                    this.scene.map.getLayer('doors').visible = false;
+                    this.scene.map.setCollisionByProperty({collides:true}, false, this.scene.map.getLayer('doors'));
+                    console.log('clear');
+                }else{
+                    this.scene.map.getLayer('doors').visible = true;
+                    this.scene.map.setCollisionByProperty({collides:true}, this.scene.map.getLayer('doors'));
+                }
+            }else{
+                this.scene.map.getLayer('doors').visible = false;
+                this.scene.map.setCollisionByProperty({collides:true}, false, this.scene.map.getLayer('doors'));
+                console.log('clear');
+            }
+
+        }
+
     }
 }
