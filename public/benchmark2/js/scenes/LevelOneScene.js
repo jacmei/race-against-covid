@@ -10,7 +10,6 @@ class LevelOneScene extends Phaser.Scene {
         this.doors = null;
         
     }
-    
 
     create() {
         var map = this.add.tilemap("levelOne");
@@ -36,15 +35,13 @@ class LevelOneScene extends Phaser.Scene {
             true
         );
 
-        this.player = new Player(this, this.rooms[0].x+this.rooms[0].width/2, this.rooms[0].y+this.rooms[0].height/2,"pillboy");
-        // this.player.body.collideWorldBounds = true;
+        this.player = new PillBoy(this, this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2);
         this.physics.world.enableBody(this.player);
         // this.physics.world.enableBody(this.collisionLayer);
         this.physics.add.collider(this.player, this.collisionLayer);
         this.collisionLayer.setCollisionByProperty({collides:true});
-        this.physics.add.collider(this.player, this.doors);
-        this.doors.setCollisionByProperty({collides:true});
-        // this.player.body.onCollide = true;
+        // this.physics.add.collider(this.player, this.doors);
+        // this.doors.setCollisionByProperty({collides:true});
     }
 
     update(time, delta) {
