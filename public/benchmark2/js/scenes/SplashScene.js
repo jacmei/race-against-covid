@@ -53,7 +53,7 @@ class SplashScene extends Phaser.Scene {
         this.load.tilemapTiledJSON("levelOne", "assets/tilemaps/intro1.json");
 
         // spritesheets
-        this.load.spritesheet("pillboy", "assets/spritesheet/pill_spritesheet.png", {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet("pill", "assets/spritesheet/pill_spritesheet.png", {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet("coronavirus", "assets/spritesheet/coronavirus_spritesheet.png", {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet("virusbullet", "assets/spritesheet/coronavirus_bullet.png", {frameWidth: 7, frameHeight: 7});
         this.load.spritesheet("pillbullet", "assets/spritesheet/pill_bullet.png", {frameWidth: 7, frameHeight: 3});

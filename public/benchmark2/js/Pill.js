@@ -1,16 +1,24 @@
-class PillBoy extends Phaser.Physics.Arcade.Sprite {
+class Pill extends Phaser.Physics.Arcade.Sprite {
 
     constructor(scene, x, y) {
-        super(scene, x, y, "pillboy", 21);
+        super(scene, x, y, "pill", 21);
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setImmovable(true);
         
         this.keys = scene.input.keyboard.addKeys('W, A, S, D, Q, E');
         this.scene = scene;
-        this.hp = 100; // TBD
+        this.health = 100; // TBD
         this.tier = TIER_ONE; // DEFAULT
+        this.points = 0;
         this.canMove = true;
+
+        this.healthBox = scene.add.graphics();
+        this.healthBox.fillStyle(0xff0000);
+        this.healthBox.fillRect(0, 0, 100, 10);
+        this.healthBar = scene.add.graphics();
+        this.healthBar.fillStyle(0x00b300);
+        this.healthBar.fillRect(0, 0, 100, 10);
 
         this.create();
     }
@@ -20,7 +28,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_left_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 84,
                 end: 87
             })
@@ -28,7 +36,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_right_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 91,
                 end: 94
             })
@@ -36,7 +44,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_up_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 98,
                 end: 101
             })
@@ -44,7 +52,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_down_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 77,
                 end: 80
             })
@@ -52,7 +60,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_left_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 252,
                 end: 255
             })
@@ -60,7 +68,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_right_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 259,
                 end: 262
             })
@@ -68,7 +76,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_up_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 266,
                 end: 269
             })
@@ -76,7 +84,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_down_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 245,
                 end: 248
             })
@@ -84,15 +92,15 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_left_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 168,
-                end: 172
+                end: 171
             })
         });
         this.scene.anims.create({
             key: "walk_right_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 175,
                 end: 178
             })
@@ -100,7 +108,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_up_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 182,
                 end: 185
             })
@@ -108,7 +116,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "walk_down_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 161,
                 end: 164
             })
@@ -116,7 +124,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_left_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 28,
                 end: 31
             })
@@ -124,7 +132,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_right_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 35,
                 end: 38
             })
@@ -132,7 +140,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_up_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 42,
                 end: 45
             })
@@ -140,7 +148,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_down_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 21,
                 end: 24
             })
@@ -148,7 +156,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_left_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 196,
                 end: 199
             })
@@ -156,7 +164,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_right_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 203,
                 end: 206
             })
@@ -164,7 +172,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_up_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 210,
                 end: 213
             })
@@ -172,7 +180,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_down_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 189,
                 end: 192
             })
@@ -180,7 +188,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_left_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 112,
                 end: 115
             })
@@ -188,7 +196,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_right_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 119,
                 end: 122
             })
@@ -196,7 +204,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_up_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 126,
                 end: 129
             })
@@ -204,7 +212,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "attack_down_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 105,
                 end: 108
             })
@@ -212,7 +220,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "dead",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 0,
                 end: 0
             })
@@ -220,7 +228,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "dying",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 7,
                 end: 10
             })
@@ -228,7 +236,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "obtain_powerup",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 14,
                 end: 20
             })
@@ -236,7 +244,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_left_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 56,
                 end: 59
             })
@@ -244,7 +252,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_right_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 63,
                 end: 66
             })
@@ -252,7 +260,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_up_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 70,
                 end: 73
             })
@@ -260,7 +268,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_down_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 49,
                 end: 52
             })
@@ -268,7 +276,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_left_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 224,
                 end: 227
             })
@@ -276,7 +284,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_right_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 231,
                 end: 234
             })
@@ -284,7 +292,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_up_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 238,
                 end: 241
             })
@@ -292,7 +300,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_down_tier_two",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 217,
                 end: 220
             })
@@ -300,7 +308,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_left_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 140,
                 end: 143
             })
@@ -308,7 +316,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_right_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 147,
                 end: 150
             })
@@ -316,7 +324,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_up_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 154,
                 end: 157
             })
@@ -324,7 +332,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "taking_damage_down_tier_three",
             frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("pillboy", {
+            frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 133,
                 end: 136
             })
@@ -332,14 +340,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        if (this.hp == 0) {
-            // TODO
-            this.canMove = false;
-            this.play("dying", true);
-            this.on("animationcomplete", () => {
-                console.log("PillBoy Dead");
-            }, this.scene)
-        }
+        this.checkHealth();
 
         if (this.canMove) {
             if (this.keys.W.isDown) {
@@ -370,5 +371,26 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
                 this.play("walk_down" + this.tier, true);
             }
         }
+    }
+
+    checkHealth() {
+        if (this.health == 0) {
+            // TODO
+            this.canMove = false;
+            this.setVelocity(0);
+            this.play("dying", true);
+            this.on("animationcomplete", () => {
+                console.log("Pill Dead");
+            }, this.scene)
+            this.healthBar.destroy();
+        }
+        var health = (this.health/100) * 100;
+        this.healthBar.clear();
+        this.healthBar.fillStyle(0x00b300);
+        this.healthBar.fillRect(0, 0, health, 10);
+        this.healthBar.setX(this.body.x - 15);
+        this.healthBar.setY(this.body.y - 15);
+        this.healthBox.setX(this.body.x - 15);
+        this.healthBox.setY(this.body.y - 15);
     }
 }

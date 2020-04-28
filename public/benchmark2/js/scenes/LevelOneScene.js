@@ -8,6 +8,9 @@ class LevelOneScene extends Phaser.Scene {
         this.floor = null;
         this.collisionLayer = null;
         this.doors = null;
+        this.viruses = [];
+        this.timer = 0;
+        this.bulletTime = 0; // DETERMINES BULLET FIRE RATE
     }
 
     create() {
@@ -34,16 +37,28 @@ class LevelOneScene extends Phaser.Scene {
             true
         );
 
-        this.player = new PillBoy(this, this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2);
+        this.player = new Pill(this, this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2);
 
-        this.coronavirus = this.physics.add.sprite(this.rooms[0].x + WIDTH/3, this.rooms[0].y + HEIGHT/3, "coronavirus");
-        this.coronavirus.setImmovable(true);
+        var min_room_width = this.rooms[0].x + 64; // 64 to avoid walls
+        var max_room_width = this.rooms[0].x + WIDTH - 64;
+        var min_room_height = this.rooms[0].y + 64;
+        var max_room_height = this.rooms[0].y + HEIGHT - 64;
+        for (let i = 0; i < 10; i++) {
+            // OK NOT SPAWNING IN ROOM FOR SOME REASON
+            let randomX = Math.floor(Math.random() * max_room_width) + min_room_width;
+            let randomY = Math.floor(Math.random() * max_room_height) + min_room_height;
+            var virus = this.physics.add.sprite(randomX, randomY, "coronavirus").setImmovable(true);
+            this.viruses.push(virus);
+        }
 
-        this.virusbullet = this.physics.add.sprite(this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2, "virusbullet")
+        //this.virusbullet = this.physics.add.sprite(this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2, "virusbullet")
 
-        this.physics.world.addCollider(this.player, this.coronavirus, () => {
-            console.log("COLLIDED WITH VIRUS");
-        });
+        this.viruses.forEach(virus => {
+            this.physics.world.addCollider(this.player, virus, () => {
+                // SOME ACTION THAT HAPPENS WHEN PLAYER COLLIDES WITH VIRUS
+                virus.destroy(); // FILLER
+            });
+        })
 
         this.physics.add.collider(this.player, this.collisionLayer);
         this.collisionLayer.setCollisionByProperty({collides:true});
@@ -60,10 +75,35 @@ class LevelOneScene extends Phaser.Scene {
 
         if (this.input.activePointer.isDown) {
             // TODO
-            this.player.play("attack_left_tier_one", true);
-            var pillbullet = this.physics.add.sprite(this.player.body.x, this.player.body.y, "pillbullet");
-
-            console.log("Pointer X: " + this.input.activePointer.x + " | Pointer Y: " + this.input.activePointer.y);
+            if (this.time.now > this.bulletTime) {
+                var pillbullet = this.physics.add.sprite(this.player.body.x + this.player.width/2, this.player.body.y + this.player.height/2, "pillbullet");
+                this.viruses.forEach(virus => {
+                    this.physics.world.addCollider(pillbullet, virus, () => {
+                        virus.destroy();
+                        pillbullet.destroy();
+                    });
+                })
+                // ALLOWS FOR DIAGONALS TOO
+                if (this.player.body.velocity.x > 0) {
+                    this.player.play("attack_right" + this.player.tier, true);
+                    pillbullet.body.velocity.x = 300;
+                }
+                if (this.player.body.velocity.x < 0) {
+                    this.player.play("attack_left" + this.player.tier, true);
+                    pillbullet.body.velocity.x = -300;
+                }
+                if (this.player.body.velocity.y > 0) {
+                    this.player.play("attack_down" + this.player.tier, true);
+                    pillbullet.body.velocity.y = 300;
+                }
+                if (this.player.body.velocity.y < 0) {
+                    this.player.play("attack_up" + this.player.tier, true);
+                    pillbullet.body.velocity.y = -300;
+                }
+                // NEED TO FIGURE OUT WHICH DIRECTION PLAYER IS FACING IF ITS NOT MOVING
+                this.bulletTime = this.time.now + 100; // SETS HOW FAST THE BULLET COMES OUT
+                this.player.health -= 1; // SHOOT BULLET AT EXPENSE OF OWN HEALTH
+            }
         }
 
         this.player.update();
