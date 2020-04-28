@@ -45,10 +45,16 @@ class LevelOneScene extends Phaser.Scene {
         var max_room_height = this.rooms[0].y + HEIGHT - 64;
         for (let i = 0; i < 10; i++) {
             // OK NOT SPAWNING IN ROOM FOR SOME REASON
-            let randomX = Math.floor(Math.random() * max_room_width) + min_room_width;
-            let randomY = Math.floor(Math.random() * max_room_height) + min_room_height;
-            var virus = this.physics.add.sprite(randomX, randomY, "coronavirus").setImmovable(true);
-            this.viruses.push(virus);
+            let randomX_physical = Math.floor(Math.random() * max_room_width) + min_room_width;
+            let randomY_physical = Math.floor(Math.random() * max_room_height) + min_room_height;
+
+            let randomX_ranged = Math.floor(Math.random() * max_room_width) + min_room_width;
+            let randomY_ranged = Math.floor(Math.random() * max_room_height) + min_room_height;
+            var physical_virus = new Virus(this, randomX_physical, randomY_physical, PHYSICAL);
+            var ranged_virus = new Virus(this, randomX_ranged, randomY_ranged, RANGED);
+
+            this.viruses.push(physical_virus);
+            this.viruses.push(ranged_virus);
         }
 
         //this.virusbullet = this.physics.add.sprite(this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2, "virusbullet")
@@ -56,7 +62,7 @@ class LevelOneScene extends Phaser.Scene {
         this.viruses.forEach(virus => {
             this.physics.world.addCollider(this.player, virus, () => {
                 // SOME ACTION THAT HAPPENS WHEN PLAYER COLLIDES WITH VIRUS
-                virus.destroy(); // FILLER
+                virus.health = 0; // FILLER
             });
         })
 
@@ -79,7 +85,7 @@ class LevelOneScene extends Phaser.Scene {
                 var pillbullet = this.physics.add.sprite(this.player.body.x + this.player.width/2, this.player.body.y + this.player.height/2, "pillbullet");
                 this.viruses.forEach(virus => {
                     this.physics.world.addCollider(pillbullet, virus, () => {
-                        virus.destroy();
+                        virus.health -= 1;
                         pillbullet.destroy();
                     });
                 })
@@ -107,6 +113,10 @@ class LevelOneScene extends Phaser.Scene {
         }
 
         this.player.update();
+
+        this.viruses.forEach(virus => {
+            virus.update();
+        })
 
         if (this.input.keyboard.addKey('ONE').isDown === true) {
             this.cameras.main.setBounds(this.rooms[0].x,

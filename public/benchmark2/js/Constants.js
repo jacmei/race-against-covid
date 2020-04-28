@@ -25,3 +25,6 @@ const TIER_TWO = "_tier_two";
 const TIER_THREE = "_tier_three";
 
 const ANIMATION_FRAME_RATE = 10;
+
+const PHYSICAL = "physical_";
+const RANGED = "ranged_";
