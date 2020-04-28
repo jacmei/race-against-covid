@@ -39,6 +39,8 @@ class LevelOneScene extends Phaser.Scene {
         this.coronavirus = this.physics.add.sprite(this.rooms[0].x + WIDTH/3, this.rooms[0].y + HEIGHT/3, "coronavirus");
         this.coronavirus.setImmovable(true);
 
+        this.virusbullet = this.physics.add.sprite(this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2, "virusbullet")
+
         this.physics.world.addCollider(this.player, this.coronavirus, () => {
             console.log("COLLIDED WITH VIRUS");
         });
@@ -59,6 +61,8 @@ class LevelOneScene extends Phaser.Scene {
         if (this.input.activePointer.isDown) {
             // TODO
             this.player.play("attack_left_tier_one", true);
+            var pillbullet = this.physics.add.sprite(this.player.body.x, this.player.body.y, "pillbullet");
+
             console.log("Pointer X: " + this.input.activePointer.x + " | Pointer Y: " + this.input.activePointer.y);
         }
 

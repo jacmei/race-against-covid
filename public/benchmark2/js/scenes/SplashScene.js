@@ -55,6 +55,8 @@ class SplashScene extends Phaser.Scene {
         // spritesheets
         this.load.spritesheet("pillboy", "assets/spritesheet/pill_spritesheet.png", {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet("coronavirus", "assets/spritesheet/coronavirus_spritesheet.png", {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet("virusbullet", "assets/spritesheet/coronavirus_bullet.png", {frameWidth: 7, frameHeight: 7});
+        this.load.spritesheet("pillbullet", "assets/spritesheet/pill_bullet.png", {frameWidth: 7, frameHeight: 3});
         
         this.load.on("progress", (percentage) => {
             loadingBar.fillRect(WIDTH/2 - (WIDTH/4), HEIGHT - 100, WIDTH/2 * percentage, 30);

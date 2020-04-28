@@ -118,7 +118,7 @@ class PillBoy extends Phaser.Physics.Arcade.Sprite {
             frameRate: ANIMATION_FRAME_RATE,
             frames : this.scene.anims.generateFrameNumbers("pillboy", {
                 start: 28,
-                end: 32
+                end: 31
             })
         });
         this.scene.anims.create({
