@@ -36,6 +36,13 @@ class LevelOneScene extends Phaser.Scene {
 
         this.player = new PillBoy(this, this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2);
 
+        this.coronavirus = this.physics.add.sprite(this.rooms[0].x + WIDTH/3, this.rooms[0].y + HEIGHT/3, "coronavirus");
+        this.coronavirus.setImmovable(true);
+
+        this.physics.world.addCollider(this.player, this.coronavirus, () => {
+            console.log("COLLIDED WITH VIRUS");
+        });
+
         this.physics.add.collider(this.player, this.collisionLayer);
         this.collisionLayer.setCollisionByProperty({collides:true});
     }
