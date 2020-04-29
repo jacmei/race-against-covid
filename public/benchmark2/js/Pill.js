@@ -428,17 +428,19 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             if(!visited.value){
                 if(mobCount.value == 0){
                     visited.value = true;
-                    this.scene.map.getLayer('doors').visible = false;
+                    this.scene.map.getLayer('doors').tilemapLayer.visible  = false;
                     this.scene.map.setCollisionByProperty({collides:true}, false, this.scene.map.getLayer('doors'));
-                    console.log('clear');
+                    // this.scene.map.getLayer('doors').setVisible(false);
                 }else{
-                    this.scene.map.getLayer('doors').visible = true;
+                    this.scene.map.getLayer('doors').tilemapLayer.visible = true;
                     this.scene.map.setCollisionByProperty({collides:true}, this.scene.map.getLayer('doors'));
+                    console.log("Show those doors");
+                    // this.scene.map.getLayer('doors').setVisible(true);
                 }
             }else{
-                this.scene.map.getLayer('doors').visible = false;
+                this.scene.map.getLayer('doors').tilemapLayer.visible = false;
                 this.scene.map.setCollisionByProperty({collides:true}, false, this.scene.map.getLayer('doors'));
-                console.log('clear');
+                // this.scene.map.getLayer('doors').setVisible(false);
             }
 
         }
