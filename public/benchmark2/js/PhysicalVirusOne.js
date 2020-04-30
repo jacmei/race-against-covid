@@ -1,7 +1,8 @@
 class PhysicalVirusOne extends Virus {
     constructor(scene, x, y, type) {
-        super(scene, x, y, type);
-        this.setVelocityX(PHYSICAL_VIRUS_ONE_VELOCITY);
+        super(scene, x, y, 'coronavirus');
+        this.type = type;
+        this.velocity = PHYSICAL_VIRUS_ONE_VELOCITY;
         this.angleToPlayer = null;
         this.health = 3;
         this.create();
@@ -21,11 +22,16 @@ class PhysicalVirusOne extends Virus {
         if (this.health > 0) {
             let thisX = this.body.x + this.body.width / 2;
             let thisY = this.body.y + this.body.height / 2;
-            let pillX = this.scene.player.x + this.scene.player.width / 2;
-            let pillY = this.scene.player.y + this.scene.player.height / 2;
+            let pillX = this.scene.player.body.x + this.scene.player.width / 2;
+            let pillY = this.scene.player.body.y + this.scene.player.height / 2;
             this.angleToPlayer = Phaser.Math.Angle.Between(thisX, thisY, pillX, pillY);
+            let xVelocity = Math.cos(this.angleToPlayer) * this.velocity;
+            let yVelocity = Math.sin(this.angleToPlayer) * this.velocity;
             
+            this.setVelocityX(xVelocity);
+            this.setVelocityY(yVelocity);
             this.play("physical_travel", true);
+        }
     }
 
     createAnimations() {
