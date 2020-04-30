@@ -45,27 +45,6 @@ class LevelOneScene extends LevelScene {
 
     update() {
         super.update();
-        if (this.input.keyboard.addKey('ONE').isDown === true) {
-            this.cameras.main.setBounds(this.rooms[0].x,
-            this.rooms[0].y,
-            this.rooms[0].width,
-            this.rooms[0].height,
-            true);
-        }
-        if (this.input.keyboard.addKey('TWO').isDown === true) {
-            this.cameras.main.setBounds(this.rooms[1].x,
-            this.rooms[1].y,
-            this.rooms[1].width,
-            this.rooms[1].height,
-            true);
-        }
-        if (this.input.keyboard.addKey('THREE').isDown === true) {
-            this.cameras.main.setBounds(this.rooms[2].x,
-            this.rooms[2].y,
-            this.rooms[2].width,
-            this.rooms[2].height,
-            true);
-        }
     }
     reset(){
         this.timeLeft = 240;

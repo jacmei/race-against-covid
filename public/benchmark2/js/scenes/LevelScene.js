@@ -43,6 +43,20 @@ class LevelScene extends Phaser.Scene {
             this.scene.pause();
             this.scene.bringToTop(PAUSE);
         }
+
+        
+        if (this.input.keyboard.addKey('ONE').isDown === true) {
+            this.scene.stop();
+            this.reset();
+            this.scene.start(LEVEL_ONE);
+        }
+        if (this.input.keyboard.addKey('TWO').isDown === true) {
+            this.scene.stop();
+            this.reset();
+            this.scene.start(LEVEL_TWO);
+        }
+
+        
     }
 
 

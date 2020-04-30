@@ -633,7 +633,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         if (this.health > this.maxHealth){
             this.health = this.maxHealth;
         }
-        var health = (this.health/100) * 100;
+        var health = (this.health/this.maxHealth) * 100;
         
         this.healthBar.clear();
         this.healthBar.fillStyle(0x00b300);
