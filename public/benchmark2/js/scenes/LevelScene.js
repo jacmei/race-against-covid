@@ -4,7 +4,7 @@ class LevelScene extends Phaser.Scene {
         super({
             key : LEVEL_SELECT
         })
-        this.levels = [LEVEL_ONE, LEVEL_TWO, LEVEL_THREE, LEVEL_FOUR, LEVEL_FIVE, LEVEL_SIX]
+        this.levels = [LEVEL_ONE, LEVEL_TWO, LEVEL_THREE, LEVEL_FOUR, LEVEL_FIVE, LEVEL_SIX];
     }
 
     init(data) {

@@ -13,6 +13,8 @@ class LevelOneScene extends Phaser.Scene {
         this.timer;
         this.timeLeft;
         this.bulletTime = 0; // DETERMINES BULLET FIRE RATE
+        this.hpText;
+        this.virusCount;
     }
 
     create() {
@@ -43,6 +45,11 @@ class LevelOneScene extends Phaser.Scene {
                 this.viruses.push(ranged_virus);
             }
         }, this);
+
+        for(let room in this.rooms){
+            console.log(room);
+        }
+
 
         //move camera to specific room
         this.cameras.main.setBounds(this.rooms[0].x,
@@ -88,7 +95,7 @@ class LevelOneScene extends Phaser.Scene {
         this.timer = this.add.text(this.rooms[this.player.room].x+15,
                                     this.rooms[this.player.room].y+15,
                                     'Time Left: ' + this.timeLeft, 
-                                    {color: 'white', font: '30px'});
+                                    {color: 'white', font: '20px'});
 
         //update timeLeft
         this.time.addEvent({
@@ -111,27 +118,37 @@ class LevelOneScene extends Phaser.Scene {
         });
 
 
-
+        
+        //display current HP
+        this.hpText = this.add.text(this.rooms[0].x+820,
+            this.rooms[0].y+15,
+            'HP:'+this.player.health+'/'+this.player.maxHealth,
+            {color: 'white', font: '20px'});
 
         //display instructions for hp, and shooting
-        let instructionText = this.add.text(this.rooms[this.player.room].x+200,
-                                             this.rooms[this.player.room].y+350,
-                                             'Click to shoot pills that can damage the viruses. Be careful not to shoot \n'+
-                                             'recklessly, as every shot will reduce RX-2020\'s hp',
-                                             {color: 'white', font: '15px'});
+        this.add.text(this.rooms[0].x+200,
+            this.rooms[0].y+350,
+            'Click to shoot pills that can damage the viruses. Be careful not to shoot \n'+
+            'recklessly, as every shot will reduce RX-2020\'s hp. You must reach \n'+
+            'the stomach with at least 20 hp or else you won\'t be effective enough \n'+
+            'to cure the patient!',
+            {color: 'white', font: '15px'});
+        
+        
+        //display instructions for hp, and shooting
+        this.add.text(this.rooms[2].x+200,
+            this.rooms[2].y+350,
+            'After picking up an upgrade, press q or e to upgrade \n'+
+            'your weapon or health before continuing the game. \n'+
+            'You will not be able to move until after you \n'+
+            'upgrade, and your weapon can only be upgraded 2 times',
+            {color: 'white', font: '15px'});
+        
+        
     }
 
     update() {
         this.setView();
-
-        if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('ESC')))) {
-            this.scene.launch(PAUSE);
-            var pauseScene = this.scene.get(PAUSE);
-            pauseScene.pausedScene = LEVEL_ONE;
-            this.scene.pause();
-            this.scene.bringToTop(PAUSE);
-
-        }
 
         if (this.input.activePointer.isDown) {
             // TODO
@@ -193,6 +210,17 @@ class LevelOneScene extends Phaser.Scene {
             this.rooms[2].height,
             true);
         }
+        
+
+        if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('ESC')))) {
+            console.log("esc pressed");
+            this.scene.launch(PAUSE);
+            let pauseScene = this.scene.get(PAUSE);
+            pauseScene.pausedScene = this;
+            this.scene.pause();
+            this.scene.bringToTop(PAUSE);
+        }
+
     }
 
 
@@ -207,9 +235,15 @@ class LevelOneScene extends Phaser.Scene {
                                         this.rooms[this.player.room].width,
                                         this.rooms[this.player.room].height,
                                         true);
+            this.timer.setPosition(this.rooms[this.player.room].x+15, this.rooms[this.player.room].y+15);
+            this.hpText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+15);
             // Fade back in with new boundaries.
             this.player.canMove = true;
+
         }
     }
 
+    lose(){
+
+    }
 }

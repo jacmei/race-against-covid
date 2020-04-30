@@ -49,7 +49,8 @@ class PauseScene extends Phaser.Scene {
             exitButton.setScale(BUTTON_SCALE);
         })
         exitButton.on("pointerup", () => {
-            this.scene.stop(this.pausedScene);
+            this.pausedScene.viruses = [];
+            this.pausedScene.scene.stop();
             this.scene.start(MENU);
         })
 
@@ -61,6 +62,8 @@ class PauseScene extends Phaser.Scene {
             restartButton.setScale(BUTTON_SCALE);
         })
         restartButton.on("pointerup", () => {
+            this.pausedScene.viruses = [];
+            this.pausedScene.scene.stop();
             this.scene.start(this.pausedScene);
         })
     }

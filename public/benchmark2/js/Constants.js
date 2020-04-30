@@ -12,6 +12,7 @@ const LEVEL_SELECT = "LEVEL_SELECT";
 const MENU = "MENU";
 const PAUSE = "PAUSE";
 const SPLASH = "SPLASH";
+const LOSE = "LOSE";
 
 const LEVEL_ONE = "LEVEL_ONE";
 const LEVEL_TWO = "LEVEL_TWO";
