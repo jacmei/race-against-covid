@@ -21,8 +21,12 @@ const LEVEL_FIVE = "LEVEL_FIVE";
 const LEVEL_SIX = "LEVEL_SIX";
 
 const TIER_ONE = "_tier_one";
+const TIER_TWO_COST = 100;
 const TIER_TWO = "_tier_two";
+const TIER_THREE_COST = 200;
 const TIER_THREE = "_tier_three";
+
+const PILL_VELOCITY = 128;
 
 const ANIMATION_FRAME_RATE = 10;
 

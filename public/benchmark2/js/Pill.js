@@ -5,14 +5,15 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setImmovable(true);
-        
         this.keys = scene.input.keyboard.addKeys('W, A, S, D, Q, E');
         this.scene = scene;
-        this.health = 100; // TBD
-        this.maxHealth = 100; //TBD
-        this.tier = TIER_ONE; // DEFAULT
-        this.points = 0; // points for upgrading
+        this.health = 100;
+        this.maxHealth = 100;
+        this.tier = TIER_ONE;
+        this.points = 0;
         this.canMove = true;
+        this.lastKeyDown = null;
+        this.pillToSpriteAngle = null;
 
         this.room = 0;
         this.roomChange = false;
@@ -28,7 +29,19 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     }
 
     create() {
-        // CHANGE ALL START AND END FRAMES WHEN SPRITESHEET IS COMPLETED
+        this.createAnimations();
+        this.addEventListeners();
+        
+        
+    }
+
+    update() {
+        this.checkHealth();
+        this.updateMovement();
+        this.getRoom();
+    }
+
+    createAnimations() {
         this.scene.anims.create({
             key: "walk_left_tier_one",
             frameRate: ANIMATION_FRAME_RATE,
@@ -343,59 +356,34 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         });
     }
 
-    preUpdate(time,delta) {
-        this.checkHealth();
-        
-        if (this.canMove) {
-            if (this.keys.W.isDown) {
-                this.setVelocityY(-128);
-            }
-            if (this.keys.A.isDown) {
-                this.setVelocityX(-128);
-            }
-            if (this.keys.S.isDown) {
-                this.setVelocityY(128);
-            }
-            if (this.keys.D.isDown) {
-                this.setVelocityX(128);
-            }
-            if (this.keys.A.isUp && this.keys.D.isUp) {
-                this.setVelocityX(0);
-            }
-            if (this.keys.W.isUp && this.keys.S.isUp) {
-                this.setVelocityY(0);
-            }
-            if (this.body.velocity.x > 0) {
-                this.play("walk_right" + this.tier, true);
-            } else if (this.body.velocity.x < 0) {
-                this.play("walk_left" + this.tier, true);
-            } else if (this.body.velocity.y < 0) {
-                this.play("walk_up" + this.tier, true);
-            } else if (this.body.velocity.y > 0) {
-                this.play("walk_down" + this.tier, true);
-            }
-        }
-        if(this.points > 0 ){
-            if (Phaser.Input.Keyboard.JustDown(this.keys.Q)) {
-                this.upgradeWeapon();
-            }
-            if (Phaser.Input.Keyboard.JustDown(this.keys.E)) {
-                this.upgradeHealth();
-            }
-        }
-
-        this.getRoom();
+    addEventListeners() {
+        this.keys.W.on('down', event => {
+            this.lastKeyDown = this.keys.W;
+        });
+        this.keys.A.on('down', event => {
+            this.lastKeyDown = this.keys.A;
+        });
+        this.keys.S.on('down', event => {
+            this.lastKeyDown = this.keys.S;
+        });
+        this.keys.D.on('down', event => {
+            this.lastKeyDown = this.keys.D;
+        });
+        this.scene.input.on('pointermove', (pointer) => {
+            let pillX = this.body.x + this.body.width / 2;
+            let pillY = this.body.y + this.body.height / 2;
+            this.pillToSpriteAngle = Phaser.Math.Angle.Between(pillX, pillY, pointer.x + this.scene.cameras.main.scrollX, pointer.y + this.scene.cameras.main.scrollY);
+        });
     }
 
     checkHealth() {
         if (this.health == 0) {
-            // TODO
             this.canMove = false;
             this.setVelocity(0);
             this.play("dying", true);
             this.on("animationcomplete", () => {
                 console.log("Pill Dead");
-            }, this.scene)
+            }, this.scene);
             this.healthBar.destroy();
         }
         var health = (this.health/100) * 100;
@@ -408,6 +396,63 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.healthBox.setY(this.body.y - 15);
     }
 
+    updateMovement() {
+        if (this.canMove) {
+            if (this.lastKeyDown == this.keys.W && this.keys.W.isDown) {
+                this.setVelocityY(-PILL_VELOCITY);
+            }
+            else if (this.lastKeyDown == this.keys.S && this.keys.S.isDown) {
+                this.setVelocityY(PILL_VELOCITY);
+            }
+            else {
+                if (this.keys.W.isDown) {
+                    this.setVelocityY(-PILL_VELOCITY);
+                }
+                else if (this.keys.S.isDown) {
+                    this.setVelocityY(PILL_VELOCITY);
+                }
+                else {
+                    this.setVelocityY(0);
+                }
+            }
+            if (this.lastKeyDown == this.keys.A && this.keys.A.isDown) {
+                this.setVelocityX(-128);
+            }
+            else if (this.lastKeyDown == this.keys.D && this.keys.D.isDown) {
+                this.setVelocityX(128);
+            }
+            else {
+                if (this.keys.A.isDown) {
+                    this.setVelocityX(-PILL_VELOCITY);
+                }
+                else if (this.keys.D.isDown) {
+                    this.setVelocityX(PILL_VELOCITY);
+                }
+                else {
+                    this.setVelocityX(0);
+                }
+            }
+            if (this.pillToSpriteAngle >= -Math.PI / 4 && this.pillToSpriteAngle < Math.PI / 4) {
+                this.play("walk_right" + this.tier, true);
+            }
+            else if (this.pillToSpriteAngle >= Math.PI / 4 && this.pillToSpriteAngle < Math.PI * 3 / 4) {
+                this.play("walk_down" + this.tier, true);
+            } 
+            else if (this.pillToSpriteAngle >= Math.PI * 3 / 4 || this.pillToSpriteAngle < -Math.PI * 3 / 4) {
+                this.play("walk_left" + this.tier, true);
+            } 
+            else if (this.pillToSpriteAngle >= -Math.PI * 3 / 4 && this.pillToSpriteAngle < -Math.PI / 4) {
+                this.play("walk_up" + this.tier, true);
+            }
+        }
+        
+        if (Phaser.Input.Keyboard.JustDown(this.keys.Q)) {
+            this.upgradeWeapon();
+        }
+        if (Phaser.Input.Keyboard.JustDown(this.keys.E)) {
+            this.upgradeHealth();
+        }
+    }
     
     getRoom(){
         let roomNumber;
@@ -453,19 +498,22 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
 
     }
 
-    upgradeWeapon(){
-        if(this.tier = TIER_ONE){
+    upgradeWeapon() {
+        if (this.tier = TIER_ONE && this.points >= TIER_TWO_COST) {
             this.tier = TIER_TWO;
-            this.canMove = true;
-        }else if(this.tier = TIER_TWO){
+            this.points -= TIER_TWO_COST;
+        }
+        else if (this.tier = TIER_TWO && this.points >= TIER_THREE_COST) {
             this.tier = TIER_THREE;
-            this.canMove = true;
+            this.points -= TIER_THREE_COST;
         }
     }
 
-    upgradeHealth(){
-        this.maxHealth = this.maxHealth + 20;
-        this.health= this.health + 20;
-        this.canMove = true;
+    upgradeHealth() {
+        this.maxHealth += 20;
+        this.health += 20;
+        if (this.health > this.maxHealth) {
+            this.health = this.maxHealth;
+        }
     }
 }
