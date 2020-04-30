@@ -116,7 +116,6 @@ class LevelScene extends Phaser.Scene {
         this.viruses.forEach(virus => {
             this.physics.world.addCollider(this.player, virus, () => {
                 // SOME ACTION THAT HAPPENS WHEN PLAYER COLLIDES WITH VIRUS
-                virus.health = 0; // FILLER
             });
             this.physics.add.collider(virus, this.collisionLayer);
             this.physics.add.collider(this.player, this.doors);
