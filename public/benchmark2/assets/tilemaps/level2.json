@@ -488,7 +488,7 @@
                 {
                  "height":64,
                  "id":38,
-                 "name":"Spawn",
+                 "name":"Player",
                  "rotation":0,
                  "type":"Spawn",
                  "visible":true,

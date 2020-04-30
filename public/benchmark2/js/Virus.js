@@ -39,4 +39,15 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
             }
         }
     }
+
+    inRoom(roomNum){
+        let roomLeft   = this.scene.rooms[roomNum].x;
+        let roomRight  = this.scene.rooms[roomNum].x + this.scene.rooms[roomNum].width;
+        let roomTop    = this.scene.rooms[roomNum].y;
+        let roomBottom = this.scene.rooms[roomNum].y + this.scene.rooms[roomNum].height;
+        if (this.x > roomLeft && this.x < roomRight &&
+            this.y > roomTop  && this.y < roomBottom) {
+            return true;
+        }
+    }
 }

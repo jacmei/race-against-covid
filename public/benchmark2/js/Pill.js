@@ -517,8 +517,8 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             let roomTop    = this.scene.rooms[room].y;
             let roomBottom = this.scene.rooms[room].y + this.scene.rooms[room].height;
             // Player is within the boundaries of this room.
-            if (this.x > roomLeft && this.x < roomRight &&
-                this.y-20 > roomTop  && this.y-20 < roomBottom) {
+            if (this.x+20 > roomLeft && this.x-20 < roomRight &&
+                this.y+20 > roomTop  && this.y-20 < roomBottom) {
                 roomNumber = room;
             }
             if(roomNumber != this.room && roomNumber != null){
@@ -531,6 +531,11 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             let visited = this.scene.visited[this.room];
             let mobCount = this.scene.virusCount[this.room];
             if(!visited){
+                for(let virus in this.scene.viruses){
+                    if(this.scene.viruses[virus].inRoom(this.room)){
+                        this.scene.viruses[virus].canMove = true;
+                    }
+                }
                 if(mobCount == 0){
                     visited = true;
                     this.scene.map.getLayer('doors').tilemapLayer.visible  = false;
@@ -538,17 +543,21 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 }else{
                     this.scene.map.getLayer('doors').tilemapLayer.visible = true;
                     this.scene.map.setCollisionByProperty({collides:true}, this.scene.map.getLayer('doors'));
-                    if(this.x < this.scene.rooms[this.room].x+64){
+                    if(this.x+20 < this.scene.rooms[this.room].x+64){
                         this.x = this.scene.rooms[this.room].x+96;
+                        // console.log("1");
                     }
-                    if(this.x > this.scene.rooms[this.room].x+896){
-                        this.x = this.scene.rooms[this.room].x-864;
+                    if(this.x-20 > this.scene.rooms[this.room].x+896){
+                        this.x = this.scene.rooms[this.room].x+864;
+                        // console.log("2");
                     }
-                    if(this.y-20 < this.scene.rooms[this.room].y+64){
+                    if(this.y+20 < this.scene.rooms[this.room].y+64){
                         this.y = this.scene.rooms[this.room].y+96;
+                        // console.log("3");
                     }
                     if(this.y-20 > this.scene.rooms[this.room].y+576){
                         this.y = this.scene.rooms[this.room].y+542;
+                        // console.log("4");
                     }
                     // console.log("Show those doors");
                 }

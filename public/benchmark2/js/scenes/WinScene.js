@@ -41,11 +41,12 @@ class WinScene extends Phaser.Scene {
         
         this.scene.launch(LEVEL_SELECT);
         var levelSelect = this.scene.get(LEVEL_SELECT);
-        for(let i in levelSelect.levels){
+        for(let i = 0; i<levelSelect.levels.length; i++){
             if(levelSelect.levels[i] == this.pausedScene.key){
                 levelSelect.unlockedLevels[i+1] = 1;
             }
         }
+        this.scene.stop(LEVEL_SELECT);
 
 
     }

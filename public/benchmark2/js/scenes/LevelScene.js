@@ -73,10 +73,12 @@ class LevelScene extends Phaser.Scene {
             }
             if (object.type === 'Melee') {
                 let physical_virus = new Virus(this, object.x+32, object.y+32, PHYSICAL);
+                physical_virus.canMove = false;
                 this.viruses.push(physical_virus);
             }
             if (object.type === 'Ranged'){
                 var ranged_virus = new RangedVirusOne(this, object.x+32, object.y+32, RANGED);
+                ranged_virus.canMove = false;
                 this.viruses.push(ranged_virus);
             }
         }, this);
@@ -119,14 +121,12 @@ class LevelScene extends Phaser.Scene {
             if(tile.properties.win){
                 if(Math.abs(tile.x*tile.width-this.player.x)<=40 && Math.abs(tile.y*tile.height-this.player.y)<=40){
                     if(this.player.health >= 20 && this.timeLeft > 0){
-                        // this.scene.pause();
                         that.scene.launch(WIN);
                         let pauseScene = that.scene.get(WIN);
                         pauseScene.pausedScene = that;
                         that.scene.pause();
                         that.scene.bringToTop(WIN);
                     }else{
-                        // this.scene.pause();
                         that.scene.launch(LOSE);
                         let pauseScene = that.scene.get(LOSE);
                         pauseScene.pausedScene = that;
@@ -168,11 +168,16 @@ class LevelScene extends Phaser.Scene {
         //end game if timer runs out
         var that = this;
         this.time.delayedCall(this.timeLeft*oneSecond, function(){
-            that.scene.launch(LOSE);
-            let pauseScene = that.scene.get(LOSE);
+            that.scene.launch(WIN);
+            let pauseScene = that.scene.get(WIN);
             pauseScene.pausedScene = that;
             that.scene.pause();
-            that.scene.bringToTop(LOSE);
+            that.scene.bringToTop(WIN);
+            // that.scene.launch(LOSE);
+            // let pauseScene = that.scene.get(LOSE);
+            // pauseScene.pausedScene = that;
+            // that.scene.pause();
+            // that.scene.bringToTop(LOSE);
         }, this);
     }
 
