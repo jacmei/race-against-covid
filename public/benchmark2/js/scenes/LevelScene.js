@@ -15,6 +15,7 @@ class LevelScene extends Phaser.Scene {
         this.timer;
         this.timeLeft;
         this.hpText;
+        this.pointsText;
         this.virusCount = [];
         this.winTile;
     }
@@ -23,6 +24,7 @@ class LevelScene extends Phaser.Scene {
         this.loadMap('levelOne');
         this.loadTimer();
         this.loadHP();
+        this.loadPoints();
     }
 
     update() {
@@ -131,7 +133,7 @@ class LevelScene extends Phaser.Scene {
                         let pauseScene = that.scene.get(LOSE);
                         pauseScene.pausedScene = that;
                         that.scene.pause();
-                        that.scene.bringToTop(PAUSE);
+                        that.scene.bringToTop(LOSE);
                     }
                 }
             }
@@ -168,16 +170,11 @@ class LevelScene extends Phaser.Scene {
         //end game if timer runs out
         var that = this;
         this.time.delayedCall(this.timeLeft*oneSecond, function(){
-            that.scene.launch(WIN);
-            let pauseScene = that.scene.get(WIN);
+            that.scene.launch(LOSE);
+            let pauseScene = that.scene.get(LOSE);
             pauseScene.pausedScene = that;
             that.scene.pause();
-            that.scene.bringToTop(WIN);
-            // that.scene.launch(LOSE);
-            // let pauseScene = that.scene.get(LOSE);
-            // pauseScene.pausedScene = that;
-            // that.scene.pause();
-            // that.scene.bringToTop(LOSE);
+            that.scene.bringToTop(LOSE);
         }, this);
     }
 
@@ -186,6 +183,13 @@ class LevelScene extends Phaser.Scene {
         this.hpText = this.add.text(this.rooms[0].x+820,
             this.rooms[0].y+15,
             'HP:'+this.player.health+'/'+this.player.maxHealth,
+            {color: 'white', font: '20px'});
+    }
+
+    loadPoints() {
+        this.pointsText = this.add.text(this.rooms[0].x+820,
+            this.rooms[0].y+35,
+            'Points:'+this.player.points,
             {color: 'white', font: '20px'});
     }
 
@@ -203,6 +207,7 @@ class LevelScene extends Phaser.Scene {
                                         true);
             this.timer.setPosition(this.rooms[this.player.room].x+15, this.rooms[this.player.room].y+15);
             this.hpText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+15);
+            this.pointsText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+30);
             // Fade back in with new boundaries.
             this.player.canMove = true;
 
@@ -222,6 +227,7 @@ class LevelScene extends Phaser.Scene {
         this.timeLeft;
         this.bulletTime = 0; // DETERMINES BULLET FIRE RATE
         this.hpText;
+        this.pointsText;
         this.virusCount=[];
     }
 
