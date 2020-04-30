@@ -23,10 +23,10 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
 
         this.healthBox = scene.add.graphics();
         this.healthBox.fillStyle(0xff0000);
-        this.healthBox.fillRect(0, 0, 100, 10);
+        this.healthBox.fillRect(this.body.x - 15, this.body.y - 15, 100, 10);
         this.healthBar = scene.add.graphics();
         this.healthBar.fillStyle(0x00b300);
-        this.healthBar.fillRect(0, 0, 100, 10);
+        this.healthBar.fillRect(this.body.x - 15, this.body.y - 15, 100, 10);
 
         this.create();
     }
@@ -398,30 +398,6 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    checkHealth() {
-        if (this.health == 0) {
-            this.canMove = false;
-            this.setVelocity(0);
-            this.play("dying", true);
-            this.on("animationcomplete", () => {
-                console.log("Pill Dead");
-            }, this.scene);
-            this.healthBar.destroy();
-        }
-        if(this.health>this.maxHealth){
-            this.health=this.maxHealth;
-        }
-        var health = (this.health/100) * 100;
-        this.healthBar.clear();
-        this.healthBar.fillStyle(0x00b300);
-        this.healthBar.fillRect(0, 0, health, 10);
-        this.healthBar.setX(this.body.x - 15);
-        this.healthBar.setY(this.body.y - 15);
-        this.healthBox.setX(this.body.x - 15);
-        this.healthBox.setY(this.body.y - 15);
-        this.scene.hpText.setText('HP:'+this.health+'/'+this.maxHealth);
-    }
-
     fire() {
         if (this.health > 0) {
             this.health -= 1;
@@ -605,5 +581,26 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         }
+        if (this.health == 0) {
+            this.canMove = false;
+            this.setVelocity(0);
+            this.play("dying", true);
+            this.on("animationcomplete", () => {
+                console.log("Pill Dead");
+            }, this.scene);
+            this.healthBar.destroy();
+        }
+        if (this.health > this.maxHealth){
+            this.health = this.maxHealth;
+        }
+        var health = (this.health/100) * 100;
+        
+        this.healthBar.clear();
+        this.healthBar.fillStyle(0x00b300);
+        this.healthBar.fillRect(this.body.x - 15, this.body.y - 15, health, 10);
+        this.healthBox.clear();
+        this.healthBox.fillStyle(0xff0000);
+        this.healthBox.fillRect(this.body.x - 15, this.body.y - 15, 100, 10);
+        this.scene.hpText.setText('HP:'+this.health+'/'+this.maxHealth);
     }
 }
