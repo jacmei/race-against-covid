@@ -518,7 +518,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             let roomBottom = this.scene.rooms[room].y + this.scene.rooms[room].height;
             // Player is within the boundaries of this room.
             if (this.x > roomLeft && this.x < roomRight &&
-                this.y > roomTop  && this.y < roomBottom) {
+                this.y-20 > roomTop  && this.y-20 < roomBottom) {
                 roomNumber = room;
             }
             if(roomNumber != this.room && roomNumber != null){
@@ -544,10 +544,10 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                     if(this.x > this.scene.rooms[this.room].x+896){
                         this.x = this.scene.rooms[this.room].x-864;
                     }
-                    if(this.y < this.scene.rooms[this.room].y+64){
+                    if(this.y-20 < this.scene.rooms[this.room].y+64){
                         this.y = this.scene.rooms[this.room].y+96;
                     }
-                    if(this.y > this.scene.rooms[this.room].y+576){
+                    if(this.y-20 > this.scene.rooms[this.room].y+576){
                         this.y = this.scene.rooms[this.room].y+542;
                     }
                     // console.log("Show those doors");
