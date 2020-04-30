@@ -1,30 +1,20 @@
 class Virus extends Phaser.Physics.Arcade.Sprite {
-
+    //8 for physical, 20 for ranged
     constructor(scene, x, y, type) {
-        super(scene, x, y, "coronavirus", (type == PHYSICAL ? 8 : 20));
+        super(scene, x, y, type);
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setImmovable(true);
-        
         this.scene = scene;
-        this.health = 3;
         this.type = type; 
-        
-        this.walkTimer = 0; // for simply moving back and forth
-        this.velocity = 64;
-
-        this.create();
     }
 
     create() {
-        this.scene.anims.create({
-            key: "ranged_dying",
-            frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 12,
-                end: 15
-            })
-        });
+        this.createAnimations();
+    }
+
+    createAnimations() {
+        
         this.scene.anims.create({
             key: "physical_dying",
             frameRate: ANIMATION_FRAME_RATE,
@@ -33,14 +23,7 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
                 end: 3
             })
         });
-        this.scene.anims.create({
-            key: "ranged_travel",
-            frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 20,
-                end: 21
-            })
-        });
+       
         this.scene.anims.create({
             key: "physical_travel",
             frameRate: ANIMATION_FRAME_RATE,
@@ -49,14 +32,7 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
                 end: 11
             })
         });
-        this.scene.anims.create({
-            key: "ranged_taking_damage",
-            frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 16,
-                end: 17
-            })
-        });
+        
         this.scene.anims.create({
             key: "physical_taking_damage",
             frameRate: ANIMATION_FRAME_RATE,
@@ -68,32 +44,23 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        this.checkHealth();
+        this.updateHealth();
         
         // BOT MOVEMENT
         // RANDOMLY WALK BACK AND FORTH FOR NOW
-        if (this.health > 0) {
-            if (this.scene.time.now > this.walkTimer) {
-                this.setVelocityX(-this.velocity);
-                this.velocity = -this.velocity;
-                this.walkTimer = this.scene.time.now + 500;
-            }
-        }
 
         
         
     }
 
-    checkHealth() {
-        if (this.health == 0) {
-            // TODO
+    updateHealth() {
+        if (this.health <= 0) {
             this.setVelocity(0);
             this.play(this.type + "dying", true);
             this.on("animationcomplete", () => {
-                console.log("Virus Dead");
                 this.decrementMobCount();
                 this.destroy();
-            }, this.scene)
+            }, this.scene);
             this.scene.viruses.forEach( (v, index) => {
                 if (v == this) this.scene.viruses.splice(index, 1);
             })
