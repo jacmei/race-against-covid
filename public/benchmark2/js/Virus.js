@@ -7,8 +7,8 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
         this.setImmovable(true);
         
         this.scene = scene;
-        this.health = 10; // TBD
-        this.type = type; // PHYSICAL or RANGE
+        this.health = 3;
+        this.type = type; 
         
         this.walkTimer = 0; // for simply moving back and forth
         this.velocity = 64;
