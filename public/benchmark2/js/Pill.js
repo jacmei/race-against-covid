@@ -620,8 +620,8 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 this.play("dead", true);
                 this.on("animationcomplete", () => {
                     this.scene.scene.launch(LOSE);
-                    let pauseScene = this.scene.scene.get(LOSE);
-                    pauseScene.pausedScene = this.scene;
+                    let loseScene = this.scene.scene.get(LOSE);
+                    loseScene.pausedScene = this.scene;
                     this.scene.scene.pause();
                     this.scene.scene.bringToTop(LOSE);
                 })

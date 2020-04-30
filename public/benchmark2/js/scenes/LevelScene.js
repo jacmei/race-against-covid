@@ -126,14 +126,14 @@ class LevelScene extends Phaser.Scene {
                 if(Math.abs(tile.x*tile.width-this.player.x)<=40 && Math.abs(tile.y*tile.height-this.player.y)<=40){
                     if(this.player.health >= 20 && this.timeLeft > 0){
                         that.scene.launch(WIN);
-                        let pauseScene = that.scene.get(WIN);
-                        pauseScene.pausedScene = that;
+                        let winScene = that.scene.get(WIN);
+                        winScene.pausedScene = that;
                         that.scene.pause();
                         that.scene.bringToTop(WIN);
                     }else{
                         that.scene.launch(LOSE);
-                        let pauseScene = that.scene.get(LOSE);
-                        pauseScene.pausedScene = that;
+                        let loseScene = that.scene.get(LOSE);
+                        loseScene.pausedScene = that;
                         that.scene.pause();
                         that.scene.bringToTop(LOSE);
                     }
@@ -173,8 +173,8 @@ class LevelScene extends Phaser.Scene {
         var that = this;
         this.time.delayedCall(this.timeLeft*oneSecond, function(){
             that.scene.launch(LOSE);
-            let pauseScene = that.scene.get(LOSE);
-            pauseScene.pausedScene = that;
+            let loseScene = that.scene.get(LOSE);
+            loseScene.pausedScene = that;
             that.scene.pause();
             that.scene.bringToTop(LOSE);
         }, this);
@@ -223,6 +223,7 @@ class LevelScene extends Phaser.Scene {
             this.pointsText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+30);
             this.upgradeHPText.setPosition(this.rooms[this.player.room].x+625, this.rooms[this.player.room].y+585);
             this.upgradeWeaponText.setPosition(this.rooms[this.player.room].x+600, this.rooms[this.player.room].y+610);
+            this.pointsText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+35);
             // Fade back in with new boundaries.
             this.player.canMove = true;
             this.pointsText.setText('Points:'+this.player.points);
