@@ -11,6 +11,7 @@ class LevelTwoScene extends LevelScene {
         super.loadMap('levelTwo');
         super.loadTimer(this.timeLeft);
         super.loadHP();
+        super.loadPoints();
     }
 
     update() {
