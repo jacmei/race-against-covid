@@ -17,6 +17,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.canMove = true;
         this.lastKeyDown = null;
         this.pillToSpriteAngle = null;
+        this.isTakingDamage = false;
 
         this.room = 0;
         this.roomChange = false;
@@ -404,9 +405,6 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             this.health -= 1;
             this.hasFired = true;
             let bullet = this.scene.physics.add.sprite(0, 0, "pillbullet");
-            this.scene.sound.play("pillattack", {
-                volume: 1
-            });
             bullet.setVisible(false);
             switch (this.tier) {
                 case TIER_ONE:
@@ -500,19 +498,19 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                     this.setVelocityX(0);
                 }
             }
-            if (this.pillToSpriteAngle >= -Math.PI / 4 && this.pillToSpriteAngle < Math.PI / 4) {
+            if (this.pillToSpriteAngle >= -Math.PI / 4 && this.pillToSpriteAngle < Math.PI / 4 && !this.isTakingDamage)  {
                 this.play("walk_right" + this.tier, true);
                 this.direction = RIGHT;
             }
-            else if (this.pillToSpriteAngle >= Math.PI / 4 && this.pillToSpriteAngle < Math.PI * 3 / 4) {
+            else if (this.pillToSpriteAngle >= Math.PI / 4 && this.pillToSpriteAngle < Math.PI * 3 / 4 && !this.isTakingDamage) {
                 this.play("walk_down" + this.tier, true);
                 this.direction = DOWN;
             } 
-            else if (this.pillToSpriteAngle >= Math.PI * 3 / 4 || this.pillToSpriteAngle < -Math.PI * 3 / 4) {
+            else if (this.pillToSpriteAngle >= Math.PI * 3 / 4 || this.pillToSpriteAngle < -Math.PI * 3 / 4 && !this.isTakingDamage) {
                 this.play("walk_left" + this.tier, true);
                 this.direction = LEFT;
             } 
-            else if (this.pillToSpriteAngle >= -Math.PI * 3 / 4 && this.pillToSpriteAngle < -Math.PI / 4) {
+            else if (this.pillToSpriteAngle >= -Math.PI * 3 / 4 && this.pillToSpriteAngle < -Math.PI / 4 && !this.isTakingDamage) {
                 this.play("walk_up" + this.tier, true);
                 this.direction = UP;
             }

@@ -44,7 +44,12 @@ class RangedVirusOne extends Virus {
                 let bullets = [bulletUp, bulletDown, bulletLeft, bulletRight];
                 bullets.forEach(bullet => {
                     this.scene.physics.world.addCollider(bullet, this.scene.player, () => {
+                        this.scene.player.isTakingDamage = true;
                         this.scene.player.health -= 10;
+                        this.scene.player.play("taking_damage_" + this.scene.player.direction.toLowerCase() + this.scene.player.tier, false);
+                        this.scene.player.on("animationcomplete", () => {
+                            this.scene.player.isTakingDamage = false;
+                        });
                         bullet.destroy();
                     });
                     this.scene.physics.world.addCollider(bullet, this.scene.collisionLayer, () => {
