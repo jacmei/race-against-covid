@@ -20,7 +20,7 @@ class ControlScene extends Phaser.Scene {
         })
         backButton.on("pointerup", () => {
             this.scene.stop();
-            this.scene.resume(this.sceneCalled);
+            this.scene.resume(this.caller);
         })
     }
 

@@ -14,10 +14,8 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.canMove = true;
         this.lastKeyDown = null;
         this.pillToSpriteAngle = null;
-
         this.room = 0;
         this.roomChange = false;
-
         this.healthBox = scene.add.graphics();
         this.healthBox.fillStyle(0xff0000);
         this.healthBox.fillRect(0, 0, 100, 10);
@@ -31,8 +29,6 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     create() {
         this.createAnimations();
         this.addEventListeners();
-        
-        
     }
 
     update() {
@@ -386,6 +382,9 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             }, this.scene);
             this.healthBar.destroy();
         }
+        if(this.health>this.maxHealth){
+            this.health=this.maxHealth;
+        }
         var health = (this.health/100) * 100;
         this.healthBar.clear();
         this.healthBar.fillStyle(0x00b300);
@@ -394,6 +393,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.healthBar.setY(this.body.y - 15);
         this.healthBox.setX(this.body.x - 15);
         this.healthBox.setY(this.body.y - 15);
+        this.scene.hpText.setText('HP:'+this.health+'/'+this.maxHealth);
     }
 
     updateMovement() {
@@ -473,15 +473,11 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             }else if(this.canMove){
                 this.roomChange = false;
             }
-            let visited = this.scene.rooms[this.room].properties.find(function(property) {
-                return property.name === 'visited';
-            } );
-            let mobCount = this.scene.rooms[this.room].properties.find(function(property) {
-                return property.name === 'monsters';
-            } );
-            if(!visited.value){
-                if(mobCount.value == 0){
-                    visited.value = true;
+            let visited = this.scene.visited[this.room];
+            let mobCount = this.scene.virusCount[this.room];
+            if(!visited){
+                if(mobCount == 0){
+                    visited = true;
                     this.scene.map.getLayer('doors').tilemapLayer.visible  = false;
                     this.scene.map.setCollisionByProperty({collides:true}, false, this.scene.map.getLayer('doors'));
                 }else{

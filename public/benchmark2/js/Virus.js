@@ -109,10 +109,7 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
             // Virus is within the boundaries of this room.
             if (this.x > roomLeft && this.x < roomRight &&
                 this.y > roomTop  && this.y < roomBottom) {
-                let mobCount = this.scene.rooms[room].properties.find(function(property) {
-                    return property.name === 'monsters';
-                } );
-                mobCount.value = mobCount.value-1;
+                this.scene.virusCount[room]--;
             }
         }
     }

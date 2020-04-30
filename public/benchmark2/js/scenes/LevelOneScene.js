@@ -3,9 +3,11 @@ class LevelOneScene extends Phaser.Scene {
         super({
             key : LEVEL_ONE
         });
+        this.key = LEVEL_ONE;
         this.player = null;
         this.map = null;
         this.rooms = [];
+        this.visited = [];
         this.floor = null;
         this.collisionLayer = null;
         this.doors = null;
@@ -14,7 +16,7 @@ class LevelOneScene extends Phaser.Scene {
         this.timeLeft;
         this.bulletTime = 0; // DETERMINES BULLET FIRE RATE
         this.hpText;
-        this.virusCount;
+        this.virusCount=[];
     }
 
     create() {
@@ -30,6 +32,14 @@ class LevelOneScene extends Phaser.Scene {
             // rooms
             if (object.type === 'Room') {
                 this.rooms.push(object);
+                let x = object.properties.find(function(property) {
+                    return property.name === 'monsters';
+                }).value;
+                let visited = object.properties.find(function(property) {
+                    return property.name === 'visited';
+                } ).value;
+                this.virusCount.push(x);
+                this.visited.push(visited);
             }
             if (object.type === 'Spawn') {
                 if (object.name === 'Player') {
@@ -46,10 +56,7 @@ class LevelOneScene extends Phaser.Scene {
             }
         }, this);
 
-        for(let room in this.rooms){
-            console.log(room);
-        }
-
+        console.log(this.visited);
 
         //move camera to specific room
         this.cameras.main.setBounds(this.rooms[0].x,
@@ -77,8 +84,7 @@ class LevelOneScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.collisionLayer, function(player, object){
             if(object.index == 18){
                 object.index = 19;
-                player.canMove = false;
-                player.points += 1;
+                player.health += 20;
             }
         });
         this.collisionLayer.setCollisionByProperty({collides:true});
@@ -243,6 +249,22 @@ class LevelOneScene extends Phaser.Scene {
         }
     }
 
+    reset(){
+        this.key = LEVEL_ONE;
+        this.player = null;
+        this.map = null;
+        this.rooms = [];
+        this.visited = [];
+        this.floor = null;
+        this.collisionLayer = null;
+        this.doors = null;
+        this.viruses = [];
+        this.timer;
+        this.timeLeft;
+        this.bulletTime = 0; // DETERMINES BULLET FIRE RATE
+        this.hpText;
+        this.virusCount=[];
+    }
     lose(){
 
     }
