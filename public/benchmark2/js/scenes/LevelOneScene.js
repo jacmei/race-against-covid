@@ -10,7 +10,8 @@ class LevelOneScene extends Phaser.Scene {
         this.collisionLayer = null;
         this.doors = null;
         this.viruses = [];
-        this.timer = 0;
+        this.timer;
+        this.timeLeft;
         this.bulletTime = 0; // DETERMINES BULLET FIRE RATE
     }
 
@@ -78,25 +79,50 @@ class LevelOneScene extends Phaser.Scene {
         this.doors.setCollisionByProperty({collides:true});
 
 
+
+        //time variables
+        let oneSecond = 1000;
+        this.timeLeft = 240
+
+        //display timer
+        this.timer = this.add.text(this.rooms[this.player.room].x+15,
+                                    this.rooms[this.player.room].y+15,
+                                    'Time Left: ' + this.timeLeft, 
+                                    {color: 'white', font: '30px'});
+
+        //update timeLeft
+        this.time.addEvent({
+            delay: 1000,                // ms
+            callback: function(){
+                if(this.timeLeft > 0){
+                    //decrement
+                    this.timeLeft--;
+                    this.timer.setText('Time Left: ' + this.timeLeft);
+                }
+            },
+            //args: [],
+            callbackScope: this,
+            loop: true
+        });
+
+        //end game if timer runs out
+        this.time.delayedCall(this.timeLeft*oneSecond, function(){
+            console.log('timer pop');
+        });
+
+
+
+
+        //display instructions for hp, and shooting
+        let instructionText = this.add.text(this.rooms[this.player.room].x+200,
+                                             this.rooms[this.player.room].y+350,
+                                             'Click to shoot pills that can damage the viruses. Be careful not to shoot \n'+
+                                             'recklessly, as every shot will reduce RX-2020\'s hp',
+                                             {color: 'white', font: '15px'});
     }
 
     update() {
-        
-        // On player room change, stop player movement, fade camera, and set boundaries.
-        this.cameras.main._ch = this.map.heightInPixels;
-        this.cameras.main._cw = this.map.widthInPixels;
-        if (this.player.roomChange) {
-            // Change camera boundaries when fade out complete.
-            this.cameras.main.setBounds(this.rooms[this.player.room].x,
-                                        this.rooms[this.player.room].y,
-                                        this.rooms[this.player.room].width,
-                                        this.rooms[this.player.room].height,
-                                        true);
-            // Fade back in with new boundaries.
-            this.player.canMove = true;
-        }
-
-
+        this.setView();
 
         if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('ESC')))) {
             this.scene.launch(PAUSE);
@@ -104,6 +130,7 @@ class LevelOneScene extends Phaser.Scene {
             pauseScene.pausedScene = LEVEL_ONE;
             this.scene.pause();
             this.scene.bringToTop(PAUSE);
+
         }
 
         if (this.input.activePointer.isDown) {
@@ -165,6 +192,23 @@ class LevelOneScene extends Phaser.Scene {
             this.rooms[2].width,
             this.rooms[2].height,
             true);
+        }
+    }
+
+
+    setView(){
+        // On player room change, stop player movement, fade camera, and set boundaries.
+        this.cameras.main._ch = this.map.heightInPixels;
+        this.cameras.main._cw = this.map.widthInPixels;
+        if (this.player.roomChange) {
+            // Change camera boundaries when fade out complete.
+            this.cameras.main.setBounds(this.rooms[this.player.room].x,
+                                        this.rooms[this.player.room].y,
+                                        this.rooms[this.player.room].width,
+                                        this.rooms[this.player.room].height,
+                                        true);
+            // Fade back in with new boundaries.
+            this.player.canMove = true;
         }
     }
 
