@@ -1,11 +1,13 @@
 class RangedVirusOne extends Virus {
     constructor(scene, x, y, type) {
-        super(scene, x, y, type);
+        super(scene, x, y, 'coronavirus');
+        this.type = type;
         this.setVelocityX(RANGED_VIRUS_ONE_VELOCITY);
         this.hasReversed = false;
         this.fireRate = 1500;
         this.hasFired = false;
         this.health = 3;
+        
         this.create();
 
     }
@@ -25,9 +27,9 @@ class RangedVirusOne extends Virus {
             if (this.health > 0) {
                 this.hasFired = true;
                 let bulletUp = this.scene.physics.add.sprite(this.body.x + this.body.width / 2, this.body.y, "virusbullet");
-                let bulletDown = this.scene.physics.add.sprite(this.body.x + this.body.width / 2, this.body.y + this.body.height, "virusbullet");
-                let bulletLeft = this.scene.physics.add.sprite(this.body.x, this.body.y + this.body.height / 2, "virusbullet");
-                let bulletRight = this.scene.physics.add.sprite(this.body.x + this.body.width, this.body.y + this.body.height / 2, "virusbullet");
+                let bulletDown = this.scene.physics.add.sprite(this.body.x  + this.body.width / 2, this.body.y + this.body.height, "virusbullet");
+                let bulletLeft = this.scene.physics.add.sprite(this.body.x + 5, this.body.y + this.body.height / 2, "virusbullet");
+                let bulletRight = this.scene.physics.add.sprite(this.body.x + this.body.width - 5, this.body.y + this.body.height / 2, "virusbullet");
                 bulletUp.setVelocityY(-RANGED_VIRUS_ONE_BULLET_VELOCITY);
                 bulletDown.setVelocityY(RANGED_VIRUS_ONE_BULLET_VELOCITY);
                 bulletLeft.setVelocityX(-RANGED_VIRUS_ONE_BULLET_VELOCITY);
@@ -39,6 +41,12 @@ class RangedVirusOne extends Virus {
                         bullet.destroy();
                     });
                     this.scene.physics.world.addCollider(bullet, this.scene.collisionLayer, () => {
+                        bullet.destroy();
+                    });
+                    this.scene.physics.world.addCollider(bullet, this.scene.doors, () => {
+                        bullet.destroy();
+                    });
+                    this.scene.physics.world.addCollider(bullet, this.scene.openDoors, () => {
                         bullet.destroy();
                     });
                 });

@@ -1,13 +1,14 @@
 class Virus extends Phaser.Physics.Arcade.Sprite {
-    //8 for physical, 20 for ranged
     constructor(scene, x, y, type) {
-        super(scene, x, y, type);
+        super(scene, x, y, 'coronavirus');
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        console.log(this.body.width);
         this.setImmovable(true);
         this.scene = scene;
         this.type = type;
         this.health = 0;
+        //this.body.setSize()
     }
     
     updateHealth() {
