@@ -11,8 +11,9 @@ class LevelOneScene extends LevelScene {
         super.loadMap('levelOne');
         super.loadTimer(this.timeLeft);
         super.loadHP();
+        super.loadPoints();
         //display instructions for hp, and shooting
-        this.add.text(this.rooms[0].x+200,
+        this.add.text(this.rooms[0].x+175,
             this.rooms[0].y+350,
             'Click to shoot pills that can damage the viruses. Be careful not to shoot \n'+
             'recklessly, as every shot will reduce RX-2020\'s hp. You must reach \n'+
@@ -22,7 +23,7 @@ class LevelOneScene extends LevelScene {
         
         
         //display instructions for hp, and shooting
-        this.add.text(this.rooms[2].x+200,
+        this.add.text(this.rooms[2].x+175,
             this.rooms[2].y+350,
             'After picking up an upgrade, press q or e to upgrade \n'+
             'your weapon or health before continuing the game. \n'+
