@@ -11,11 +11,13 @@ class LevelOneScene extends Phaser.Scene {
         this.floor = null;
         this.collisionLayer = null;
         this.doors = null;
+        this.openDoors=null;
         this.viruses = [];
         this.timer;
         this.timeLeft;
         this.hpText;
         this.virusCount = [];
+        this.winTile;
     }
 
     create() {
@@ -24,6 +26,7 @@ class LevelOneScene extends Phaser.Scene {
         var tileset = this.map.addTilesetImage("tileset");
         this.floor = this.map.createStaticLayer("floor", tileset, 0, 0);
         this.collisionLayer = this.map.createDynamicLayer("collidable", tileset, 0, 0);
+        this.openDoors = this.map.createStaticLayer("openDoors", tileset, 0, 0);
         this.doors = this.map.createStaticLayer("doors", tileset, 0, 0);
 
         //create list of rooms
@@ -89,6 +92,16 @@ class LevelOneScene extends Phaser.Scene {
         this.collisionLayer.setCollisionByProperty({collides:true});
         this.physics.add.collider(this.player, this.doors);
         this.doors.setCollisionByProperty({collides:true});
+
+        
+        this.physics.add.overlap(this.player,  this.openDoors, function(player, tile) {
+            if(tile.properties.win){
+                if(Math.abs(tile.x*tile.width-this.player.x)<=40 && Math.abs(tile.y*tile.height-this.player.y)<=40){
+                    console.log('winner');
+                }
+            }
+        }, null, this);
+
 
 
 
@@ -225,6 +238,7 @@ class LevelOneScene extends Phaser.Scene {
         this.floor = null;
         this.collisionLayer = null;
         this.doors = null;
+        this.openDoors=null;
         this.viruses = [];
         this.timer;
         this.timeLeft;
