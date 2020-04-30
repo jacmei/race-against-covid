@@ -602,12 +602,20 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         }
-        if (this.health == 0) {
+        if (this.health <= 0) {
+            this.health = 0;
             this.canMove = false;
             this.setVelocity(0);
             this.play("dying", true);
             this.on("animationcomplete", () => {
-                this.setActive(false);
+                this.play("dead", true);
+                this.on("animationcomplete", () => {
+                    this.scene.scene.launch(LOSE);
+                    let pauseScene = this.scene.scene.get(LOSE);
+                    pauseScene.pausedScene = this.scene;
+                    this.scene.scene.pause();
+                    this.scene.scene.bringToTop(LOSE);
+                })
             }, this.scene);
             this.healthBar.destroy();
         }

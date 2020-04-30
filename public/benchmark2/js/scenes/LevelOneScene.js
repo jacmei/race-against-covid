@@ -11,6 +11,7 @@ class LevelOneScene extends LevelScene {
         super.loadMap('levelOne');
         super.loadTimer(this.timeLeft);
         super.loadHP();
+        super.loadPoints();
         //display instructions for hp, and shooting
         this.add.text(this.rooms[0].x+165,
             this.rooms[0].y+450,
@@ -22,7 +23,7 @@ class LevelOneScene extends LevelScene {
         
         
         //display instructions for hp, and shooting
-        this.add.text(this.rooms[2].x+200,
+        this.add.text(this.rooms[2].x+175,
             this.rooms[2].y+350,
             'Orange slices will heal you for 20 HP!',
             {color: 'white', font: '15px'});
