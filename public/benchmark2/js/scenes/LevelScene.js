@@ -138,6 +138,7 @@ class LevelScene extends Phaser.Scene {
         this.openDoors.setCollisionByProperty({collides:true});
 
         
+        var that = this;
         this.physics.add.overlap(this.player,  this.openDoors, function(player, tile) {
             if(tile.properties.win){
                 if(Math.abs(tile.x*tile.width-this.player.x)<=40 && Math.abs(tile.y*tile.height-this.player.y)<=40){
