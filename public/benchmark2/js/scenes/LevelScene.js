@@ -31,7 +31,7 @@ class LevelScene extends Phaser.Scene {
             virus.update();
         });
         if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('ESC')))) {
-            console.log("esc pressed");
+            console.log(this);
             this.scene.launch(PAUSE);
             let pauseScene = this.scene.get(PAUSE);
             pauseScene.pausedScene = this;
@@ -119,7 +119,21 @@ class LevelScene extends Phaser.Scene {
         this.physics.add.overlap(this.player,  this.openDoors, function(player, tile) {
             if(tile.properties.win){
                 if(Math.abs(tile.x*tile.width-this.player.x)<=40 && Math.abs(tile.y*tile.height-this.player.y)<=40){
-                    console.log('winner');
+                    if(this.player.health >= 20 && this.timeLeft > 0){
+                        // this.scene.pause();
+                        that.scene.launch(WIN);
+                        let pauseScene = that.scene.get(WIN);
+                        pauseScene.pausedScene = that;
+                        that.scene.pause();
+                        that.scene.bringToTop(WIN);
+                    }else{
+                        // this.scene.pause();
+                        that.scene.launch(LOSE);
+                        let pauseScene = that.scene.get(LOSE);
+                        pauseScene.pausedScene = that;
+                        that.scene.pause();
+                        that.scene.bringToTop(PAUSE);
+                    }
                 }
             }
         }, null, this);
@@ -153,9 +167,14 @@ class LevelScene extends Phaser.Scene {
         });
 
         //end game if timer runs out
+        var that = this;
         this.time.delayedCall(this.timeLeft*oneSecond, function(){
-            console.log('timer pop');
-        });
+            that.scene.launch(LOSE);
+            let pauseScene = that.scene.get(LOSE);
+            pauseScene.pausedScene = that;
+            that.scene.pause();
+            that.scene.bringToTop(LOSE);
+        }, this);
     }
 
     loadHP(){

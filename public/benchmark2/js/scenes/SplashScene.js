@@ -30,6 +30,9 @@ class SplashScene extends Phaser.Scene {
         this.load.image("pauseBG", "assets/pausebackground.png");
         this.load.image("controlsBG", "assets/controlsbackground.png");
         this.load.image("levelSelectBG", "assets/levelselectbackground.png");
+        this.load.image("loseBG", "assets/losebackground.png");
+        this.load.image("winBG", "assets/winbackground.png");
+
 
         // buttons
         this.load.image("backbutton", "assets/backbutton.png");
