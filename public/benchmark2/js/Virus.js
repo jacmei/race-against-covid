@@ -8,19 +8,23 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
         this.scene = scene;
         this.type = type;
         this.health = 0;
+        this.canMove = false;
         //this.body.setSize()
     }
     
     updateHealth() {
         if (this.health <= 0) {
-            this.setVelocity(0);
+            this.canMove = false;
+            this.setVelocityX(0);
+            this.setVelocityY(0);
             this.play(this.type + "dying", true);
             this.on("animationcomplete", () => {
-                this.decrementMobCount();
                 this.scene.viruses.forEach( (v, index) => {
                     if (v == this) {
+                        this.decrementMobCount();
                         this.scene.viruses.splice(index, 1);
                         this.setActive(false);
+                        this.scene.player.points += 20
                     }
                 });
             });

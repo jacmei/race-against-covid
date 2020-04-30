@@ -119,6 +119,7 @@ class LevelScene extends Phaser.Scene {
         this.collisionLayer.setCollisionByProperty({collides:true});
         this.holes.setCollisionByProperty({collides:true});
         this.doors.setCollisionByProperty({collides:true});
+        this.openDoors.setCollisionByProperty({collides:true});
 
         
         this.physics.add.overlap(this.player,  this.openDoors, function(player, tile) {

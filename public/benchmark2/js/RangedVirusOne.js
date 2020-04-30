@@ -7,7 +7,7 @@ class RangedVirusOne extends Virus {
         this.fireRate = 1500;
         this.hasFired = false;
         this.health = 3;
-        
+        this.canMove = false;
         this.create();
 
     }
@@ -18,8 +18,15 @@ class RangedVirusOne extends Virus {
 
     update() {
         super.updateHealth();
-        this.move();
-        this.fire();
+        if(this.canMove){
+            if(this.body.velocity.x == 0){
+                this.setVelocityX(RANGED_VIRUS_ONE_VELOCITY);
+            }
+            this.move();
+            this.fire();
+        }else{
+            this.setVelocityX(0);
+        }
     }
 
     fire() {

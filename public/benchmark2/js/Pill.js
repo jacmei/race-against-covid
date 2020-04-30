@@ -40,7 +40,8 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     update() {
         this.checkFiring();
         this.updateWeapon();
-        this.updateHealth()
+        this.updateHealth();
+        this.updatePoints();
         this.updateMovement();
         this.getRoom();
     }
@@ -643,5 +644,20 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.healthBox.fillStyle(0xff0000);
         this.healthBox.fillRect(this.body.x - 15, this.body.y - 15, 100, 10);
         this.scene.hpText.setText('HP:'+this.health+'/'+this.maxHealth);
+    }
+    
+
+    updatePoints(){
+        this.scene.pointsText.setText('Points:'+this.points);
+        this.scene.upgradeHPText.setText(50+' points to upgrade HP');
+        if(this.tier == TIER_ONE){
+            this.scene.upgradeWeaponText.setText(TIER_TWO_COST+' points to upgrade weapon');
+        }
+        if(this.tier == TIER_TWO){
+            this.scene.upgradeWeaponText.setText(TIER_THREE_COST+' points to upgrade weapon');
+        }
+        if(this.tier == TIER_THREE){
+            this.scene.upgradeWeaponText.setText('Weapon upgrades are maxed out!');
+        }
     }
 }

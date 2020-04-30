@@ -5,8 +5,8 @@ class PhysicalVirusOne extends Virus {
         this.velocity = PHYSICAL_VIRUS_ONE_VELOCITY;
         this.angleToPlayer = null;
         this.health = 3;
+        this.canMove = false;
         this.create();
-
     }
 
     create() {
@@ -15,7 +15,9 @@ class PhysicalVirusOne extends Virus {
 
     update() {
         super.updateHealth();
-        this.move();
+        if(this.canMove){
+            this.move();
+        }
     }
 
     move() {
