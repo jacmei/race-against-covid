@@ -16,6 +16,8 @@ class LevelScene extends Phaser.Scene {
         this.timeLeft;
         this.hpText;
         this.pointsText;
+        this.upgradeHPText;
+        this.upgradeWeaponText;
         this.virusCount = [];
         this.winTile;
     }
@@ -180,16 +182,27 @@ class LevelScene extends Phaser.Scene {
 
     loadHP(){
         //display current HP
-        this.hpText = this.add.text(this.rooms[0].x+820,
-            this.rooms[0].y+15,
+        this.hpText = this.add.text(this.rooms[this.player.room].x+820,
+            this.rooms[this.player.room].y+15,
             'HP:'+this.player.health+'/'+this.player.maxHealth,
             {color: 'white', font: '20px'});
     }
 
     loadPoints() {
-        this.pointsText = this.add.text(this.rooms[0].x+820,
-            this.rooms[0].y+35,
+        this.pointsText = this.add.text(this.rooms[this.player.room].x+820,
+            this.rooms[this.player.room].y+35,
             'Points:'+this.player.points,
+            {color: 'white', font: '20px'});
+
+            
+        this.upgradeHPText = this.add.text(this.rooms[this.player.room].x+625,
+            this.rooms[this.player.room].y+585,
+            50+' points to upgrade HP',
+            {color: 'white', font: '20px'});
+
+        this.upgradeWeaponText = this.add.text(this.rooms[this.player.room].x+600,
+            this.rooms[this.player.room].y+610,
+            100+' points to upgrade weapon',
             {color: 'white', font: '20px'});
     }
 
@@ -208,9 +221,13 @@ class LevelScene extends Phaser.Scene {
             this.timer.setPosition(this.rooms[this.player.room].x+15, this.rooms[this.player.room].y+15);
             this.hpText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+15);
             this.pointsText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+30);
+            this.upgradeHPText.setPosition(this.rooms[this.player.room].x+625, this.rooms[this.player.room].y+585);
+            this.upgradeWeaponText.setPosition(this.rooms[this.player.room].x+600, this.rooms[this.player.room].y+610);
             // Fade back in with new boundaries.
             this.player.canMove = true;
-
+            this.pointsText.setText('Points:'+this.player.points);
+            this.upgradeHPText.setText(50+' points to upgrade HP');
+            this.upgradeWeaponText.setText(100+' points to upgrade weapon');
         }
     }
     reset(){
@@ -227,13 +244,12 @@ class LevelScene extends Phaser.Scene {
         this.timeLeft;
         this.bulletTime = 0; // DETERMINES BULLET FIRE RATE
         this.hpText;
+        this.upgradeHPText;
+        this.upgradeWeaponText;
         this.pointsText;
         this.virusCount=[];
     }
 
-    lose(){
-
-    }
 
 
 

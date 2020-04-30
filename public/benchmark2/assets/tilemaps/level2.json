@@ -1,4 +1,11 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "target":"."
+        }
+    },
  "height":30,
  "infinite":false,
  "layers":[
@@ -597,7 +604,30 @@
                  "id":67,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
                          "name":"win",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":68,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":69,
+                 "properties":[
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":true
                         }]
@@ -630,6 +660,15 @@
                         }]
                 }, 
                 {
+                 "id":73,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
                  "id":74,
                  "properties":[
                         {
@@ -650,6 +689,11 @@
                 {
                  "id":76,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }, 
                         {
                          "name":"win",
                          "type":"bool",
@@ -702,6 +746,15 @@
                         }]
                 }, 
                 {
+                 "id":83,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
                  "id":84,
                  "properties":[
                         {
@@ -712,6 +765,15 @@
                 }, 
                 {
                  "id":85,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":86,
                  "properties":[
                         {
                          "name":"collides",
@@ -777,6 +839,11 @@
                  "id":93,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
                          "name":"win",
                          "type":"bool",
                          "value":true
@@ -801,8 +868,40 @@
                         }]
                 }, 
                 {
+                 "id":96,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":97,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":98,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
                  "id":99,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }, 
                         {
                          "name":"win",
                          "type":"bool",
