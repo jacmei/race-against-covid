@@ -12,7 +12,6 @@ class WinScene extends Phaser.Scene {
         var restartButton = this.add.image(WIDTH/2, 300, "restartbutton");
         // var controlsButton = this.add.image(WIDTH/2, 400, "controlsbutton");
         var exitButton = this.add.image(WIDTH/2, 500, "exitbutton");
-
         exitButton.setInteractive();
         exitButton.on("pointerover", () => {
             exitButton.setScale(BUTTON_SCALE_ENLARGE);
@@ -38,6 +37,17 @@ class WinScene extends Phaser.Scene {
             this.pausedScene.scene.stop();
             this.scene.start(this.pausedScene);
         })
+
+        
+        this.scene.launch(LEVEL_SELECT);
+        var levelSelect = this.scene.get(LEVEL_SELECT);
+        for(let i in levelSelect.levels){
+            if(levelSelect.levels[i] == this.pausedScene.key){
+                levelSelect.unlockedLevels[i+1] = 1;
+            }
+        }
+
+
     }
 
     update() {

@@ -1,6 +1,7 @@
 class LevelScene extends Phaser.Scene {
     constructor(config) {
         super(config);
+        this.key = null;
         this.player = null;
         this.map = null;
         this.rooms = [];
