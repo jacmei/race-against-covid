@@ -19,7 +19,7 @@ class LevelOneScene extends Phaser.Scene {
 
         var tileset = this.map.addTilesetImage("tileset");
         this.floor = this.map.createStaticLayer("floor", tileset, 0, 0);
-        this.collisionLayer = this.map.createStaticLayer("collidable", tileset, 0, 0);
+        this.collisionLayer = this.map.createDynamicLayer("collidable", tileset, 0, 0);
         this.doors = this.map.createStaticLayer("doors", tileset, 0, 0);
 
         //create list of rooms
@@ -64,10 +64,20 @@ class LevelOneScene extends Phaser.Scene {
             this.physics.add.collider(this.player, this.doors);
         })
 
-        this.physics.add.collider(this.player, this.collisionLayer);
+
+        // on collide with powerup, set the powerup to stone
+        this.physics.add.collider(this.player, this.collisionLayer, function(player, object){
+            if(object.index == 18){
+                object.index = 19;
+                player.canMove = false;
+                player.points += 1;
+            }
+        });
         this.collisionLayer.setCollisionByProperty({collides:true});
         this.physics.add.collider(this.player, this.doors);
         this.doors.setCollisionByProperty({collides:true});
+
+
     }
 
     update() {
@@ -157,4 +167,5 @@ class LevelOneScene extends Phaser.Scene {
             true);
         }
     }
+
 }

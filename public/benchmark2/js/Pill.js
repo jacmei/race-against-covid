@@ -9,8 +9,9 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.keys = scene.input.keyboard.addKeys('W, A, S, D, Q, E');
         this.scene = scene;
         this.health = 100; // TBD
+        this.maxHealth = 100; //TBD
         this.tier = TIER_ONE; // DEFAULT
-        this.points = 0;
+        this.points = 0; // points for upgrading
         this.canMove = true;
 
         this.room = 0;
@@ -344,7 +345,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
 
     preUpdate(time,delta) {
         this.checkHealth();
-
+        
         if (this.canMove) {
             if (this.keys.W.isDown) {
                 this.setVelocityY(-128);
@@ -372,6 +373,14 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 this.play("walk_up" + this.tier, true);
             } else if (this.body.velocity.y > 0) {
                 this.play("walk_down" + this.tier, true);
+            }
+        }
+        if(this.points > 0 ){
+            if (Phaser.Input.Keyboard.JustDown(this.keys.Q)) {
+                this.upgradeWeapon();
+            }
+            if (Phaser.Input.Keyboard.JustDown(this.keys.E)) {
+                this.upgradeHealth();
             }
         }
 
@@ -430,20 +439,33 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                     visited.value = true;
                     this.scene.map.getLayer('doors').tilemapLayer.visible  = false;
                     this.scene.map.setCollisionByProperty({collides:true}, false, this.scene.map.getLayer('doors'));
-                    // this.scene.map.getLayer('doors').setVisible(false);
                 }else{
                     this.scene.map.getLayer('doors').tilemapLayer.visible = true;
                     this.scene.map.setCollisionByProperty({collides:true}, this.scene.map.getLayer('doors'));
-                    console.log("Show those doors");
-                    // this.scene.map.getLayer('doors').setVisible(true);
+                    // console.log("Show those doors");
                 }
             }else{
                 this.scene.map.getLayer('doors').tilemapLayer.visible = false;
                 this.scene.map.setCollisionByProperty({collides:true}, false, this.scene.map.getLayer('doors'));
-                // this.scene.map.getLayer('doors').setVisible(false);
             }
 
         }
 
+    }
+
+    upgradeWeapon(){
+        if(this.tier = TIER_ONE){
+            this.tier = TIER_TWO;
+            this.canMove = true;
+        }else if(this.tier = TIER_TWO){
+            this.tier = TIER_THREE;
+            this.canMove = true;
+        }
+    }
+
+    upgradeHealth(){
+        this.maxHealth = this.maxHealth + 20;
+        this.health= this.health + 20;
+        this.canMove = true;
     }
 }
