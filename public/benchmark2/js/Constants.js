@@ -28,8 +28,14 @@ const TIER_THREE_COST = 200;
 const TIER_THREE = "_tier_three";
 
 const PILL_VELOCITY = 128;
+const PILL_BULLET_VELOCITY = 200;
 
 const ANIMATION_FRAME_RATE = 10;
 
 const PHYSICAL = "physical_";
 const RANGED = "ranged_";
+
+const UP = 'UP';
+const DOWN = 'DOWN';
+const LEFT = 'LEFT';
+const RIGHT = 'RIGHT';

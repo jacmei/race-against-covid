@@ -14,9 +14,8 @@ class LevelOneScene extends Phaser.Scene {
         this.viruses = [];
         this.timer;
         this.timeLeft;
-        this.bulletTime = 0; // DETERMINES BULLET FIRE RATE
         this.hpText;
-        this.virusCount=[];
+        this.virusCount = [];
     }
 
     create() {
@@ -156,38 +155,7 @@ class LevelOneScene extends Phaser.Scene {
     update() {
         this.setView();
 
-        if (this.input.activePointer.isDown) {
-            // TODO
-            if (this.time.now > this.bulletTime) {
-                var pillbullet = this.physics.add.sprite(this.player.body.x + this.player.width/2, this.player.body.y + this.player.height/2, "pillbullet");
-                this.viruses.forEach(virus => {
-                    this.physics.world.addCollider(pillbullet, virus, () => {
-                        virus.health -= 1;
-                        pillbullet.destroy();
-                    });
-                })
-                // ALLOWS FOR DIAGONALS TOO
-                if (this.player.body.velocity.x > 0) {
-                    this.player.play("attack_right" + this.player.tier, true);
-                    pillbullet.body.velocity.x = 300;
-                }
-                if (this.player.body.velocity.x < 0) {
-                    this.player.play("attack_left" + this.player.tier, true);
-                    pillbullet.body.velocity.x = -300;
-                }
-                if (this.player.body.velocity.y > 0) {
-                    this.player.play("attack_down" + this.player.tier, true);
-                    pillbullet.body.velocity.y = 300;
-                }
-                if (this.player.body.velocity.y < 0) {
-                    this.player.play("attack_up" + this.player.tier, true);
-                    pillbullet.body.velocity.y = -300;
-                }
-                // NEED TO FIGURE OUT WHICH DIRECTION PLAYER IS FACING IF ITS NOT MOVING
-                this.bulletTime = this.time.now + 100; // SETS HOW FAST THE BULLET COMES OUT
-                this.player.health -= 1; // SHOOT BULLET AT EXPENSE OF OWN HEALTH
-            }
-        }
+        
 
         this.player.update();
 
@@ -248,7 +216,6 @@ class LevelOneScene extends Phaser.Scene {
 
         }
     }
-
     reset(){
         this.key = LEVEL_ONE;
         this.player = null;
@@ -265,6 +232,7 @@ class LevelOneScene extends Phaser.Scene {
         this.hpText;
         this.virusCount=[];
     }
+
     lose(){
 
     }

@@ -10,12 +10,17 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.health = 100;
         this.maxHealth = 100;
         this.tier = TIER_ONE;
+        this.fireRate = 0;
+        this.hasFired = false;
+        this.direction = DOWN;
         this.points = 0;
         this.canMove = true;
         this.lastKeyDown = null;
         this.pillToSpriteAngle = null;
+
         this.room = 0;
         this.roomChange = false;
+
         this.healthBox = scene.add.graphics();
         this.healthBox.fillStyle(0xff0000);
         this.healthBox.fillRect(0, 0, 100, 10);
@@ -29,10 +34,13 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     create() {
         this.createAnimations();
         this.addEventListeners();
+        
     }
 
     update() {
-        this.checkHealth();
+        this.checkFiring();
+        this.updateWeapon();
+        this.updateHealth()
         this.updateMovement();
         this.getRoom();
     }
@@ -372,6 +380,24 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         });
     }
 
+    checkFiring() {
+        if (this.scene.input.activePointer.isDown && this.hasFired == false) {
+            this.fire();
+            if (this.direction == LEFT) {
+                this.play("attack_left" + this.tier, true);
+            }
+            else if (this.direction == RIGHT) {
+                this.play("attack_left" + this.tier, true);
+            }
+            else if (this.direction == DOWN) {
+                this.play("attack_down" + this.tier, true);
+            }
+            else if (this.direction == UP) {
+                this.play("attack_up" + this.tier, true);
+            }
+        }
+    }
+
     checkHealth() {
         if (this.health == 0) {
             this.canMove = false;
@@ -394,6 +420,59 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.healthBox.setX(this.body.x - 15);
         this.healthBox.setY(this.body.y - 15);
         this.scene.hpText.setText('HP:'+this.health+'/'+this.maxHealth);
+    }
+
+    fire() {
+        if (this.health > 0) {
+            this.health -= 1;
+            this.hasFired = true;
+            let bullet = this.scene.physics.add.sprite(0, 0, "pillbullet");
+            bullet.setVisible(false);
+            switch (this.tier) {
+                case TIER_ONE:
+                    if (this.direction == LEFT) {
+                        bullet.setX(this.body.x);
+                        bullet.setY(this.body.y + this.body.height / 2 - 5);
+                        bullet.setVelocityX(-PILL_BULLET_VELOCITY);
+                        bullet.body.angle = 0;
+                        bullet.setRotation(0);
+                    }
+                    else if (this.direction == RIGHT) {
+                        bullet.setX(this.body.x + this.body.width);
+                        bullet.setY(this.body.y + this.body.height / 2 - 5);
+                        bullet.setVelocityX(PILL_BULLET_VELOCITY);
+                        bullet.body.angle = 0;
+                        bullet.setRotation(0);
+                    }
+                    else if (this.direction == UP) {
+                        bullet.setX(this.body.x + this.body.width - 20);
+                        bullet.setY(this.body.y);
+                        bullet.setVelocityY(-PILL_BULLET_VELOCITY);
+                        bullet.body.angle = Math.PI / 2;
+                        bullet.setRotation(Math.PI / 2);
+                    }
+                    else if (this.direction == DOWN) {
+                        bullet.setX(this.body.x + 20);
+                        bullet.setY(this.body.y + this.body.height);
+                        bullet.setVelocityY(PILL_BULLET_VELOCITY);
+                        bullet.body.angle = Math.PI / 2;
+                        bullet.setRotation(-Math.PI / 2);
+                    }  
+            }
+            bullet.setVisible(true);
+            this.scene.viruses.forEach(virus => {
+                this.scene.physics.world.addCollider(bullet, virus, () => {
+                    virus.health -= 1;
+                    bullet.destroy();
+                });
+            });
+            let timer = this.scene.time.addEvent({
+                delay: this.fireRate,
+                callback: () => {
+                    this.hasFired = false;
+                }
+            });
+        }
     }
 
     updateMovement() {
@@ -434,20 +513,20 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             }
             if (this.pillToSpriteAngle >= -Math.PI / 4 && this.pillToSpriteAngle < Math.PI / 4) {
                 this.play("walk_right" + this.tier, true);
+                this.direction = RIGHT;
             }
             else if (this.pillToSpriteAngle >= Math.PI / 4 && this.pillToSpriteAngle < Math.PI * 3 / 4) {
                 this.play("walk_down" + this.tier, true);
+                this.direction = DOWN;
             } 
             else if (this.pillToSpriteAngle >= Math.PI * 3 / 4 || this.pillToSpriteAngle < -Math.PI * 3 / 4) {
                 this.play("walk_left" + this.tier, true);
+                this.direction = LEFT;
             } 
             else if (this.pillToSpriteAngle >= -Math.PI * 3 / 4 && this.pillToSpriteAngle < -Math.PI / 4) {
                 this.play("walk_up" + this.tier, true);
+                this.direction = UP;
             }
-        }
-        
-        if (Phaser.Input.Keyboard.JustDown(this.keys.Q)) {
-            this.upgradeWeapon();
         }
         if (Phaser.Input.Keyboard.JustDown(this.keys.E)) {
             this.upgradeHealth();
@@ -494,22 +573,37 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
 
     }
 
-    upgradeWeapon() {
-        if (this.tier = TIER_ONE && this.points >= TIER_TWO_COST) {
-            this.tier = TIER_TWO;
-            this.points -= TIER_TWO_COST;
+    updateWeapon() {
+        switch (this.tier) {
+            case TIER_ONE:
+                this.fireRate = 1000;
+            case TIER_TWO:
+                this.fireRate = 500;
+            case TIER_THREE:
+                this.fireRate = 250;
         }
-        else if (this.tier = TIER_TWO && this.points >= TIER_THREE_COST) {
-            this.tier = TIER_THREE;
-            this.points -= TIER_THREE_COST;
+        if (Phaser.Input.Keyboard.JustDown(this.keys.Q)) {
+            if (this.tier == TIER_ONE && this.points >= TIER_TWO_COST) {
+                this.tier = TIER_TWO;
+                this.points -= TIER_TWO_COST;
+            }
+            else if (this.tier == TIER_TWO && this.points >= TIER_THREE_COST) {
+                this.tier = TIER_THREE;
+                this.points -= TIER_THREE_COST;
+            }
         }
     }
 
-    upgradeHealth() {
-        this.maxHealth += 20;
-        this.health += 20;
-        if (this.health > this.maxHealth) {
-            this.health = this.maxHealth;
+    updateHealth() {
+        if (Phaser.Input.Keyboard.JustDown(this.keys.E)) {
+            if (this.health > 0 && this.points >= 50) {
+                this.points -= 50;
+                this.maxHealth += 20;
+                this.health += 20;
+                if (this.health > this.maxHealth) {
+                    this.health = this.maxHealth;
+                }
+            }
         }
     }
 }
