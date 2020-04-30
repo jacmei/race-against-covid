@@ -6,6 +6,7 @@ class LevelScene extends Phaser.Scene {
         this.rooms = [];
         this.visited = [];
         this.floor = null;
+        this.holes = null;
         this.collisionLayer = null;
         this.doors = null;
         this.openDoors=null;
@@ -45,6 +46,7 @@ class LevelScene extends Phaser.Scene {
         this.map = this.add.tilemap(level);
         var tileset = this.map.addTilesetImage("tileset");
         this.floor = this.map.createStaticLayer("floor", tileset, 0, 0);
+        this.holes = this.map.createStaticLayer("holes", tileset, 0, 0);
         this.collisionLayer = this.map.createDynamicLayer("collidable", tileset, 0, 0);
         this.openDoors = this.map.createStaticLayer("openDoors", tileset, 0, 0);
         this.doors = this.map.createStaticLayer("doors", tileset, 0, 0);
@@ -107,8 +109,10 @@ class LevelScene extends Phaser.Scene {
                 player.health += 20;
             }
         });
-        this.collisionLayer.setCollisionByProperty({collides:true});
+        this.physics.add.collider(this.player, this.holes);
         this.physics.add.collider(this.player, this.doors);
+        this.collisionLayer.setCollisionByProperty({collides:true});
+        this.holes.setCollisionByProperty({collides:true});
         this.doors.setCollisionByProperty({collides:true});
 
         
