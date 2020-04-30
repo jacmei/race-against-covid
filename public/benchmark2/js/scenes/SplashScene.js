@@ -64,6 +64,7 @@ class SplashScene extends Phaser.Scene {
 
         // sounds
         this.load.audio("bgmusic", "assets/sounds/backgroundmusic.mp3");
+        this.load.audio("pillattack", "assets/sounds/laser.mp3");
         
         this.load.on("progress", (percentage) => {
             loadingBar.fillRect(WIDTH/2 - (WIDTH/4), HEIGHT - 100, WIDTH/2 * percentage, 30);

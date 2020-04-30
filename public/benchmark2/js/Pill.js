@@ -403,6 +403,9 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             this.health -= 1;
             this.hasFired = true;
             let bullet = this.scene.physics.add.sprite(0, 0, "pillbullet");
+            this.scene.sound.play("pillattack", {
+                volume: 1
+            });
             bullet.setVisible(false);
             switch (this.tier) {
                 case TIER_ONE:
