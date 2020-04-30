@@ -3,6 +3,9 @@ class RangedVirusOne extends Virus {
         super(scene, x, y, type);
         this.setVelocityX(RANGED_VIRUS_ONE_VELOCITY);
         this.hasReversed = false;
+        this.fireRate = 1500;
+        this.hasFired = false;
+        this.health = 3;
         this.create();
 
     }
@@ -12,22 +15,56 @@ class RangedVirusOne extends Virus {
     }
 
     update() {
-        this.updateHealth();
+        super.updateHealth();
         this.move();
+        this.fire();
+    }
+
+    fire() {
+        if (this.hasFired == false) {
+            if (this.health > 0) {
+                this.hasFired = true;
+                let bulletUp = this.scene.physics.add.sprite(this.body.x + this.body.width / 2, this.body.y, "virusbullet");
+                let bulletDown = this.scene.physics.add.sprite(this.body.x + this.body.width / 2, this.body.y + this.body.height, "virusbullet");
+                let bulletLeft = this.scene.physics.add.sprite(this.body.x, this.body.y + this.body.height / 2, "virusbullet");
+                let bulletRight = this.scene.physics.add.sprite(this.body.x + this.body.width, this.body.y + this.body.height / 2, "virusbullet");
+                bulletUp.setVelocityY(-RANGED_VIRUS_ONE_BULLET_VELOCITY);
+                bulletDown.setVelocityY(RANGED_VIRUS_ONE_BULLET_VELOCITY);
+                bulletLeft.setVelocityX(-RANGED_VIRUS_ONE_BULLET_VELOCITY);
+                bulletRight.setVelocityX(RANGED_VIRUS_ONE_BULLET_VELOCITY);
+                let bullets = [bulletUp, bulletDown, bulletLeft, bulletRight];
+                bullets.forEach(bullet => {
+                    this.scene.physics.world.addCollider(bullet, this.scene.player, () => {
+                        this.scene.player.health -= 10;
+                        bullet.destroy();
+                    });
+                    this.scene.physics.world.addCollider(bullet, this.scene.collisionLayer, () => {
+                        bullet.destroy();
+                    });
+                });
+                let timer = this.scene.time.addEvent({
+                    delay: this.fireRate,
+                    callback: () => {
+                        this.hasFired = false;
+                    }
+                });
+            }
+        }
     }
 
     move() {
         if (this.health > 0) {
-            if (this.hasReversed) {
+            if (!this.hasReversed) {
                 let timer = this.scene.time.addEvent({
-                    delay: this.fireRate,
+                    delay: 1250,
                     callback: () => {
-                        this.setVelocityX = -this.body.velocity.x;
-                        this.hasReversed = true;
+                        this.setVelocityX(-this.body.velocity.x);
+                        this.hasReversed = false;
                     }
                 });
             }
-            this.hasReversed = false;
+            this.hasReversed = true;
+            this.play("ranged_travel", true);
         }
     }
 
@@ -54,6 +91,14 @@ class RangedVirusOne extends Virus {
             frames : this.scene.anims.generateFrameNumbers("coronavirus", {
                 start: 16,
                 end: 17
+            })
+        });
+        this.scene.anims.create({
+            key: "ranged_bullet",
+            frameRate: ANIMATION_FRAME_RATE,
+            frames: this.scene.anims.generateFrameNumbers("virusbullet", {
+                start: 0,
+                end: 0
             })
         });
     }

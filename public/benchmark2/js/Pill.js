@@ -598,7 +598,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             this.setVelocity(0);
             this.play("dying", true);
             this.on("animationcomplete", () => {
-                console.log("Pill Dead");
+                this.setActive(false);
             }, this.scene);
             this.healthBar.destroy();
         }

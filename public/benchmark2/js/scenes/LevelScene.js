@@ -75,7 +75,7 @@ class LevelScene extends Phaser.Scene {
                 this.viruses.push(physical_virus);
             }
             if (object.type === 'Ranged'){
-                var ranged_virus = new Virus(this, object.x+32, object.y+32, RANGED);
+                var ranged_virus = new RangedVirusOne(this, object.x+32, object.y+32, RANGED);
                 this.viruses.push(ranged_virus);
             }
         }, this);
@@ -89,8 +89,6 @@ class LevelScene extends Phaser.Scene {
             this.rooms[this.player.room].height,
             true
         );
-
-        //this.virusbullet = this.physics.add.sprite(this.rooms[0].x + WIDTH/2, this.rooms[0].y + HEIGHT/2, "virusbullet")
 
         this.viruses.forEach(virus => {
             this.physics.world.addCollider(this.player, virus, () => {
