@@ -8,9 +8,7 @@ class WinScene extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, "winBG").setOrigin(0);
-        // var resumeButton = this.add.image(WIDTH/2, 200, "resumebutton");
         var restartButton = this.add.image(WIDTH/2, 300, "restartbutton");
-        // var controlsButton = this.add.image(WIDTH/2, 400, "controlsbutton");
         var exitButton = this.add.image(WIDTH/2, 500, "exitbutton");
         exitButton.setInteractive();
         exitButton.on("pointerover", () => {

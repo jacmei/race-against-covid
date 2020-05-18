@@ -18,6 +18,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.lastKeyDown = null;
         this.pillToSpriteAngle = null;
         this.isTakingDamage = false;
+        this.fading = false;
 
         this.room = 0;
         this.roomChange = false;
@@ -39,12 +40,14 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        this.checkFiring();
-        this.updateWeapon();
-        this.updateHealth();
-        this.updatePoints();
-        this.updateMovement();
-        this.getRoom();
+        if (this.canMove) {
+            this.checkFiring();
+            this.updateWeapon();
+            this.updateHealth();
+            this.updatePoints();
+            this.updateMovement();
+            this.getRoom();
+        }
     }
 
     createAnimations() {
@@ -246,7 +249,8 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             frames : this.scene.anims.generateFrameNumbers("pill", {
                 start: 0,
                 end: 0
-            })
+            }),
+            repeat: 0
         });
         this.scene.anims.create({
             key: "dying",
@@ -675,20 +679,27 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             }
         }
         if (this.health <= 0) {
+            this.canMove = false
             this.health = 0;
             this.canMove = false;
             this.setVelocity(0);
             this.play("dying", true);
             this.on("animationcomplete", () => {
-                this.play("dead", true);
-                this.on("animationcomplete", () => {
-                    this.scene.scene.launch(LOSE);
-                    let loseScene = this.scene.scene.get(LOSE);
-                    loseScene.pausedScene = this.scene;
-                    this.scene.scene.pause();
-                    this.scene.scene.bringToTop(LOSE);
-                })
+                this.play("dead", false);
             }, this.scene);
+            this.on("animationcomplete", () => {
+                if (!this.fading) {
+                    this.fading = true;
+                    this.scene.cameras.main.fadeOut(2000);
+                    this.scene.cameras.main.on("camerafadeoutcomplete", () => {
+                        this.scene.scene.launch(LOSE);
+                        let loseScene = this.scene.scene.get(LOSE);
+                        loseScene.pausedScene = this.scene;
+                        this.scene.scene.pause();
+                        this.scene.scene.bringToTop(LOSE);
+                    });
+                }
+            })
             this.healthBar.destroy();
         }
         if (this.health > this.maxHealth){

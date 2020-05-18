@@ -5,6 +5,7 @@ class LevelOneScene extends LevelScene {
         });
         this.key = LEVEL_ONE;
         this.timeLeft = 240;
+        this.text = null;
     }
 
     create() {
@@ -13,42 +14,42 @@ class LevelOneScene extends LevelScene {
         super.loadHP();
         super.loadPoints();
         //display instructions for hp, and shooting
-        this.add.text(this.rooms[0].x+165,
+        this.add.text(this.rooms[0].x+155,
             this.rooms[0].y+450,
             'Click to shoot pills that can damage the viruses. Be careful not to shoot \n'+
-            'recklessly, as every shot will reduce RX-2020\'s hp. You must reach \n'+
-            'the stomach with at least 20 hp or else you won\'t be effective enough \n'+
-            'to cure the patient!',
+            'recklessly, as every shot will reduce RX-2020\'s HP. You must reach \n'+
+            'the stomach with at least 20 HP or else you won\'t be effective enough \n'+
+            'to cure the patient! When you are ready, advance to the next room by entering \n' +
+            'through the door at the top of this room.',
             {color: 'white', font: '15px'});
         
-        
         //display instructions for hp, and shooting
-        this.add.text(this.rooms[2].x+175,
+        this.text = this.add.text(this.rooms[1].x+170,
+            this.rooms[1].y+450,
+            'Killing viruses awards you with points! Check the top right to see \n' +
+            'how many you have. After gathering enough points, you will be able to \n' +
+            'upgrade either your weapon or your health! Try upgrading your weapon (Q) \n' +
+            'or your health (E) now!',
+            {color: 'white', font: '15px'});
+        this.text.setVisible(false);
+    
+        //display instructions for hp, and shooting
+        this.add.text(this.rooms[2].x+325,
             this.rooms[2].y+350,
             'Orange slices will heal you for 20 HP!',
             {color: 'white', font: '15px'});
-
-            
-        //display instructions for hp, and shooting
-        this.add.text(this.rooms[1].x+100,
-            this.rooms[1].y+100,
-            'Tap or hold left click to fire your medicine gun.\n'+
-            'After gathering enough points, you will be able to\n'+
-            'upgrade either your health or your weapon!\n'+
-            'Your weapon may only be upgraded twice.',
-            {color: 'white', font: '15px'});
-        
-            this.add
-        
-        
     }
 
     update() {
         super.update();
+        
+        if (this.viruses.length == 0) {
+            this.text.setVisible(true)
+        }
     }
+
     reset(){
         this.timeLeft = 240;
         super.reset();
     }
-
 }

@@ -43,8 +43,6 @@ class LevelScene extends Phaser.Scene {
             this.scene.pause();
             this.scene.bringToTop(PAUSE);
         }
-
-        
         if (this.input.keyboard.addKey('ONE').isDown === true) {
             this.scene.pause();
             this.reset();
@@ -57,8 +55,14 @@ class LevelScene extends Phaser.Scene {
             this.scene.stop();
             this.scene.start(LEVEL_TWO);
         }
-
-        
+        if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('K')))) {
+            this.player.health = 0;
+        }
+        if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('J')))) {
+            this.viruses.forEach(virus => {
+                virus.health = 0;
+            });
+        }
     }
 
 
@@ -212,7 +216,7 @@ class LevelScene extends Phaser.Scene {
             {color: 'white', font: '20px'});
 
             
-        this.upgradeHPText = this.add.text(this.rooms[this.player.room].x+625,
+        this.upgradeHPText = this.add.text(this.rooms[this.player.room].x+660,
             this.rooms[this.player.room].y+585,
             50+' points to upgrade HP',
             {color: 'white', font: '20px'});
@@ -238,7 +242,7 @@ class LevelScene extends Phaser.Scene {
             this.timer.setPosition(this.rooms[this.player.room].x+15, this.rooms[this.player.room].y+15);
             this.hpText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+15);
             this.pointsText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+30);
-            this.upgradeHPText.setPosition(this.rooms[this.player.room].x+625, this.rooms[this.player.room].y+585);
+            this.upgradeHPText.setPosition(this.rooms[this.player.room].x+660, this.rooms[this.player.room].y+585);
             this.upgradeWeaponText.setPosition(this.rooms[this.player.room].x+600, this.rooms[this.player.room].y+610);
             this.pointsText.setPosition(this.rooms[this.player.room].x+820, this.rooms[this.player.room].y+35);
             // Fade back in with new boundaries.
