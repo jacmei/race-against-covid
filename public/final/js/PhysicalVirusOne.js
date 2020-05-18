@@ -64,6 +64,4 @@ class PhysicalVirusOne extends Virus {
             })
         });
     }
-
-
 }

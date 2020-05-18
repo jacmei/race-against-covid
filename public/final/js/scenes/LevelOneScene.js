@@ -42,7 +42,6 @@ class LevelOneScene extends LevelScene {
 
     update() {
         super.update();
-        
         if (this.viruses.length == 0) {
             this.text.setVisible(true)
         }

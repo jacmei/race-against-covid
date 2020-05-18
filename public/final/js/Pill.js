@@ -4,6 +4,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, "pill", 21);
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.setSize(48, 48)
         this.setImmovable(true);
         this.keys = scene.input.keyboard.addKeys('W, A, S, D, Q, E');
         this.scene = scene;
@@ -25,10 +26,10 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
 
         this.healthBox = scene.add.graphics();
         this.healthBox.fillStyle(0xff0000);
-        this.healthBox.fillRect(this.body.x - 15, this.body.y - 15, 100, 10);
+        this.healthBox.fillRect(this.body.x - 24, this.body.y - 20, 100, 10);
         this.healthBar = scene.add.graphics();
         this.healthBar.fillStyle(0x00b300);
-        this.healthBar.fillRect(this.body.x - 15, this.body.y - 15, 100, 10);
+        this.healthBar.fillRect(this.body.x - 24, this.body.y - 20, 100, 10);
 
         this.create();
     }
@@ -668,7 +669,6 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         }
         // CHEAT CODES
         if (Phaser.Input.Keyboard.JustDown((this.scene.input.keyboard.addKey('T')))) {
-            console.log("CHEAT CODE UPDATE WEAPON?")
             switch(this.tier) {
             case TIER_ONE:
                 this.tier = TIER_TWO;
@@ -727,10 +727,10 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         
         this.healthBar.clear();
         this.healthBar.fillStyle(0x00b300);
-        this.healthBar.fillRect(this.body.x - 15, this.body.y - 15, health, 10);
+        this.healthBar.fillRect(this.body.x - 24, this.body.y - 20, health, 10);
         this.healthBox.clear();
         this.healthBox.fillStyle(0xff0000);
-        this.healthBox.fillRect(this.body.x - 15, this.body.y - 15, 100, 10);
+        this.healthBox.fillRect(this.body.x - 24, this.body.y - 20, 100, 10);
         this.scene.hpText.setText('HP:'+this.health+'/'+this.maxHealth);
     }
     
