@@ -55,9 +55,12 @@ class LevelScene extends Phaser.Scene {
             this.scene.stop();
             this.scene.start(LEVEL_TWO);
         }
+        // CHEAT CODES
+        // SET PLAYER HEALTH TO 0
         if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('K')))) {
             this.player.health = 0;
         }
+        // KILL ALL VIRUSES
         if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('J')))) {
             this.viruses.forEach(virus => {
                 virus.health = 0;

@@ -40,14 +40,12 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        if (this.canMove) {
-            this.checkFiring();
-            this.updateWeapon();
-            this.updateHealth();
-            this.updatePoints();
-            this.updateMovement();
-            this.getRoom();
-        }
+        this.checkFiring();
+        this.updateWeapon();
+        this.updateHealth();
+        this.updatePoints();
+        this.updateMovement();
+        this.getRoom();
     }
 
     createAnimations() {
@@ -650,10 +648,13 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         switch (this.tier) {
             case TIER_ONE:
                 this.fireRate = 1000;
+                break;
             case TIER_TWO:
                 this.fireRate = 500;
+                break;
             case TIER_THREE:
                 this.fireRate = 250;
+                break;
         }
         if (Phaser.Input.Keyboard.JustDown(this.keys.Q)) {
             if (this.tier == TIER_ONE && this.points >= TIER_TWO_COST) {
@@ -663,6 +664,21 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             else if (this.tier == TIER_TWO && this.points >= TIER_THREE_COST) {
                 this.tier = TIER_THREE;
                 this.points -= TIER_THREE_COST;
+            }
+        }
+        // CHEAT CODES
+        if (Phaser.Input.Keyboard.JustDown((this.scene.input.keyboard.addKey('T')))) {
+            console.log("CHEAT CODE UPDATE WEAPON?")
+            switch(this.tier) {
+            case TIER_ONE:
+                this.tier = TIER_TWO;
+                break;
+            case TIER_TWO:
+                this.tier = TIER_THREE;
+                break;
+            case TIER_THREE:
+                this.tier = TIER_ONE;
+                break;
             }
         }
     }
@@ -678,29 +694,31 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         }
-        if (this.health <= 0) {
-            this.canMove = false
-            this.health = 0;
-            this.canMove = false;
-            this.setVelocity(0);
-            this.play("dying", true);
-            this.on("animationcomplete", () => {
-                this.play("dead", false);
-            }, this.scene);
-            this.on("animationcomplete", () => {
-                if (!this.fading) {
-                    this.fading = true;
-                    this.scene.cameras.main.fadeOut(2000);
-                    this.scene.cameras.main.on("camerafadeoutcomplete", () => {
-                        this.scene.scene.launch(LOSE);
-                        let loseScene = this.scene.scene.get(LOSE);
-                        loseScene.pausedScene = this.scene;
-                        this.scene.scene.pause();
-                        this.scene.scene.bringToTop(LOSE);
-                    });
-                }
-            })
-            this.healthBar.destroy();
+        if (this.canMove) {
+            if (this.health <= 0) {
+                this.canMove = false
+                this.health = 0;
+                this.canMove = false;
+                this.setVelocity(0);
+                this.play("dying", true);
+                this.on("animationcomplete", () => {
+                    this.play("dead", false);
+                }, this.scene);
+                this.on("animationcomplete", () => {
+                    if (!this.fading) {
+                        this.fading = true;
+                        this.scene.cameras.main.fadeOut(2000);
+                        this.scene.cameras.main.on("camerafadeoutcomplete", () => {
+                            this.scene.scene.launch(LOSE);
+                            let loseScene = this.scene.scene.get(LOSE);
+                            loseScene.pausedScene = this.scene;
+                            this.scene.scene.pause();
+                            this.scene.scene.bringToTop(LOSE);
+                        });
+                    }
+                })
+                this.healthBar.destroy();
+            }
         }
         if (this.health > this.maxHealth){
             this.health = this.maxHealth;
