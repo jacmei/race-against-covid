@@ -4,7 +4,7 @@ class RangedVirusOne extends Virus {
         this.type = type;
         this.setVelocityX(RANGED_VIRUS_ONE_VELOCITY);
         this.hasReversed = false;
-        this.fireRate = 1500;
+        this.fireRate = RANGED_VIRUS_BULLET_DEFAULT_VELOCITY;
         this.hasFired = false;
         this.health = 3;
         this.canMove = false;
