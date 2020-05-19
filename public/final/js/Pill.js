@@ -600,6 +600,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 this.room = roomNumber;
                 this.roomChange = true;
                 this.canMove = false;
+                console.log(this.y);
             }else if(this.canMove){
                 this.roomChange = false;
             }

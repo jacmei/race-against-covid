@@ -56,6 +56,10 @@ class SplashScene extends Phaser.Scene {
         this.load.image("tileset", "assets/tileset.png");
         this.load.tilemapTiledJSON("levelOne", "assets/tilemaps/intro1.json");
         this.load.tilemapTiledJSON("levelTwo", "assets/tilemaps/level2.json");
+        this.load.tilemapTiledJSON("levelThree", "assets/tilemaps/level3.json");
+        this.load.tilemapTiledJSON("levelFour", "assets/tilemaps/level4.json");
+        this.load.tilemapTiledJSON("levelFive", "assets/tilemaps/level5.json");
+        this.load.tilemapTiledJSON("levelSix", "assets/tilemaps/level6.json");
 
         // spritesheets
         this.load.spritesheet("pill", "assets/spritesheet/pill_spritesheet.png", {frameWidth: 64, frameHeight: 64});

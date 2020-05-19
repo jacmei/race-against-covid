@@ -55,6 +55,31 @@ class LevelScene extends Phaser.Scene {
             this.scene.stop();
             this.scene.start(LEVEL_TWO);
         }
+        if (this.input.keyboard.addKey('THREE').isDown === true) {
+            this.scene.pause();
+            this.reset();
+            this.scene.stop();
+            this.scene.start(LEVEL_THREE);
+        }
+        if (this.input.keyboard.addKey('FOUR').isDown === true) {
+            this.scene.pause();
+            this.reset();
+            this.scene.stop();
+            this.scene.start(LEVEL_FOUR);
+        }
+        if (this.input.keyboard.addKey('FIVE').isDown === true) {
+            this.scene.pause();
+            this.reset();
+            this.scene.stop();
+            this.scene.start(LEVEL_FIVE);
+        }
+        if (this.input.keyboard.addKey('SIX').isDown === true) {
+            this.scene.pause();
+            this.reset();
+            this.scene.stop();
+            this.scene.start(LEVEL_SIX);
+        }
+
         // CHEAT CODES
         // SET PLAYER HEALTH TO 0
         if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('K')))) {
@@ -104,6 +129,16 @@ class LevelScene extends Phaser.Scene {
                 this.viruses.push(physical_virus);
             }
             if (object.type === 'Ranged'){
+                var ranged_virus = new RangedVirusOne(this, object.x, object.y, RANGED);
+                ranged_virus.canMove = false;
+                this.viruses.push(ranged_virus);
+            }
+            if (object.type === 'Fast') {
+                let physical_virus = new PhysicalVirusOne(this, object.x, object.y, PHYSICAL);
+                physical_virus.canMove = false;
+                this.viruses.push(physical_virus);
+            }
+            if (object.type === 'Slow'){
                 var ranged_virus = new RangedVirusOne(this, object.x, object.y, RANGED);
                 ranged_virus.canMove = false;
                 this.viruses.push(ranged_virus);
