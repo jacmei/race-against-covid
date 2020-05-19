@@ -4,6 +4,7 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setImmovable(true);
+        this.setSize(48, 48);
         this.scene = scene;
         this.type = type;
         this.health = 0;

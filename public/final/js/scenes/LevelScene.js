@@ -157,7 +157,19 @@ class LevelScene extends Phaser.Scene {
 
         this.viruses.forEach(virus => {
             this.physics.world.addCollider(this.player, virus, () => {
-                // SOME ACTION THAT HAPPENS WHEN PLAYER COLLIDES WITH VIRUS
+                if (virus.canMove && this.player.canMove && !this.player.isTakingDamage) {
+                    this.player.isTakingDamage = true;
+                    this.player.health -= 10;
+                    this.player.play("taking_damage_" + this.player.direction.toLowerCase() + this.player.tier, false);
+                    this.player.on("animationcomplete", () => {
+                        let timer = this.time.addEvent({
+                            delay: 1000,
+                            callback: () => {
+                                this.player.isTakingDamage = false;
+                            }
+                        });
+                    });
+                }
             });
             this.physics.add.collider(virus, this.collisionLayer);
             this.physics.add.collider(this.player, this.doors);
@@ -180,7 +192,7 @@ class LevelScene extends Phaser.Scene {
 
         
         var that = this;
-        this.physics.add.overlap(this.player,  this.openDoors, function(player, tile) {
+        this.physics.add.overlap(this.player, this.openDoors, function(player, tile) {
             if(tile.properties.win){
                 if(Math.abs(tile.x*tile.width-this.player.x)<=40 && Math.abs(tile.y*tile.height-this.player.y)<=40){
                     if(this.player.health >= 20 && this.timeLeft > 0){

@@ -4,7 +4,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, "pill", 21);
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.setSize(48, 48)
+        this.setSize(48, 48);
         this.setImmovable(true);
         this.keys = scene.input.keyboard.addKeys('W, A, S, D, Q, E');
         this.scene = scene;
