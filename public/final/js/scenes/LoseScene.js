@@ -8,8 +8,8 @@ class LoseScene extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, "loseBG").setOrigin(0);
-        var restartButton = this.add.image(WIDTH/2, 350, "restartbutton");
-        var exitButton = this.add.image(WIDTH/2, 500, "exitbutton");
+        var restartButton = this.add.image(WIDTH/2, 300, "restartbutton");
+        var exitButton = this.add.image(WIDTH/2, 450, "exitbutton");
 
 
         exitButton.setInteractive();

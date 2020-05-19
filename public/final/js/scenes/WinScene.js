@@ -14,7 +14,8 @@ class WinScene extends Phaser.Scene {
 
         if (this.pausedScene.key == LEVEL_SIX) {
             nextLevelButton.setVisible(false);
-            exitButton.y = 400;
+            restartButton.y = 300;
+            exitButton.y = 450;
         }
 
         nextLevelButton.setInteractive();
