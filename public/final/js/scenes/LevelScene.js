@@ -134,9 +134,9 @@ class LevelScene extends Phaser.Scene {
                 this.viruses.push(ranged_virus);
             }
             if (object.type === 'Fast') {
-                let physical_virus = new PhysicalVirusOne(this, object.x, object.y, PHYSICAL);
-                physical_virus.canMove = false;
-                this.viruses.push(physical_virus);
+                let splitting_virus = new SplittingVirusOne(this, object.x, object.y, SPLIT, false);
+                splitting_virus.canMove = false;
+                this.viruses.push(splitting_virus);
             }
             if (object.type === 'Slow'){
                 var ranged_virus = new RangedVirusOne(this, object.x, object.y, RANGED);
@@ -321,10 +321,4 @@ class LevelScene extends Phaser.Scene {
         this.pointsText;
         this.virusCount=[];
     }
-
-
-
-
-
-
 }
