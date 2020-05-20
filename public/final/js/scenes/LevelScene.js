@@ -321,4 +321,26 @@ class LevelScene extends Phaser.Scene {
         this.pointsText;
         this.virusCount=[];
     }
+
+    addVirus(virus) {
+        this.physics.world.addCollider(this.player, virus, () => {
+            if (virus.canMove && this.player.canMove && !this.player.isTakingDamage) {
+                this.player.isTakingDamage = true;
+                this.player.health -= 10;
+                this.player.play("taking_damage_" + this.player.direction.toLowerCase() + this.player.tier, false);
+                this.player.on("animationcomplete", () => {
+                    let timer = this.time.addEvent({
+                        delay: 1000,
+                        callback: () => {
+                            this.player.isTakingDamage = false;
+                        }
+                    });
+                });
+            }
+        });
+        this.physics.add.collider(virus, this.collisionLayer);
+        this.physics.add.collider(virus, this.doors);
+        this.viruses.push(virus);
+        virus.incrementMobCount();
+    }
 }

@@ -64,31 +64,8 @@ class SplittingVirusOne extends Virus {
         split_one.canMove = true;
         let split_two = new SplittingVirusOne(this.scene, this.x+50, this.y, SPLIT, true);
         split_two.canMove = true;
-        this.split_viruses = [split_one, split_two]
-        this.split_viruses.forEach(virus => {
-            // this.scene.player undefined..?
-            this.scene.physics.world.addCollider(this.scene.player, virus, () => { 
-                if (virus.canMove && this.scene.player.canMove && !this.scene.player.isTakingDamage) {
-                    this.scene.player.isTakingDamage = true;
-                    this.scene.player.health -= 10;
-                    this.scene.player.play("taking_damage_" + this.scene.player.direction.toLowerCase() + this.scene.player.tier, false);
-                    this.scene.player.on("animationcomplete", () => {
-                        let timer = this.scene.time.addEvent({
-                            delay: 1000,
-                            callback: () => {
-                                this.scene.player.isTakingDamage = false;
-                            }
-                        });
-                    });
-                }
-            });
-            this.scene.physics.add.collider(virus, this.scene.collisionLayer);
-            this.scene.physics.add.collider(virus, this.scene.doors);
-        })
-        this.scene.viruses.push(split_one);
-        this.scene.viruses.push(split_two);
-        this.incrementMobCount();
-        this.incrementMobCount();
+        this.scene.addVirus(split_one);
+        this.scene.addVirus(split_two);
     }
 
     move() {
