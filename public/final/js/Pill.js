@@ -20,6 +20,8 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.pillToSpriteAngle = null;
         this.isTakingDamage = false;
         this.fading = false;
+        this.isSlowed = false;
+        this.velocityScale = 1;
 
         this.room = 0;
         this.roomChange = false;
@@ -527,36 +529,41 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     }
 
     updateMovement() {
+        if(this.isSlowed){
+            this.velocityScale = .3;
+        }else{
+            this.velocityScale = 1;
+        }
         if (this.canMove) {
             if (this.lastKeyDown == this.keys.W && this.keys.W.isDown) {
-                this.setVelocityY(-PILL_VELOCITY);
+                this.setVelocityY(-PILL_VELOCITY * this.velocityScale);
             }
             else if (this.lastKeyDown == this.keys.S && this.keys.S.isDown) {
-                this.setVelocityY(PILL_VELOCITY);
+                this.setVelocityY(PILL_VELOCITY * this.velocityScale);
             }
             else {
                 if (this.keys.W.isDown) {
-                    this.setVelocityY(-PILL_VELOCITY);
+                    this.setVelocityY(-PILL_VELOCITY * this.velocityScale);
                 }
                 else if (this.keys.S.isDown) {
-                    this.setVelocityY(PILL_VELOCITY);
+                    this.setVelocityY(PILL_VELOCITY * this.velocityScale);
                 }
                 else {
                     this.setVelocityY(0);
                 }
             }
             if (this.lastKeyDown == this.keys.A && this.keys.A.isDown) {
-                this.setVelocityX(-128);
+                this.setVelocityX(-128 * this.velocityScale);
             }
             else if (this.lastKeyDown == this.keys.D && this.keys.D.isDown) {
-                this.setVelocityX(128);
+                this.setVelocityX(128 * this.velocityScale);
             }
             else {
                 if (this.keys.A.isDown) {
-                    this.setVelocityX(-PILL_VELOCITY);
+                    this.setVelocityX(-PILL_VELOCITY * this.velocityScale);
                 }
                 else if (this.keys.D.isDown) {
-                    this.setVelocityX(PILL_VELOCITY);
+                    this.setVelocityX(PILL_VELOCITY * this.velocityScale);
                 }
                 else {
                     this.setVelocityX(0);

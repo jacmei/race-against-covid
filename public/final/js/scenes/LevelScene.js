@@ -133,13 +133,13 @@ class LevelScene extends Phaser.Scene {
                 ranged_virus.canMove = false;
                 this.viruses.push(ranged_virus);
             }
-            if (object.type === 'Fast') {
+            if (object.type === 'Split') {
                 let splitting_virus = new SplittingVirusOne(this, object.x, object.y, SPLIT, false);
                 splitting_virus.canMove = false;
                 this.viruses.push(splitting_virus);
             }
             if (object.type === 'Slow'){
-                var ranged_virus = new RangedVirusOne(this, object.x, object.y, RANGED);
+                var ranged_virus = new SlowVirusOne(this, object.x, object.y, RANGED);
                 ranged_virus.canMove = false;
                 this.viruses.push(ranged_virus);
             }
