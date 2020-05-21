@@ -121,6 +121,7 @@ class LevelScene extends Phaser.Scene {
             if (object.type === 'Spawn') {
                 if (object.name === 'Player') {
                     this.player = new Pill(this, object.x+32, object.y+32);
+                    console.log(this.player.y);
                 }
             }
             if (object.type === 'Melee') {
@@ -172,7 +173,6 @@ class LevelScene extends Phaser.Scene {
                 }
             });
             this.physics.add.collider(virus, this.collisionLayer);
-            this.physics.add.collider(this.player, this.doors);
         })
 
 

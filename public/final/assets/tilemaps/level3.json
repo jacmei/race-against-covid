@@ -87,50 +87,6 @@
                 }, 
                 {
                  "height":640,
-                 "id":31,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"monsters",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
-                         "name":"visited",
-                         "type":"bool",
-                         "value":false
-                        }],
-                 "rotation":0,
-                 "type":"Room",
-                 "visible":true,
-                 "width":960,
-                 "x":1920,
-                 "y":0
-                }, 
-                {
-                 "height":640,
-                 "id":32,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"monsters",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
-                         "name":"visited",
-                         "type":"bool",
-                         "value":false
-                        }],
-                 "rotation":0,
-                 "type":"Room",
-                 "visible":true,
-                 "width":960,
-                 "x":2880,
-                 "y":0
-                }, 
-                {
-                 "height":640,
                  "id":33,
                  "name":"",
                  "properties":[
@@ -171,28 +127,6 @@
                  "visible":true,
                  "width":960,
                  "x":1920,
-                 "y":640
-                }, 
-                {
-                 "height":640,
-                 "id":35,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"monsters",
-                         "type":"int",
-                         "value":3
-                        }, 
-                        {
-                         "name":"visited",
-                         "type":"bool",
-                         "value":false
-                        }],
-                 "rotation":0,
-                 "type":"Room",
-                 "visible":true,
-                 "width":960,
-                 "x":2880,
                  "y":640
                 }, 
                 {
@@ -260,28 +194,6 @@
                  "width":960,
                  "x":2880,
                  "y":2560
-                }, 
-                {
-                 "height":640,
-                 "id":46,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"monsters",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"visited",
-                         "type":"bool",
-                         "value":true
-                        }],
-                 "rotation":0,
-                 "type":"Room",
-                 "visible":true,
-                 "width":960,
-                 "x":1920,
-                 "y":1280
                 }, 
                 {
                  "height":640,
@@ -1129,6 +1041,94 @@
                  "width":64,
                  "x":1344,
                  "y":2944
+                }, 
+                {
+                 "height":640,
+                 "id":138,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"monsters",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"visited",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"Room",
+                 "visible":true,
+                 "width":960,
+                 "x":1920,
+                 "y":1280
+                }, 
+                {
+                 "height":640,
+                 "id":139,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"monsters",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"visited",
+                         "type":"bool",
+                         "value":false
+                        }],
+                 "rotation":0,
+                 "type":"Room",
+                 "visible":true,
+                 "width":960,
+                 "x":1920,
+                 "y":0
+                }, 
+                {
+                 "height":640,
+                 "id":140,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"monsters",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"visited",
+                         "type":"bool",
+                         "value":false
+                        }],
+                 "rotation":0,
+                 "type":"Room",
+                 "visible":true,
+                 "width":960,
+                 "x":2880,
+                 "y":640
+                }, 
+                {
+                 "height":640,
+                 "id":141,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"monsters",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"visited",
+                         "type":"bool",
+                         "value":false
+                        }],
+                 "rotation":0,
+                 "type":"Room",
+                 "visible":true,
+                 "width":960,
+                 "x":2880,
+                 "y":0
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1137,7 +1137,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":138,
+ "nextobjectid":142,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.4",
