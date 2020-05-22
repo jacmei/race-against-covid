@@ -4,7 +4,7 @@ class LevelSixScene extends LevelScene {
             key : LEVEL_SIX
         });
         this.key = LEVEL_SIX;
-        this.timeLeft = 240;
+        this.timeLeft = 300;
         this.bossSpawned = false;
     }
 
