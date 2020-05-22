@@ -97,9 +97,7 @@ class BossVirus extends Virus {
                 let regular_bullets = [bulletUpTwo, bulletUpFour, bulletDownOne, bulletDownThree, bulletDownFive];
                 slow_bullets.forEach(bullet => {
                     this.scene.physics.world.addCollider(bullet, this.scene.player, () => {
-                        if (this.scene.player.canMove && !this.scene.player.isTakingDamage) {
-                            this.scene.player.isTakingDamage = true;
-                            this.scene.player.health -= 10;
+                        if (this.scene.player.canMove && !this.scene.player.isInvincible) {
                             this.scene.player.isSlowed = true;
                             this.scene.time.addEvent({
                                 delay: 1500,
@@ -107,10 +105,7 @@ class BossVirus extends Virus {
                                     this.scene.player.isSlowed = false;
                                 }
                             });
-                            this.scene.player.play("taking_damage_" + this.scene.player.direction.toLowerCase() + this.scene.player.tier, false);
-                            this.scene.player.on("animationcomplete", () => {
-                                this.scene.player.isTakingDamage = false;
-                            });
+                            this.scene.player.takeDamage(10);
                         }
                         bullet.destroy();
                     });
@@ -126,13 +121,8 @@ class BossVirus extends Virus {
                 });
                 regular_bullets.forEach(bullet => {
                     this.scene.physics.world.addCollider(bullet, this.scene.player, () => {
-                        if (this.scene.player.canMove && !this.scene.player.isTakingDamage) {
-                            this.scene.player.isTakingDamage = true;
-                            this.scene.player.health -= 10;
-                            this.scene.player.play("taking_damage_" + this.scene.player.direction.toLowerCase() + this.scene.player.tier, false);
-                            this.scene.player.on("animationcomplete", () => {
-                                this.scene.player.isTakingDamage = false;
-                            });
+                        if (this.scene.player.canMove && !this.scene.player.isInvincible) {
+                            this.scene.player.takeDamage(10);
                         }
                         bullet.destroy();
                     });
