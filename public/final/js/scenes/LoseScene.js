@@ -11,7 +11,6 @@ class LoseScene extends Phaser.Scene {
         var restartButton = this.add.image(WIDTH/2, 300, "restartbutton");
         var exitButton = this.add.image(WIDTH/2, 450, "exitbutton");
 
-
         exitButton.setInteractive();
         exitButton.on("pointerover", () => {
             exitButton.setScale(BUTTON_SCALE_ENLARGE);

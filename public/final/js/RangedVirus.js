@@ -1,15 +1,14 @@
-class SlowVirusOne extends Virus {
+class RangedVirus extends Virus {
     constructor(scene, x, y, type) {
         super(scene, x, y, 'coronavirus');
         this.type = type;
-        this.setVelocityX(SLOW_VIRUS_ONE_VELOCITY);
+        this.setVelocityX(RANGED_VIRUS_ONE_VELOCITY);
         this.hasReversed = false;
-        this.fireRate = SLOW_VIRUS_BULLET_DEFAULT_FIRERATE;
+        this.fireRate = RANGED_VIRUS_BULLET_DEFAULT_FIRERATE;
         this.hasFired = false;
         this.health = 3;
         this.canMove = false;
         this.create();
-
     }
 
     create() {
@@ -20,7 +19,7 @@ class SlowVirusOne extends Virus {
         super.updateHealth();
         if(this.canMove){
             if(this.body.velocity.x == 0){
-                this.setVelocityX(SLOW_VIRUS_ONE_VELOCITY);
+                this.setVelocityX(RANGED_VIRUS_ONE_VELOCITY);
             }
             this.move();
             this.fire();
@@ -40,23 +39,16 @@ class SlowVirusOne extends Virus {
                 let bulletDown = this.scene.physics.add.sprite(this.body.x  + this.body.width / 2, this.body.y + this.body.height, "virusbullet");
                 let bulletLeft = this.scene.physics.add.sprite(this.body.x + 5, this.body.y + this.body.height / 2, "virusbullet");
                 let bulletRight = this.scene.physics.add.sprite(this.body.x + this.body.width - 5, this.body.y + this.body.height / 2, "virusbullet");
-                bulletUp.setVelocityY(-SLOW_VIRUS_ONE_BULLET_VELOCITY);
-                bulletDown.setVelocityY(SLOW_VIRUS_ONE_BULLET_VELOCITY);
-                bulletLeft.setVelocityX(-SLOW_VIRUS_ONE_BULLET_VELOCITY);
-                bulletRight.setVelocityX(SLOW_VIRUS_ONE_BULLET_VELOCITY);
+                bulletUp.setVelocityY(-RANGED_VIRUS_ONE_BULLET_VELOCITY);
+                bulletDown.setVelocityY(RANGED_VIRUS_ONE_BULLET_VELOCITY);
+                bulletLeft.setVelocityX(-RANGED_VIRUS_ONE_BULLET_VELOCITY);
+                bulletRight.setVelocityX(RANGED_VIRUS_ONE_BULLET_VELOCITY);
                 let bullets = [bulletUp, bulletDown, bulletLeft, bulletRight];
                 bullets.forEach(bullet => {
                     this.scene.physics.world.addCollider(bullet, this.scene.player, () => {
                         if (this.scene.player.canMove && !this.scene.player.isTakingDamage) {
                             this.scene.player.isTakingDamage = true;
                             this.scene.player.health -= 10;
-                            this.scene.player.isSlowed = true;
-                            this.scene.time.addEvent({
-                                delay: 1500,
-                                callback: () => {
-                                    this.scene.player.isSlowed = false;
-                                }
-                            });
                             this.scene.player.play("taking_damage_" + this.scene.player.direction.toLowerCase() + this.scene.player.tier, false);
                             this.scene.player.on("animationcomplete", () => {
                                 this.scene.player.isTakingDamage = false;
@@ -105,20 +97,12 @@ class SlowVirusOne extends Virus {
             key: "ranged_dying",
             frameRate: ANIMATION_FRAME_RATE,
             frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 12,
-                end: 15
+                start: 8,
+                end: 11
             })
         });
         this.scene.anims.create({
             key: "ranged_travel",
-            frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 20,
-                end: 21
-            })
-        });
-        this.scene.anims.create({
-            key: "ranged_taking_damage",
             frameRate: ANIMATION_FRAME_RATE,
             frames : this.scene.anims.generateFrameNumbers("coronavirus", {
                 start: 16,
@@ -126,14 +110,12 @@ class SlowVirusOne extends Virus {
             })
         });
         this.scene.anims.create({
-            key: "ranged_bullet",
+            key: "ranged_taking_damage",
             frameRate: ANIMATION_FRAME_RATE,
-            frames: this.scene.anims.generateFrameNumbers("virusbullet", {
-                start: 0,
-                end: 0
+            frames : this.scene.anims.generateFrameNumbers("coronavirus", {
+                start: 12,
+                end: 13
             })
         });
     }
-
-
 }

@@ -41,7 +41,7 @@ class LevelOneScene extends LevelScene {
             {color: 'white', font: '15px'});
 
         // physical
-        this.physics.add.sprite(this.rooms[0].x+WIDTH/4, this.rooms[0].y+300, 'coronavirus');
+        this.physics.add.sprite(this.rooms[0].x+WIDTH/4, this.rooms[0].y+300, 'coronavirus', 28);
         this.add.text(this.rooms[0].x+WIDTH/4-120,
             this.rooms[0].y+340,
             'This virus follows you and \n' +
@@ -49,6 +49,7 @@ class LevelOneScene extends LevelScene {
             'Be sure to avoid it so you \n' +
             'don\'t lose too much health!',
             {color: 'white', font: '15px'});
+            
         // ranged
         this.physics.add.sprite(this.rooms[0].x+3*WIDTH/4, this.rooms[0].y+300, 'coronavirus', 16);
         this.add.text(this.rooms[0].x+3*WIDTH/4-150,

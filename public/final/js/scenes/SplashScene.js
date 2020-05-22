@@ -33,7 +33,6 @@ class SplashScene extends Phaser.Scene {
         this.load.image("loseBG", "assets/losebackground.png");
         this.load.image("winBG", "assets/winbackground.png");
 
-
         // buttons
         this.load.image("backbutton", "assets/backbutton.png");
         this.load.image("unmutebutton", "assets/unmute.png");
@@ -63,8 +62,9 @@ class SplashScene extends Phaser.Scene {
 
         // spritesheets
         this.load.spritesheet("pill", "assets/spritesheet/pill_spritesheet.png", {frameWidth: 64, frameHeight: 64});
-        this.load.spritesheet("coronavirus", "assets/spritesheet/coronavirus_spritesheet.png", {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet("coronavirus", "assets/spritesheet/coronavirus.png", {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet("virusbullet", "assets/spritesheet/coronavirus_bullet.png", {frameWidth: 7, frameHeight: 7});
+        this.load.spritesheet("virusslowbullet", "assets/spritesheet/coronavirus_slow.png", {frameWidth: 7, frameHeight: 7});
         this.load.spritesheet("pillbullet", "assets/spritesheet/pill_bullet.png", {frameWidth: 7, frameHeight: 3});
 
         // sounds

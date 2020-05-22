@@ -1,4 +1,4 @@
-class PhysicalVirusOne extends Virus {
+class PhysicalVirus extends Virus {
     constructor(scene, x, y, type) {
         super(scene, x, y, 'coronavirus');
         this.type = type;
@@ -42,21 +42,11 @@ class PhysicalVirusOne extends Virus {
             frameRate: ANIMATION_FRAME_RATE,
             frames : this.scene.anims.generateFrameNumbers("coronavirus", {
                 start: 0,
-                end: 3
+                end: 2
             })
         });
-       
         this.scene.anims.create({
             key: "physical_travel",
-            frameRate: ANIMATION_FRAME_RATE,
-            frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 8,
-                end: 11
-            })
-        });
-        
-        this.scene.anims.create({
-            key: "physical_taking_damage",
             frameRate: ANIMATION_FRAME_RATE,
             frames : this.scene.anims.generateFrameNumbers("coronavirus", {
                 start: 4,
