@@ -3,7 +3,8 @@ class WinScene extends Phaser.Scene {
     constructor() {
         super({
             key : WIN
-        })
+        });
+        this.pausedScene;
     }
 
     create() {

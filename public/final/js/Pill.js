@@ -693,7 +693,6 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         if (Phaser.Input.Keyboard.JustDown(this.keys.E)) {
             if (this.health > 0 && this.points >= 50) {
                 this.points -= 50;
-                this.maxHealth += 20;
                 this.health += 20;
                 if (this.health > this.maxHealth) {
                     this.health = this.maxHealth;
@@ -718,6 +717,9 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                             this.scene.scene.launch(LOSE);
                             let loseScene = this.scene.scene.get(LOSE);
                             loseScene.pausedScene = this.scene;
+                            loseScene.textX = WIDTH/2-100;
+                            loseScene.textY = 250;
+                            loseScene.loseText= "RX-2020 has died!";
                             this.scene.scene.pause();
                             this.scene.scene.bringToTop(LOSE);
                         });
@@ -743,7 +745,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
 
     updatePoints(){
         this.scene.pointsText.setText('Points:'+this.points);
-        this.scene.upgradeHPText.setText(50+' points to upgrade HP');
+        this.scene.upgradeHPText.setText(50+' points to recover HP');
         if(this.tier == TIER_ONE){
             this.scene.upgradeWeaponText.setText(TIER_TWO_COST+' points to upgrade weapon');
         }

@@ -199,6 +199,9 @@ class LevelScene extends Phaser.Scene {
                         that.scene.launch(LOSE);
                         let loseScene = that.scene.get(LOSE);
                         loseScene.pausedScene = that;
+                        loseScene.textX = WIDTH/2-300;
+                        loseScene.textY = 250;
+                        loseScene.loseText= "RX-2020 was not effective enough to save the patient.";
                         that.scene.pause();
                         that.scene.bringToTop(LOSE);
                     }
@@ -239,6 +242,9 @@ class LevelScene extends Phaser.Scene {
             that.scene.launch(LOSE);
             let loseScene = that.scene.get(LOSE);
             loseScene.pausedScene = that;
+            loseScene.textX = WIDTH/2-250;
+            loseScene.textY = 250;
+            loseScene.loseText= "RX-2020 did not reach the stomach in time!";
             that.scene.pause();
             that.scene.bringToTop(LOSE);
         }, this);
@@ -290,7 +296,7 @@ class LevelScene extends Phaser.Scene {
             // Fade back in with new boundaries.
             this.player.canMove = true;
             this.pointsText.setText('Points:'+this.player.points);
-            this.upgradeHPText.setText(50+' points to upgrade HP');
+            this.upgradeHPText.setText(50+' points to recover HP');
             this.upgradeWeaponText.setText(100+' points to upgrade weapon');
         }
     }
