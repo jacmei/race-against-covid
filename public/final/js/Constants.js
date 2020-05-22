@@ -44,6 +44,7 @@ const ANIMATION_FRAME_RATE = 10;
 const PHYSICAL = "physical_";
 const RANGED = "ranged_";
 const SPLIT = "split_";
+const SLOW = "slow_";
 
 const UP = 'UP';
 const DOWN = 'DOWN';

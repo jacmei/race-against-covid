@@ -13,6 +13,9 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
     
     updateHealth() {
         if (this.health <= 0) {
+            this.scene.sound.play("virusdead", {
+                volume: 2
+            });
             this.canMove = false;
             this.setVelocityX(0);
             this.setVelocityY(0);
