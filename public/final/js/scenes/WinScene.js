@@ -82,8 +82,6 @@ class WinScene extends Phaser.Scene {
             }
         }
         this.scene.stop(LEVEL_SELECT);
-
-
     }
 
     update() {

@@ -93,8 +93,6 @@ class LevelScene extends Phaser.Scene {
         }
     }
 
-
-    
     loadMap(level){
         this.map = this.add.tilemap(level);
         var tileset = this.map.addTilesetImage("tileset");
@@ -125,28 +123,26 @@ class LevelScene extends Phaser.Scene {
                 }
             }
             if (object.type === 'Melee') {
-                let physical_virus = new PhysicalVirusOne(this, object.x, object.y, PHYSICAL);
+                let physical_virus = new PhysicalVirus(this, object.x, object.y, PHYSICAL);
                 physical_virus.canMove = false;
                 this.viruses.push(physical_virus);
             }
             if (object.type === 'Ranged'){
-                var ranged_virus = new RangedVirusOne(this, object.x, object.y, RANGED);
+                var ranged_virus = new RangedVirus(this, object.x, object.y, RANGED);
                 ranged_virus.canMove = false;
                 this.viruses.push(ranged_virus);
             }
             if (object.type === 'Split') {
-                let splitting_virus = new SplittingVirusOne(this, object.x, object.y, SPLIT, false);
+                let splitting_virus = new SplittingVirus(this, object.x, object.y, SPLIT, false);
                 splitting_virus.canMove = false;
                 this.viruses.push(splitting_virus);
             }
             if (object.type === 'Slow'){
-                var slow_virus = new SlowVirusOne(this, object.x, object.y, SLOW);
+                var slow_virus = new SlowVirus(this, object.x, object.y, SLOW);
                 slow_virus.canMove = false;
                 this.viruses.push(slow_virus);
             }
         }, this);
-
-
 
         //move camera to specific room
         this.cameras.main.setBounds(this.rooms[this.player.room].x,
@@ -175,7 +171,6 @@ class LevelScene extends Phaser.Scene {
             this.physics.add.collider(virus, this.collisionLayer);
         })
 
-
         // on collide with powerup, set the powerup to stone
         this.physics.add.collider(this.player, this.collisionLayer, function(player, object){
             if(object.index == 18){
@@ -189,7 +184,6 @@ class LevelScene extends Phaser.Scene {
         this.holes.setCollisionByProperty({collides:true});
         this.doors.setCollisionByProperty({collides:true});
         this.openDoors.setCollisionByProperty({collides:true});
-
         
         var that = this;
         this.physics.add.overlap(this.player, this.openDoors, function(player, tile) {
@@ -212,7 +206,6 @@ class LevelScene extends Phaser.Scene {
             }
         }, null, this);
     }
-
 
     loadTimer(timeLeft){
         //time variables
@@ -264,7 +257,6 @@ class LevelScene extends Phaser.Scene {
             this.rooms[this.player.room].y+35,
             'Points:'+this.player.points,
             {color: 'white', font: '20px'});
-
             
         this.upgradeHPText = this.add.text(this.rooms[this.player.room].x+660,
             this.rooms[this.player.room].y+585,
@@ -302,6 +294,7 @@ class LevelScene extends Phaser.Scene {
             this.upgradeWeaponText.setText(100+' points to upgrade weapon');
         }
     }
+
     reset(){
         this.player = null;
         this.map = null;

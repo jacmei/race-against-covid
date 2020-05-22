@@ -49,6 +49,7 @@ class LevelOneScene extends LevelScene {
             'Be sure to avoid it so you \n' +
             'don\'t lose too much health!',
             {color: 'white', font: '15px'});
+            
         // ranged
         this.physics.add.sprite(this.rooms[0].x+3*WIDTH/4, this.rooms[0].y+300, 'coronavirus', 16);
         this.add.text(this.rooms[0].x+3*WIDTH/4-150,

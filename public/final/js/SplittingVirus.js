@@ -1,4 +1,4 @@
-class SplittingVirusOne extends Virus {
+class SplittingVirus extends Virus {
     constructor(scene, x, y, type, split) {
         super(scene, x, y, 'coronavirus');
         this.type = type;
@@ -92,8 +92,8 @@ class SplittingVirusOne extends Virus {
             key: "split_dying",
             frameRate: ANIMATION_FRAME_RATE,
             frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 0,
-                end: 3
+                start: 32,
+                end: 35
             })
         });
        
@@ -101,8 +101,8 @@ class SplittingVirusOne extends Virus {
             key: "split_travel",
             frameRate: ANIMATION_FRAME_RATE,
             frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 8,
-                end: 11
+                start: 40,
+                end: 43
             })
         });
         
@@ -110,8 +110,8 @@ class SplittingVirusOne extends Virus {
             key: "split_taking_damage",
             frameRate: ANIMATION_FRAME_RATE,
             frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 4,
-                end: 5
+                start: 36,
+                end: 37
             })
         });
     }

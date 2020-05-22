@@ -39,7 +39,6 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     create() {
         this.createAnimations();
         this.addEventListeners();
-        
     }
 
     update() {
@@ -649,9 +648,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 this.scene.map.getLayer('doors').tilemapLayer.visible = false;
                 this.scene.map.setCollisionByProperty({collides:true}, false, this.scene.map.getLayer('doors'));
             }
-
         }
-
     }
 
     updateWeapon() {

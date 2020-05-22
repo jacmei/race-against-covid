@@ -55,6 +55,5 @@ class MenuScene extends Phaser.Scene {
         aboutButton.on("pointerup", () => {
             this.scene.start(ABOUT);
         })
-
     }
 }
