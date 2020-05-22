@@ -9,6 +9,7 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
         this.type = type;
         this.health = 0;
         this.canMove = false;
+        this.isAlive = true;
     }
     
     updateHealth() {
@@ -16,6 +17,7 @@ class Virus extends Phaser.Physics.Arcade.Sprite {
             this.scene.sound.play("virusdead", {
                 volume: 2
             });
+            this.isAlive = false;
             this.canMove = false;
             this.setVelocityX(0);
             this.setVelocityY(0);

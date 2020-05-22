@@ -508,19 +508,21 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             }
             bullet.setVisible(true);
             this.scene.viruses.forEach(virus => {
-                this.scene.physics.world.addCollider(bullet, virus, () => {
-                    virus.health -= 1;
-                    bullet.destroy();
-                });
-                this.scene.physics.world.addCollider(bullet, this.scene.collisionLayer, () => {
-                    bullet.destroy();
-                });
-                this.scene.physics.world.addCollider(bullet, this.scene.doors, () => {
-                    bullet.destroy();
-                });
-                this.scene.physics.world.addCollider(bullet, this.scene.openDoors, () => {
-                    bullet.destroy();
-                });
+                this.scene.physics.add.overlap(bullet, virus, () => {
+                        if(virus.isAlive){
+                            virus.health -= 1;
+                            bullet.destroy();
+                        }
+                    });
+            });
+            this.scene.physics.world.addCollider(bullet, this.scene.collisionLayer, () => {
+                bullet.destroy();
+            });
+            this.scene.physics.world.addCollider(bullet, this.scene.doors, () => {
+                bullet.destroy();
+            });
+            this.scene.physics.world.addCollider(bullet, this.scene.openDoors, () => {
+                bullet.destroy();
             });
             let timer = this.scene.time.addEvent({
                 delay: this.fireRate,
