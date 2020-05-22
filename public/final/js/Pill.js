@@ -22,6 +22,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.fading = false;
         this.isSlowed = false;
         this.velocityScale = 1;
+        this.setDepth(1);
 
         this.room = 0;
         this.roomChange = false;

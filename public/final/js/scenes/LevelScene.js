@@ -88,7 +88,9 @@ class LevelScene extends Phaser.Scene {
         // KILL ALL VIRUSES
         if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('L')))) {
             this.viruses.forEach(virus => {
-                virus.health = 0;
+                if (virus.type != BOSS) {
+                    virus.health = 0;
+                }
             });
         }
     }
