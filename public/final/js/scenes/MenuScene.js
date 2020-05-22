@@ -55,5 +55,27 @@ class MenuScene extends Phaser.Scene {
         aboutButton.on("pointerup", () => {
             this.scene.start(ABOUT);
         })
+
+
+
+
+        
+        var audioButton;
+        if(this.sound.sounds[0].mute){
+            audioButton = this.add.image(50,585, "mutebutton");
+        }else{
+            audioButton = this.add.image(50,585, "unmutebutton");
+        }
+        audioButton.setScale(.1);
+        audioButton.setInteractive();
+        audioButton.on("pointerup", () => {
+            if(this.sound.sounds[0].mute){
+                this.sound.sounds[0].setMute(false);
+                audioButton.setTexture("unmutebutton");
+            }else{
+                this.sound.sounds[0].setMute(true);
+                audioButton.setTexture("mutebutton");
+            }
+        });
     }
 }

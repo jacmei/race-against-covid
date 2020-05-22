@@ -13,6 +13,23 @@ class PauseScene extends Phaser.Scene {
         var restartButton = this.add.image(WIDTH/2, 300, "restartbutton");
         var controlsButton = this.add.image(WIDTH/2, 400, "controlsbutton");
         var exitButton = this.add.image(WIDTH/2, 500, "exitbutton");
+        var audioButton;
+        if(this.sound.sounds[0].mute){
+            audioButton = this.add.image(50,585, "mutebutton");
+        }else{
+            audioButton = this.add.image(50,585, "unmutebutton");
+        }
+        audioButton.setScale(.1);
+        audioButton.setInteractive();
+        audioButton.on("pointerup", () => {
+            if(this.sound.sounds[0].mute){
+                this.sound.sounds[0].setMute(false);
+                audioButton.setTexture("unmutebutton");
+            }else{
+                this.sound.sounds[0].setMute(true);
+                audioButton.setTexture("mutebutton");
+            }
+        });
 
         resumeButton.setInteractive();
         resumeButton.on("pointerover", () => {

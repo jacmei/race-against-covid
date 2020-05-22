@@ -84,7 +84,7 @@ class SplashScene extends Phaser.Scene {
                 "unlockedLevels" : [1, 0, 0, 0, 0, 0]
             }
             let music = this.sound.add("bgmusic", {
-                volume : 0,
+                volume : .25,
                 loop: true
             });
             music.play();
