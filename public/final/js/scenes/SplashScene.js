@@ -62,7 +62,7 @@ class SplashScene extends Phaser.Scene {
 
         // spritesheets
         this.load.spritesheet("pill", "assets/spritesheet/pill_spritesheet.png", {frameWidth: 64, frameHeight: 64});
-        this.load.spritesheet("coronavirus", "assets/spritesheet/coronavirus_spritesheet.png", {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet("coronavirus", "assets/spritesheet/coronavirus.png", {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet("virusbullet", "assets/spritesheet/coronavirus_bullet.png", {frameWidth: 7, frameHeight: 7});
         this.load.spritesheet("virusslowbullet", "assets/spritesheet/coronavirus_slow.png", {frameWidth: 7, frameHeight: 7});
         this.load.spritesheet("pillbullet", "assets/spritesheet/pill_bullet.png", {frameWidth: 7, frameHeight: 3});
@@ -84,7 +84,7 @@ class SplashScene extends Phaser.Scene {
                 "unlockedLevels" : [1, 0, 0, 0, 0, 0]
             }
             let music = this.sound.add("bgmusic", {
-                volume : 1,
+                volume : 0,
                 loop: true
             });
             music.play();
