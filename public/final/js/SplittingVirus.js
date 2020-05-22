@@ -14,6 +14,7 @@ class SplittingVirus extends Virus {
         }
         this.angleToPlayer = null;
         this.canMove = false;
+        this.isAlive = true;
         this.create();
     }
 
@@ -34,6 +35,7 @@ class SplittingVirus extends Virus {
             this.scene.sound.play("virusdead", {
                 volume: 1
             });
+            this.isAlive = false;
             this.canMove = false;
             this.setVelocityX(0);
             this.setVelocityY(0);
@@ -77,7 +79,7 @@ class SplittingVirus extends Virus {
             let thisY = this.body.y + this.body.height / 2;
             let pillX = this.scene.player.body.x + this.scene.player.width / 2;
             let pillY = this.scene.player.body.y + this.scene.player.height / 2;
-            this.angleToPlayer = Phaser.Math.Angle.Between(thisX, thisY, pillX, pillY-5);
+            this.angleToPlayer = Phaser.Math.Angle.Between(thisX, thisY, pillX, pillY-7);
             let xVelocity = Math.cos(this.angleToPlayer) * this.velocity;
             let yVelocity = Math.sin(this.angleToPlayer) * this.velocity;
             
