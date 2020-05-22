@@ -50,8 +50,8 @@ class PhysicalVirusOne extends Virus {
             key: "physical_travel",
             frameRate: ANIMATION_FRAME_RATE,
             frames : this.scene.anims.generateFrameNumbers("coronavirus", {
-                start: 4,
-                end: 5
+                start: 8,
+                end: 11
             })
         });
         

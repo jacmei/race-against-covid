@@ -39,26 +39,6 @@ class LevelOneScene extends LevelScene {
             this.rooms[2].y+350,
             'Orange slices will heal you for 20 HP!',
             {color: 'white', font: '15px'});
-
-        // physical
-        this.physics.add.sprite(this.rooms[0].x+WIDTH/4, this.rooms[0].y+300, 'coronavirus', 28);
-        this.add.text(this.rooms[0].x+WIDTH/4-120,
-            this.rooms[0].y+340,
-            'This virus follows you and \n' +
-            'damages you on contact! \n' +
-            'Be sure to avoid it so you \n' +
-            'don\'t lose too much health!',
-            {color: 'white', font: '15px'});
-            
-        // ranged
-        this.physics.add.sprite(this.rooms[0].x+3*WIDTH/4, this.rooms[0].y+300, 'coronavirus', 16);
-        this.add.text(this.rooms[0].x+3*WIDTH/4-150,
-            this.rooms[0].y+340,
-            'This virus patrols back and forth \n' +
-            'while shooting its deadly particles! \n' +
-            'Be careful to avoid the particles \n' +
-            'or you will be weakened!',
-            {color: 'white', font: '15px'});
     }
 
     update() {

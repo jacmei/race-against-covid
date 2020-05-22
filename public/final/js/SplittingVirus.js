@@ -63,9 +63,9 @@ class SplittingVirus extends Virus {
     }
 
     splitVirus() {
-        let split_one = new SplittingVirusOne(this.scene, this.x-50, this.y, SPLIT, true);
+        let split_one = new SplittingVirus(this.scene, this.x-50, this.y, SPLIT, true);
         split_one.canMove = true;
-        let split_two = new SplittingVirusOne(this.scene, this.x+50, this.y, SPLIT, true);
+        let split_two = new SplittingVirus(this.scene, this.x+50, this.y, SPLIT, true);
         split_two.canMove = true;
         this.scene.addVirus(split_one);
         this.scene.addVirus(split_two);

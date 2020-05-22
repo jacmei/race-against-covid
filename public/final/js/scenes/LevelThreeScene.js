@@ -12,11 +12,14 @@ class LevelThreeScene extends LevelScene {
         super.loadTimer(this.timeLeft);
         super.loadHP();
         super.loadPoints();
+
+        // player spawns in room 17
     }
 
     update() {
         super.update();
     }
+
     reset(){
         this.timeLeft = 240;
         super.reset();

@@ -17,6 +17,7 @@ class LevelFourScene extends LevelScene {
     update() {
         super.update();
     }
+
     reset(){
         this.timeLeft = 240;
         super.reset();
