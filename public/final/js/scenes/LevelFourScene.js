@@ -4,7 +4,7 @@ class LevelFourScene extends LevelScene {
             key : LEVEL_FOUR
         });
         this.key = LEVEL_FOUR;
-        this.timeLeft = 240;
+        this.timeLeft = 360;
     }
 
     create() {
