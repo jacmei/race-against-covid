@@ -36,7 +36,6 @@ class LevelScene extends Phaser.Scene {
             virus.update();
         });
         if (Phaser.Input.Keyboard.JustDown((this.input.keyboard.addKey('ESC')))) {
-            console.log(this);
             this.scene.launch(PAUSE);
             let pauseScene = this.scene.get(PAUSE);
             pauseScene.pausedScene = this;

@@ -8,7 +8,6 @@ class MenuScene extends Phaser.Scene {
 
     init(data) {
         this.unlockedLevels = data.unlockedLevels;
-        console.log(this.unlockedLevels);
     }
 
     create() {

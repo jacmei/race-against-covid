@@ -45,7 +45,6 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        console.log(this.canAnimate);
         this.checkFiring();
         this.updateWeapon();
         this.updateHealth();
@@ -608,12 +607,10 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 this.y+20 > roomTop  && this.y-20 < roomBottom) {
                 roomNumber = room;
             }
-            //console.log(roomNumber);
             if(roomNumber != this.room && roomNumber != null){
                 this.room = roomNumber;
                 this.roomChange = true;
                 this.canMove = false;
-                //console.log(this.y);
             }else if(this.canMove){
                 this.roomChange = false;
             }
@@ -634,21 +631,16 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                     this.scene.map.setCollisionByProperty({collides:true}, this.scene.map.getLayer('doors'));
                     if(this.x+20 < this.scene.rooms[this.room].x+64){
                         this.x = this.scene.rooms[this.room].x+96;
-                        // console.log("1");
                     }
                     if(this.x-20 > this.scene.rooms[this.room].x+896){
                         this.x = this.scene.rooms[this.room].x+864;
-                        // console.log("2");
                     }
                     if(this.y+20 < this.scene.rooms[this.room].y+64){
                         this.y = this.scene.rooms[this.room].y+96;
-                        // console.log("3");
                     }
                     if(this.y-20 > this.scene.rooms[this.room].y+576){
                         this.y = this.scene.rooms[this.room].y+542;
-                        // console.log("4");
                     }
-                    // console.log("Show those doors");
                 }
             }else{
                 this.scene.map.getLayer('doors').tilemapLayer.visible = false;
