@@ -201,7 +201,7 @@ class BossVirus extends Virus {
     }
 
     getRandomMovementDelay() {
-        return Math.floor(Math.random() * (2000 - 1500 + 1)) + 1500;
+        return Math.floor(Math.random() * (8000 - 2000 + 1)) + 2000;
     }
 
     getRandomSpawnDelay() {
