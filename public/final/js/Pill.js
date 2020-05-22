@@ -419,91 +419,94 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
             switch (this.tier) {
                 case TIER_ONE:
                     if (this.direction == LEFT) {
-                        bullet.setX(this.body.x);
+                        bullet.setX(this.body.x - 20);
                         bullet.setY(this.body.y + this.body.height / 2 - 5);
                         bullet.setVelocityX(-PILL_BULLET_VELOCITY);
                         bullet.body.angle = 0;
                         bullet.setRotation(0);
                     }
                     else if (this.direction == RIGHT) {
-                        bullet.setX(this.body.x + this.body.width);
+                        bullet.setX(this.body.x + this.body.width + 20);
                         bullet.setY(this.body.y + this.body.height / 2 - 5);
                         bullet.setVelocityX(PILL_BULLET_VELOCITY);
                         bullet.body.angle = 0;
                         bullet.setRotation(0);
                     }
                     else if (this.direction == UP) {
-                        bullet.setX(this.body.x + this.body.width - 20);
+                        bullet.setX(this.body.x + this.body.width);
                         bullet.setY(this.body.y);
                         bullet.setVelocityY(-PILL_BULLET_VELOCITY);
                         bullet.body.angle = Math.PI / 2;
                         bullet.setRotation(Math.PI / 2);
                     }
                     else if (this.direction == DOWN) {
-                        bullet.setX(this.body.x + 20);
+                        bullet.setX(this.body.x);
                         bullet.setY(this.body.y + this.body.height);
                         bullet.setVelocityY(PILL_BULLET_VELOCITY);
                         bullet.body.angle = Math.PI / 2;
                         bullet.setRotation(-Math.PI / 2);
                     }
+                    break;
                 case TIER_TWO:
                     if (this.direction == LEFT) {
-                        bullet.setX(this.body.x);
-                        bullet.setY(this.body.y + this.body.height / 2 - 6);
+                        bullet.setX(this.body.x - 23);
+                        bullet.setY(this.body.y + this.body.height / 2 - 7);
                         bullet.setVelocityX(-PILL_BULLET_VELOCITY);
                         bullet.body.angle = 0;
                         bullet.setRotation(0);
                     }
                     else if (this.direction == RIGHT) {
-                        bullet.setX(this.body.x + this.body.width);
-                        bullet.setY(this.body.y + this.body.height / 2 - 6);
+                        bullet.setX(this.body.x + this.body.width + 23);
+                        bullet.setY(this.body.y + this.body.height / 2 - 7);
                         bullet.setVelocityX(PILL_BULLET_VELOCITY);
                         bullet.body.angle = 0;
                         bullet.setRotation(0);
                     }
                     else if (this.direction == UP) {
-                        bullet.setX(this.body.x + this.body.width - 18);
+                        bullet.setX(this.body.x + this.body.width + 2);
                         bullet.setY(this.body.y);
                         bullet.setVelocityY(-PILL_BULLET_VELOCITY);
                         bullet.body.angle = Math.PI / 2;
                         bullet.setRotation(Math.PI / 2);
                     }
                     else if (this.direction == DOWN) {
-                        bullet.setX(this.body.x + 18);
+                        bullet.setX(this.body.x - 2);
                         bullet.setY(this.body.y + this.body.height);
                         bullet.setVelocityY(PILL_BULLET_VELOCITY);
                         bullet.body.angle = Math.PI / 2;
                         bullet.setRotation(-Math.PI / 2);
                     }
+                    break;
                 case TIER_THREE:
                     if (this.direction == LEFT) {
-                        bullet.setX(this.body.x);
-                        bullet.setY(this.body.y + this.body.height / 2 - 6);
+                        bullet.setX(this.body.x - 23);
+                        bullet.setY(this.body.y + this.body.height / 2 - 10);
                         bullet.setVelocityX(-PILL_BULLET_VELOCITY);
                         bullet.body.angle = 0;
                         bullet.setRotation(0);
                     }
                     else if (this.direction == RIGHT) {
-                        bullet.setX(this.body.x + this.body.width);
-                        bullet.setY(this.body.y + this.body.height / 2 - 6);
+                        bullet.setX(this.body.x + this.body.width + 23);
+                        bullet.setY(this.body.y + this.body.height / 2 - 10);
                         bullet.setVelocityX(PILL_BULLET_VELOCITY);
                         bullet.body.angle = 0;
                         bullet.setRotation(0);
                     }
                     else if (this.direction == UP) {
-                        bullet.setX(this.body.x + this.body.width - 18);
+                        bullet.setX(this.body.x + this.body.width + 1);
                         bullet.setY(this.body.y);
                         bullet.setVelocityY(-PILL_BULLET_VELOCITY);
                         bullet.body.angle = Math.PI / 2;
                         bullet.setRotation(Math.PI / 2);
                     }
                     else if (this.direction == DOWN) {
-                        bullet.setX(this.body.x + 18);
+                        bullet.setX(this.body.x - 1);
                         bullet.setY(this.body.y + this.body.height);
                         bullet.setVelocityY(PILL_BULLET_VELOCITY);
                         bullet.body.angle = Math.PI / 2;
                         bullet.setRotation(-Math.PI / 2);
                     }
+                    break;
             }
             bullet.setVisible(true);
             this.scene.viruses.forEach(virus => {
