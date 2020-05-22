@@ -123,22 +123,22 @@ class LevelScene extends Phaser.Scene {
                 }
             }
             if (object.type === 'Melee') {
-                let physical_virus = new PhysicalVirus(this, object.x, object.y, PHYSICAL);
+                let physical_virus = new PhysicalVirus(this, object.x+32, object.y+32, PHYSICAL);
                 physical_virus.canMove = false;
                 this.viruses.push(physical_virus);
             }
             if (object.type === 'Ranged'){
-                var ranged_virus = new RangedVirus(this, object.x, object.y, RANGED);
+                var ranged_virus = new RangedVirus(this, object.x+32, object.y+32, RANGED);
                 ranged_virus.canMove = false;
                 this.viruses.push(ranged_virus);
             }
             if (object.type === 'Split') {
-                let splitting_virus = new SplittingVirus(this, object.x, object.y, SPLIT, false);
+                let splitting_virus = new SplittingVirus(this, object.x+32, object.y+32, SPLIT, false);
                 splitting_virus.canMove = false;
                 this.viruses.push(splitting_virus);
             }
             if (object.type === 'Slow'){
-                var slow_virus = new SlowVirus(this, object.x, object.y, SLOW);
+                var slow_virus = new SlowVirus(this, object.x+32, object.y+32, SLOW);
                 slow_virus.canMove = false;
                 this.viruses.push(slow_virus);
             }
