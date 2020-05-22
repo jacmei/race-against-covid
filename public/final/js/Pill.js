@@ -8,8 +8,8 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.setImmovable(true);
         this.keys = scene.input.keyboard.addKeys('W, A, S, D, Q, E');
         this.scene = scene;
-        this.health = 1000;
-        this.maxHealth = 1000;
+        this.health = 100;
+        this.maxHealth = 100;
         this.tier = TIER_ONE;
         this.fireRate = 0;
         this.hasFired = false;
