@@ -556,10 +556,10 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                 }
             }
             if (this.lastKeyDown == this.keys.A && this.keys.A.isDown) {
-                this.setVelocityX(-128 * this.velocityScale);
+                this.setVelocityX(-PILL_VELOCITY * this.velocityScale);
             }
             else if (this.lastKeyDown == this.keys.D && this.keys.D.isDown) {
-                this.setVelocityX(128 * this.velocityScale);
+                this.setVelocityX(PILL_VELOCITY * this.velocityScale);
             }
             else {
                 if (this.keys.A.isDown) {
