@@ -77,7 +77,7 @@ class SplittingVirus extends Virus {
             let thisY = this.body.y + this.body.height / 2;
             let pillX = this.scene.player.body.x + this.scene.player.width / 2;
             let pillY = this.scene.player.body.y + this.scene.player.height / 2;
-            this.angleToPlayer = Phaser.Math.Angle.Between(thisX, thisY, pillX, pillY);
+            this.angleToPlayer = Phaser.Math.Angle.Between(thisX, thisY, pillX, pillY-5);
             let xVelocity = Math.cos(this.angleToPlayer) * this.velocity;
             let yVelocity = Math.sin(this.angleToPlayer) * this.velocity;
             

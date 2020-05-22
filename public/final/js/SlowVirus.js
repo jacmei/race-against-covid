@@ -46,20 +46,16 @@ class SlowVirus extends Virus {
                 let bullets = [bulletUp, bulletDown, bulletLeft, bulletRight];
                 bullets.forEach(bullet => {
                     this.scene.physics.world.addCollider(bullet, this.scene.player, () => {
-                        if (this.scene.player.canMove && !this.scene.player.isTakingDamage) {
-                            this.scene.player.isTakingDamage = true;
-                            this.scene.player.health -= 10;
-                            this.scene.player.isSlowed = true;
+                        if (this.player.canMove && !this.player.isInvincible) {
+                            this.player.isSlowed=true;
+                            console.log("slowing the player");
                             this.scene.time.addEvent({
                                 delay: 1500,
                                 callback: () => {
-                                    this.scene.player.isSlowed = false;
+                                    this.player.isSlowed = false;
                                 }
                             });
-                            this.scene.player.play("taking_damage_" + this.scene.player.direction.toLowerCase() + this.scene.player.tier, false);
-                            this.scene.player.on("animationcomplete", () => {
-                                this.scene.player.isTakingDamage = false;
-                            });
+                            this.player.takeDamage(10);
                         }
                         bullet.destroy();
                     });

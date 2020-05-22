@@ -29,8 +29,8 @@ class LevelOneScene extends LevelScene {
             'Killing viruses awards you with points! Check the top right to see \n' +
             'how many you have. After gathering enough points, you will be able to \n' +
             'upgrade either your weapon or your health. Upgrading your weapon increases \n' +
-            'your firing rate. Upgrading your health grants you 20 additional MAX HP. \n' +
-            'Try upgrading your weapon (Q) or your health (E) now!',
+            'your firing rate. Upgrading your health heals you for 20 HP. Try\n' +
+            'upgrading your weapon (Q) or your health (E) now!',
             {color: 'white', font: '15px'});
         this.text.setVisible(false);
     

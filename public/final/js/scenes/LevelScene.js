@@ -155,19 +155,10 @@ class LevelScene extends Phaser.Scene {
         );
 
         this.viruses.forEach(virus => {
-            this.physics.world.addCollider(this.player, virus, () => {
-                if (virus.canMove && this.player.canMove && !this.player.isTakingDamage) {
-                    this.player.isTakingDamage = true;
-                    this.player.health -= 10;
-                    this.player.play("taking_damage_" + this.player.direction.toLowerCase() + this.player.tier, false);
-                    this.player.on("animationcomplete", () => {
-                        let timer = this.time.addEvent({
-                            delay: 1000,
-                            callback: () => {
-                                this.player.isTakingDamage = false;
-                            }
-                        });
-                    });
+            this.physics.add.overlap(this.player, virus, () => {
+                if (virus.canMove && this.player.canMove && !this.player.isInvincible) {
+                    console.log('help');
+                    this.player.takeDamage(10);
                 }
             });
             this.physics.add.collider(virus, this.collisionLayer);
@@ -221,7 +212,7 @@ class LevelScene extends Phaser.Scene {
         this.timer = this.add.text(this.rooms[this.player.room].x+15,
                                     this.rooms[this.player.room].y+15,
                                     'Time Left: ' + this.timeLeft, 
-                                    {color: 'white', font: '20px'});
+                                    {color: 'white', font: '20px', backgroundColor: 'black'});
 
         //update timeLeft
         this.time.addEvent({
@@ -257,24 +248,24 @@ class LevelScene extends Phaser.Scene {
         this.hpText = this.add.text(this.rooms[this.player.room].x+820,
             this.rooms[this.player.room].y+15,
             'HP:'+this.player.health+'/'+this.player.maxHealth,
-            {color: 'white', font: '20px'});
+            {color: 'white', font: '20px', backgroundColor: 'black'});
     }
 
     loadPoints() {
         this.pointsText = this.add.text(this.rooms[this.player.room].x+820,
             this.rooms[this.player.room].y+35,
             'Points:'+this.player.points,
-            {color: 'white', font: '20px'});
+            {color: 'white', font: '20px', backgroundColor: 'black'});
             
         this.upgradeHPText = this.add.text(this.rooms[this.player.room].x+660,
             this.rooms[this.player.room].y+585,
             50+' points to upgrade HP',
-            {color: 'white', font: '20px'});
+            {color: 'white', font: '20px', backgroundColor: 'black'});
 
         this.upgradeWeaponText = this.add.text(this.rooms[this.player.room].x+600,
             this.rooms[this.player.room].y+610,
             100+' points to upgrade weapon',
-            {color: 'white', font: '20px'});
+            {color: 'white', font: '20px', backgroundColor: 'black'});
     }
 
 
@@ -325,18 +316,8 @@ class LevelScene extends Phaser.Scene {
 
     addVirus(virus) {
         this.physics.world.addCollider(this.player, virus, () => {
-            if (virus.canMove && this.player.canMove && !this.player.isTakingDamage) {
-                this.player.isTakingDamage = true;
-                this.player.health -= 10;
-                this.player.play("taking_damage_" + this.player.direction.toLowerCase() + this.player.tier, false);
-                this.player.on("animationcomplete", () => {
-                    let timer = this.time.addEvent({
-                        delay: 1000,
-                        callback: () => {
-                            this.player.isTakingDamage = false;
-                        }
-                    });
-                });
+            if (virus.canMove && this.player.canMove && !this.player.isInvincible) {
+                this.player.takeDamage(10);
             }
         });
         this.physics.add.collider(virus, this.collisionLayer);

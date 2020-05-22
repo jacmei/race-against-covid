@@ -8,8 +8,8 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.setImmovable(true);
         this.keys = scene.input.keyboard.addKeys('W, A, S, D, Q, E');
         this.scene = scene;
-        this.health = 100;
-        this.maxHealth = 100;
+        this.health = 1000;
+        this.maxHealth = 1000;
         this.tier = TIER_ONE;
         this.fireRate = 0;
         this.hasFired = false;
@@ -18,11 +18,13 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.canMove = true;
         this.lastKeyDown = null;
         this.pillToSpriteAngle = null;
-        this.isTakingDamage = false;
         this.fading = false;
         this.isSlowed = false;
         this.velocityScale = 1;
         this.setDepth(1);
+
+        this.isInvincible = false;
+        this.canAnimate = true;
 
         this.room = 0;
         this.roomChange = false;
@@ -43,6 +45,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
+        console.log(this.canAnimate);
         this.checkFiring();
         this.updateWeapon();
         this.updateHealth();
@@ -390,16 +393,16 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
     checkFiring() {
         if (this.scene.input.activePointer.isDown && this.hasFired == false) {
             this.fire();
-            if (this.direction == LEFT) {
+            if (this.direction == LEFT && this.canAnimate) {
                 this.play("attack_left" + this.tier, true);
             }
-            else if (this.direction == RIGHT) {
-                this.play("attack_left" + this.tier, true);
+            else if (this.direction == RIGHT && this.canAnimate) {
+                this.play("attack_right" + this.tier, true);
             }
-            else if (this.direction == DOWN) {
+            else if (this.direction == DOWN && this.canAnimate) {
                 this.play("attack_down" + this.tier, true);
             }
-            else if (this.direction == UP) {
+            else if (this.direction == UP && this.canAnimate) {
                 this.play("attack_up" + this.tier, true);
             }
         }
@@ -569,19 +572,19 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
                     this.setVelocityX(0);
                 }
             }
-            if (this.pillToSpriteAngle >= -Math.PI / 4 && this.pillToSpriteAngle < Math.PI / 4 && !this.isTakingDamage)  {
+            if (this.pillToSpriteAngle >= -Math.PI / 4 && this.pillToSpriteAngle < Math.PI / 4 && this.canAnimate)  {
                 this.play("walk_right" + this.tier, true);
                 this.direction = RIGHT;
             }
-            else if (this.pillToSpriteAngle >= Math.PI / 4 && this.pillToSpriteAngle < Math.PI * 3 / 4 && !this.isTakingDamage) {
+            else if (this.pillToSpriteAngle >= Math.PI / 4 && this.pillToSpriteAngle < Math.PI * 3 / 4 && this.canAnimate) {
                 this.play("walk_down" + this.tier, true);
                 this.direction = DOWN;
             } 
-            else if (this.pillToSpriteAngle >= Math.PI * 3 / 4 || this.pillToSpriteAngle < -Math.PI * 3 / 4 && !this.isTakingDamage) {
+            else if (this.pillToSpriteAngle >= Math.PI * 3 / 4 || this.pillToSpriteAngle < -Math.PI * 3 / 4 && this.canAnimate) {
                 this.play("walk_left" + this.tier, true);
                 this.direction = LEFT;
             } 
-            else if (this.pillToSpriteAngle >= -Math.PI * 3 / 4 && this.pillToSpriteAngle < -Math.PI / 4 && !this.isTakingDamage) {
+            else if (this.pillToSpriteAngle >= -Math.PI * 3 / 4 && this.pillToSpriteAngle < -Math.PI / 4 && this.canAnimate) {
                 this.play("walk_up" + this.tier, true);
                 this.direction = UP;
             }
@@ -743,6 +746,26 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         this.scene.hpText.setText('HP:'+this.health+'/'+this.maxHealth);
     }
     
+    takeDamage(damage){
+        if(!this.isInvincible){
+            this.health -= damage;
+            this.isInvincible=true;
+            this.canAnimate = false;
+            this.play("taking_damage_" + this.direction.toLowerCase()+ this.tier, false);
+            this.scene.time.addEvent({
+                delay: 400,
+                callback: () => {
+                    this.canAnimate = true;
+                }
+            });
+            this.scene.time.addEvent({
+                delay: 1500,
+                callback: () => {
+                    this.isInvincible = false;
+                }
+            });
+        }
+    }
 
     updatePoints(){
         this.scene.pointsText.setText('Points:'+this.points);
