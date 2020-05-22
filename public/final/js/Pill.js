@@ -4,7 +4,7 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, "pill", 21);
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.setSize(48, 48);
+        this.setSize(24, 64);
         this.setImmovable(true);
         this.keys = scene.input.keyboard.addKeys('W, A, S, D, Q, E');
         this.scene = scene;
@@ -733,11 +733,16 @@ class Pill extends Phaser.Physics.Arcade.Sprite {
         
         this.healthBar.clear();
         this.healthBar.fillStyle(0x00b300);
-        this.healthBar.fillRect(this.body.x - 24, this.body.y - 20, health, 10);
+        this.healthBar.fillRect(this.body.x - 38, this.body.y - 20, health, 10);
         this.healthBox.clear();
         this.healthBox.fillStyle(0xff0000);
-        this.healthBox.fillRect(this.body.x - 24, this.body.y - 20, 100, 10);
+        this.healthBox.fillRect(this.body.x - 38, this.body.y - 20, 100, 10);
         this.scene.hpText.setText('HP:'+this.health+'/'+this.maxHealth);
+        // CHEAT CODES
+        if (Phaser.Input.Keyboard.JustDown((this.scene.input.keyboard.addKey('H')))) {
+            this.maxHealth = 999;
+            this.health = 999;
+        }
     }
     
     takeDamage(damage){

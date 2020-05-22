@@ -5,14 +5,14 @@ class SplittingVirus extends Virus {
         this.splitted = split;
         if (split) {
             this.velocity = SPLIT_VIRUS_ONE_SPLIT_VELOCITY;
-            this.setSize(32, 32);
             this.setScale(0.5)
+            this.health = 2;
         }
         else {
             this.velocity = SPLIT_VIRUS_ONE_VELOCITY;
+            this.health = 3;
         }
         this.angleToPlayer = null;
-        this.health = 3;
         this.canMove = false;
         this.create();
     }

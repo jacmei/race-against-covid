@@ -9,7 +9,6 @@ class LevelSelectScene extends Phaser.Scene {
 
     init(data) {
         this.unlockedLevels = data.unlockedLevels;
-        console.log(this.unlockedLevels);
     }
 
     create() {

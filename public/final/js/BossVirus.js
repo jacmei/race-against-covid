@@ -159,7 +159,12 @@ class BossVirus extends Virus {
                 });
             }
             this.hasReversed = true;
-            this.play("boss_travel", true);
+            if (this.health <= 15) {
+                this.play("boss_dying", true)
+            }
+            else {
+                this.play("boss_travel", true);
+            }
         }
     }
 

@@ -312,12 +312,11 @@ class LevelScene extends Phaser.Scene {
     }
 
     addVirus(virus) {
-        this.physics.world.addCollider(this.player, virus, () => {
+        this.physics.add.overlap(this.player, virus, () => {
             if (virus.canMove && this.player.canMove && !this.player.isInvincible) {
                 this.player.takeDamage(10);
             }
         });
-        virus.health = 2;
         this.physics.add.collider(virus, this.collisionLayer);
         this.physics.add.collider(virus, this.doors);
         this.viruses.push(virus);

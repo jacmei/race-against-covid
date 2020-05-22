@@ -8,6 +8,7 @@ class RangedVirus extends Virus {
         this.hasFired = false;
         this.health = 3;
         this.canMove = false;
+        this.setSize(48, 64);
         this.create();
     }
 
