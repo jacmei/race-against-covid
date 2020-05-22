@@ -4,8 +4,10 @@ class BossVirus extends Virus {
         this.type = type;
         this.setVelocityX(BOSS_VIRUS_VELOCITY);
         this.hasReversed = false;
+        this.scene = scene;
         this.fireRate = this.getRandomFireRateVelocity();
         this.hasFired = false;
+        this.canSpawn = true;
         this.health = 30;
         this.canMove = false;
         this.setSize(288, 64);
@@ -25,8 +27,33 @@ class BossVirus extends Virus {
             }
             this.move();
             this.fire();
-        }else{
+            this.spawn();
+        }
+        else{
             this.setVelocityX(0);
+        }
+    }
+
+    spawn() {
+        if (this.canSpawn == true) {
+            this.canSpawn = false;
+            let spawn = Math.round(Math.random())
+            if (spawn == 0) {
+                let physical_virus = new PhysicalVirus(this.scene, this.body.x + this.body.width / 2, this.body.y, PHYSICAL);
+                physical_virus.canMove = true;
+                this.scene.addVirus(physical_virus);
+            }
+            else {
+                let splitting_virus = new SplittingVirus(this.scene, this.body.x + this.body.width / 2, this.body.y, SPLIT, false);
+                splitting_virus.canMove = true;
+                this.scene.addVirus(splitting_virus);
+            }
+            let timer = this.scene.time.addEvent({
+                delay: this.getRandomSpawnDelay(),
+                callback: () => {
+                    this.canSpawn = true;
+                }
+            });
         }
     }
 
@@ -65,10 +92,10 @@ class BossVirus extends Virus {
                 bulletLeftTwo.setVelocityX(-this.getRandomBulletVelocity());
                 bulletRightOne.setVelocityX(this.getRandomBulletVelocity());
                 bulletRightTwo.setVelocityX(this.getRandomBulletVelocity());
-                let bullets = [bulletUpOne, bulletUpTwo, bulletUpThree, bulletUpFour, bulletUpFive,
-                            bulletDownOne, bulletDownTwo, bulletDownThree, bulletDownFour, bulletDownFive,
-                            bulletLeftOne, bulletLeftTwo, bulletRightOne, bulletRightTwo];
-                bullets.forEach(bullet => {
+                let slow_bullets = [bulletUpOne, bulletUpThree, bulletUpFive,
+                            bulletDownTwo, bulletDownFour, bulletLeftOne, bulletLeftTwo, bulletRightOne, bulletRightTwo];
+                let regular_bullets = [bulletUpTwo, bulletUpFour, bulletDownOne, bulletDownThree, bulletDownFive];
+                slow_bullets.forEach(bullet => {
                     this.scene.physics.world.addCollider(bullet, this.scene.player, () => {
                         if (this.scene.player.canMove && !this.scene.player.isTakingDamage) {
                             this.scene.player.isTakingDamage = true;
@@ -80,6 +107,28 @@ class BossVirus extends Virus {
                                     this.scene.player.isSlowed = false;
                                 }
                             });
+                            this.scene.player.play("taking_damage_" + this.scene.player.direction.toLowerCase() + this.scene.player.tier, false);
+                            this.scene.player.on("animationcomplete", () => {
+                                this.scene.player.isTakingDamage = false;
+                            });
+                        }
+                        bullet.destroy();
+                    });
+                    this.scene.physics.world.addCollider(bullet, this.scene.collisionLayer, () => {
+                        bullet.destroy();
+                    });
+                    this.scene.physics.world.addCollider(bullet, this.scene.doors, () => {
+                        bullet.destroy();
+                    });
+                    this.scene.physics.world.addCollider(bullet, this.scene.openDoors, () => {
+                        bullet.destroy();
+                    });
+                });
+                regular_bullets.forEach(bullet => {
+                    this.scene.physics.world.addCollider(bullet, this.scene.player, () => {
+                        if (this.scene.player.canMove && !this.scene.player.isTakingDamage) {
+                            this.scene.player.isTakingDamage = true;
+                            this.scene.player.health -= 10;
                             this.scene.player.play("taking_damage_" + this.scene.player.direction.toLowerCase() + this.scene.player.tier, false);
                             this.scene.player.on("animationcomplete", () => {
                                 this.scene.player.isTakingDamage = false;
@@ -153,5 +202,9 @@ class BossVirus extends Virus {
 
     getRandomMovementDelay() {
         return Math.floor(Math.random() * (2000 - 1500 + 1)) + 1500;
+    }
+
+    getRandomSpawnDelay() {
+        return Math.floor(Math.random() * (12000 - 8000 + 1)) + 8000;
     }
 }
