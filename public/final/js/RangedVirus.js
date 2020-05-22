@@ -32,7 +32,7 @@ class RangedVirus extends Virus {
         if (this.hasFired == false) {
             if (this.health > 0) {
                 this.scene.sound.play("virusattack", {
-                    volume: 2
+                    volume: 1
                 });
                 this.hasFired = true;
                 let bulletUp = this.scene.physics.add.sprite(this.body.x + this.body.width / 2, this.body.y, "virusbullet");

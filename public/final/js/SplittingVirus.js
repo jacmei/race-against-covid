@@ -32,7 +32,7 @@ class SplittingVirus extends Virus {
     updateHealth() {
         if (this.health <= 0 && this.splitted) {
             this.scene.sound.play("virusdead", {
-                volume: 2
+                volume: 1
             });
             this.canMove = false;
             this.setVelocityX(0);
